@@ -21,7 +21,7 @@ process PRESTO_FILTERSEQ_MISSING {
     def args = task.ext.args ?: ''
     def args2 = task.ext.args2 ?: ''
     """
-    FilterSeq.py trimqual -s $reads \\
+    FilterSeq.py missing -s $reads \\
         $args \\
         --outname ${meta.id} --log ${reads.baseName}.log --nproc ${task.cpus} > ${meta.id}_command_log.txt
     ParseLog.py -l ${reads.baseName}.log $args2

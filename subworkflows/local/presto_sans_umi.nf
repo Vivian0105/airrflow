@@ -79,10 +79,10 @@ workflow PRESTO_SANS_UMI {
     ch_versions = ch_versions.mix(PRESTO_FILTERSEQ_MASKQUAL_SANSUMI.out.versions)
 
     // Removes sequences with too many Ns or gaps
-    PRESTO_FILTERSEQ_MISSING (
+    PRESTO_FILTERSEQ_MISSING_SANSUMI (
         PRESTO_FILTERSEQ_MASKQUAL_SANSUMI.out.reads
     )
-    ch_versions = ch_versions.mix(PRESTO_FILTERSEQ_MISSING.out.versions)
+    ch_versions = ch_versions.mix(PRESTO_FILTERSEQ_MISSING_SANSUMI.out.versions)
 
 
     // Mask primers
@@ -90,7 +90,7 @@ workflow PRESTO_SANS_UMI {
     def suffix_REV = "R2"
     def barcode_R1 = false
     def barcode_R2 = false
-    ch_reads = PRESTO_FILTERSEQ_MISSING.out.reads
+    ch_reads = PRESTO_FILTERSEQ_MISSING_SANSUMI.out.reads
     if (params.maskprimers_align){
         if (params.cprimer_position == "R1") {
             PRESTO_MASKPRIMERS_ALIGN_SANSUMI_FWD(
