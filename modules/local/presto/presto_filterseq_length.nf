@@ -23,7 +23,7 @@ process PRESTO_FILTERSEQ_LENGTH {
     """
     FilterSeq.py length -s $reads \\
         $args \\
-        --outname ${meta.id} --log ${reads.baseName}.log --nproc ${task.cpus} > ${meta.id}_command_log.txt
+        --outname ${meta.id} --log ${reads.baseName}.log --nproc ${task.cpus} >> ${meta.id}_command_log.txt
     ParseLog.py -l ${reads.baseName}.log $args2
 
     cat <<-END_VERSIONS > versions.yml
