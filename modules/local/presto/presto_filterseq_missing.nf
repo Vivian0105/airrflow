@@ -1,4 +1,4 @@
-process PRESTO_FILTERSEQ_MASKQUAL {
+process PRESTO_FILTERSEQ_MISSING {
     tag "$meta.id"
     label "process_medium"
     label 'immcantation'
