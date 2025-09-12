@@ -7,6 +7,10 @@ include { FASTP                                               } from '../../modu
 //PRESTO
 include { PRESTO_ASSEMBLEPAIRS               as  PRESTO_ASSEMBLEPAIRS_SANS_UMI }               from '../../modules/local/presto/presto_assemblepairs'
 include { PRESTO_FILTERSEQ_POSTASSEMBLY      as  PRESTO_FILTERSEQ_POSTASSEMBLY_SANS_UMI }      from '../../modules/local/presto/presto_filterseq_postassembly'
+include { PRESTO_FILTERSEQ_TRIMQUAL          as  PRESTO_FILTERSEQ_TRIMQUAL_SANSUMI}            from '../../modules/local/presto/presto_filterseq_trimqual'
+include { PRESTO_FILTERSEQ_LENGTH            as  PRESTO_FILTERSEQ_LENGTH_SANSUMI}              from '../../modules/local/presto/presto_filterseq_length'
+include { PRESTO_FILTERSEQ_MASKQUAL          as  PRESTO_FILTERSEQ_MASKQUAL_SANSUMI}            from '../../modules/local/presto/presto_filterseq_maskqual'
+include { PRESTO_FILTERSEQ_MISSING           as  PRESTO_FILTERSEQ_MISSING_SANSUMI}             from '../../modules/local/presto/presto_filterseq_missing'    
 include { PRESTO_MASKPRIMERS_SCORE           as  PRESTO_MASKPRIMERS_SCORE_SANSUMI_FWD }         from '../../modules/local/presto/presto_maskprimers_score'
 include { PRESTO_MASKPRIMERS_SCORE           as  PRESTO_MASKPRIMERS_SCORE_SANSUMI_REV }         from '../../modules/local/presto/presto_maskprimers_score'
 include { PRESTO_MASKPRIMERS_ALIGN           as  PRESTO_MASKPRIMERS_ALIGN_SANSUMI_FWD }         from '../../modules/local/presto/presto_maskprimers_align'
@@ -56,12 +60,37 @@ workflow PRESTO_SANS_UMI {
     )
     ch_versions = ch_versions.mix(PRESTO_FILTERSEQ_POSTASSEMBLY_SANS_UMI.out.versions)
 
+    // Truncates sequences where quality scores decay. 
+    PRESTO_FILTERSEQ_TRIMQUAL_SANSUMI (
+        PRESTO_FILTERSEQ_POSTASSEMBLY_SANS_UMI.out.reads
+    )
+    ch_versions = ch_versions.mix(PRESTO_FILTERSEQ_TRIMQUAL_SANSUMI.out.versions)
+
+    // Removes short sequences. 
+    PRESTO_FILTERSEQ_LENGTH_SANSUMI (
+        PRESTO_FILTERSEQ_TRIMQUAL_SANSUMI.out.reads
+    )
+    ch_versions = ch_versions.mix(PRESTO_FILTERSEQ_LENGTH_SANSUMI.out.versions)
+
+    // Masks low quality positions
+    PRESTO_FILTERSEQ_MASKQUAL_SANSUMI (
+        PRESTO_FILTERSEQ_LENGTH_SANSUMI.out.reads
+    )
+    ch_versions = ch_versions.mix(PRESTO_FILTERSEQ_MASKQUAL_SANSUMI.out.versions)
+
+    // Removes sequences with too many Ns or gaps
+    PRESTO_FILTERSEQ_MISSING (
+        PRESTO_FILTERSEQ_MASKQUAL_SANSUMI.out.reads
+    )
+    ch_versions = ch_versions.mix(PRESTO_FILTERSEQ_MISSING.out.versions)
+
+
     // Mask primers
     def suffix_FWD = "R1"
     def suffix_REV = "R2"
     def barcode_R1 = false
     def barcode_R2 = false
-    ch_reads = PRESTO_FILTERSEQ_POSTASSEMBLY_SANS_UMI.out.reads
+    ch_reads = PRESTO_FILTERSEQ_MISSING.out.reads
     if (params.maskprimers_align){
         if (params.cprimer_position == "R1") {
             PRESTO_MASKPRIMERS_ALIGN_SANSUMI_FWD(
