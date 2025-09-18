@@ -166,6 +166,7 @@ for process in processes:
         unique = []
         duplicate = []
         undetermined = []
+        keep=[]
         process_name = []
 
         for logfile in log_files:
@@ -175,6 +176,8 @@ for process in processes:
                     if " START>" in line:
                         s_code.append(logfile.split("/")[1].split("_command_log")[0])
                         process_name.append(process)
+                    elif "KEEP_MISSING>" in line:
+                        keep_missing=line.strip().removeprefix("KEEP_MISSING> ")
                     elif "SEQUENCES>" in line:
                         seqs.append(line.strip().removeprefix("SEQUENCES> "))
                     elif "UNIQUE>" in line:
@@ -183,7 +186,11 @@ for process in processes:
                         duplicate.append(line.strip().removeprefix("DUPLICATE> "))
                     elif "UNDETERMINED>" in line:
                         undetermined.append(line.strip().removeprefix("UNDETERMINED> "))
-
+        # Sequences kept after this step according to KEEP_MISSING parameter.                 
+        if keep_missing.lower()=='true':
+            keep = [int(x) + int(y) for x, y in zip(unique, undetermined)]
+        else: 
+            keep = unique
         df_process = pd.DataFrame.from_dict(
             {
                 "Sample": s_code,
@@ -191,6 +198,7 @@ for process in processes:
                 "unique": unique,
                 "duplicate": duplicate,
                 "undetermined": undetermined,
+                "keep": keep,
                 "process": process_name,
             }
         )
@@ -331,7 +339,7 @@ values = [
     df_process_list[1].sort_values(by=["Sample"]).loc[:, "pass_pairs"].tolist(),
     df_process_list[2].sort_values(by=["Sample"]).pivot(index="Sample", columns="readtype")["pass"]["R1"].tolist(),
     df_process_list[2].sort_values(by=["Sample"]).pivot(index="Sample", columns="readtype")["pass"]["R2"].tolist(),
-    df_process_list[3].sort_values(by=["Sample"]).loc[:, "unique"].tolist(),
+    df_process_list[3].sort_values(by=["Sample"]).loc[:, "keep"].tolist(),
     df_process_list[4].sort_values(by=["Sample"]).loc[:, "repres_2"].tolist(),
     df_process_list[4].sort_values(by=["Sample"]).loc[:, "pass_igblast"].tolist(),
 ]
