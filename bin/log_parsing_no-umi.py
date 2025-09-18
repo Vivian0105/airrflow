@@ -206,7 +206,7 @@ for process in processes:
                 # print(f.read())
                 for line in f:
                     if "PASS>" in line:
-                        s_code.append(logfile.split("/")[1].split("_command_log")[0])
+                        s_code.append(logfile.split("/")[1].split("_makedb_command_log")[0])
                         pass_blast.append(line.strip().removeprefix("PASS> "))
                     elif "FAIL>" in line:
                         fail_blast.append(line.strip().removeprefix("FAIL> "))
