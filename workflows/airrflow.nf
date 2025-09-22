@@ -270,8 +270,8 @@ workflow AIRRFLOW {
 
             REPERTOIRE_ANALYSIS_REPORTING(
                 ch_presto_filterseq_logs.collect().ifEmpty([]),
-                ch_presto_filterseq_length_logs.collect().ifEmpty([])
-                ch_presto_filterseq_missing_logs.collect().ifEmpty([])
+                ch_presto_filterseq_length_logs.collect().ifEmpty([]),
+                ch_presto_filterseq_missing_logs.collect().ifEmpty([]),
                 ch_presto_maskprimers_logs.collect().ifEmpty([]),
                 ch_presto_pairseq_logs.collect().ifEmpty([]),
                 ch_presto_clustersets_logs.collect().ifEmpty([]),
