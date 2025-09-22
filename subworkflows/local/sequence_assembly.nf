@@ -197,6 +197,8 @@ workflow SEQUENCE_ASSEMBLY {
         ch_fastqc_postassembly = PRESTO_SANS_UMI.out.fastqc_postassembly_gz
         ch_presto_assemblepairs_logs = PRESTO_SANS_UMI.out.presto_assemblepairs_logs
         ch_presto_filterseq_logs = PRESTO_SANS_UMI.out.presto_filterseq_logs
+        ch_presto_filterseq_length.logs = PRESTO_SANS_UMI.out.presto_filterseq_length_logs
+        ch_presto_filterseq_missing.logs = PRESTO_SANS_UMI.out.presto_filterseq_missing_logs
         ch_presto_maskprimers_logs = PRESTO_SANS_UMI.out.presto_maskprimers_logs
         ch_presto_collapseseq_logs = PRESTO_SANS_UMI.out.presto_collapseseq_logs
         ch_presto_splitseq_logs = PRESTO_SANS_UMI.out.presto_splitseq_logs

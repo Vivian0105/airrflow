@@ -149,6 +149,8 @@ workflow AIRRFLOW {
                 ch_fastqc_postassembly_mqc              = SEQUENCE_ASSEMBLY.out.fastqc_postassembly
                 ch_validated_samplesheet                = SEQUENCE_ASSEMBLY.out.samplesheet.collect()
                 ch_presto_filterseq_logs                = SEQUENCE_ASSEMBLY.out.presto_filterseq_logs.ifEmpty([])
+                ch_presto_filterseq_length_logs         = SEQUENCE_ASSEMBLY.out.presto_filterseq_length_logs.ifEmpty([])
+                ch_presto_filterseq_missing_logs        = SEQUENCE_ASSEMBLY.out.presto_filterseq_missing_logs.ifEmpty([])
                 ch_presto_maskprimers_logs              = SEQUENCE_ASSEMBLY.out.presto_maskprimers_logs.ifEmpty([])
                 ch_presto_pairseq_logs                  = SEQUENCE_ASSEMBLY.out.presto_pairseq_logs.ifEmpty([])
                 ch_presto_clustersets_logs              = SEQUENCE_ASSEMBLY.out.presto_clustersets_logs.ifEmpty([])
@@ -268,6 +270,8 @@ workflow AIRRFLOW {
 
             REPERTOIRE_ANALYSIS_REPORTING(
                 ch_presto_filterseq_logs.collect().ifEmpty([]),
+                ch_presto_filterseq_length_logs.collect().ifEmpty([])
+                ch_presto_filterseq_missing_logs.collect().ifEmpty([])
                 ch_presto_maskprimers_logs.collect().ifEmpty([]),
                 ch_presto_pairseq_logs.collect().ifEmpty([]),
                 ch_presto_clustersets_logs.collect().ifEmpty([]),

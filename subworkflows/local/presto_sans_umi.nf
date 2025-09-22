@@ -238,6 +238,8 @@ workflow PRESTO_SANS_UMI {
     fastqc_postassembly_gz = FASTQC_POSTASSEMBLY_SANS_UMI.out.zip
     presto_assemblepairs_logs = PRESTO_ASSEMBLEPAIRS_SANS_UMI.out.logs.collect()
     presto_filterseq_logs = PRESTO_FILTERSEQ_POSTASSEMBLY_SANS_UMI.out.logs
+    presto_filterseq_length_logs = PRESTO_FILTERSEQ_LENGTH_SANSUMI.out.logs.collect()
+    presto_filterseq_missing_logs = PRESTO_FILTERSEQ_MISSING_SANSUMI.out.logs.collect()
     presto_maskprimers_logs = ch_maskprimers_logs.collect()
     presto_collapseseq_logs = PRESTO_COLLAPSESEQ_SANS_UMI.out.logs.collect()
     presto_splitseq_logs = PRESTO_SPLITSEQ_SANS_UMI.out.logs.collect()

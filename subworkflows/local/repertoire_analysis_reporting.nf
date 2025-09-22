@@ -6,6 +6,8 @@ workflow REPERTOIRE_ANALYSIS_REPORTING {
 
     take:
     ch_presto_filterseq_logs
+    ch_presto_filterseq_length_logs
+    ch_presto_filterseq_missing_logs
     ch_presto_maskprimers_logs
     ch_presto_pairseq_logs
     ch_presto_clustersets_logs
@@ -32,6 +34,8 @@ workflow REPERTOIRE_ANALYSIS_REPORTING {
     if (params.mode == "fastq" && params.library_generation_method != "sc_10x_genomics" && params.library_generation_method != "trust4" ) {
         PARSE_LOGS(
             ch_presto_filterseq_logs,
+            ch_presto_filterseq_length_logs
+            ch_presto_filterseq_missing_logs
             ch_presto_maskprimers_logs,
             ch_presto_pairseq_logs,
             ch_presto_clustersets_logs,

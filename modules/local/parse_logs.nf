@@ -9,7 +9,9 @@ process PARSE_LOGS {
         'biocontainers/pandas:1.1.5' }"
 
     input:
-    path('filter_by_sequence_quality/*') //PRESTO_FILTERSEQ logs
+    path('filter_by_sequence_quality/*') //PRESTO_FILTERSEQ_QUALITY logs
+    path('filter_by_sequence_length/*') // PRESTO_FILTERSEQ_LENGTH logs
+    path('filter_by_sequences_missing/*') //PRESTO_FILTERSEQ_MISSING logs
     path('mask_primers/*') //PRESTO_MASKPRIMERS logs
     path('pair_sequences/*') //PRESTO_PAIRSEQ logs
     path('cluster_sets/*') //PRESTO_CLUTSERSETS logs
