@@ -1,7 +1,7 @@
 include { FIND_THRESHOLD as FIND_CLONAL_THRESHOLD } from '../../modules/local/enchantr/find_threshold'
 include { FIND_THRESHOLD as REPORT_THRESHOLD } from '../../modules/local/enchantr/find_threshold'
 include { CLONAL_ASSIGNMENT as CLONAL_ASSIGNMENT_COMPUTE  } from '../../modules/local/enchantr/clonal_assignment'
-include { CLONAL_ASSIGNMENT as CLONAL_ASSIGNMENT_REPORT } from '../../modules/local/enchantr/clonal_assignment'
+include { REPERTOIRE_ANALYSIS as REPERTOIRE_ANALYSIS_REPORT } from '../../modules/local/enchantr/repertoire_analysis'
 include { DOWSER_LINEAGES } from '../../modules/local/enchantr/dowser_lineages'
 
 workflow CLONAL_ANALYSIS {
@@ -115,13 +115,11 @@ workflow CLONAL_ANALYSIS {
                                         .map{ it -> it.getName().toString() }
                                         .collectFile(name: 'all_repertoires_cloned_samplesheet.txt', newLine: true)
 
-        CLONAL_ASSIGNMENT_REPORT(
+        REPERTOIRE_ANALYSIS_REPORT(
             ch_all_repertoires_cloned,
-            clone_threshold.collect(),
-            ch_reference_fasta.collect(),
             ch_all_repertoires_cloned_samplesheet
         )
-        ch_versions = ch_versions.mix(CLONAL_ASSIGNMENT_REPORT.out.versions)
+        ch_versions = ch_versions.mix(REPERTOIRE_ANALYSIS_REPORT.out.versions)
     }
 
     if (params.lineage_trees){
@@ -132,7 +130,7 @@ workflow CLONAL_ANALYSIS {
     }
 
     emit:
-    repertoire = CLONAL_ASSIGNMENT_COMPUTE.out.tab
+    repertoire = REPERTOIRE_ANALYSIS_REPORT.out.tab
     versions = ch_versions
     logs = ch_logs
 }
