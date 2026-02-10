@@ -1,7 +1,7 @@
 include { FIND_THRESHOLD as FIND_CLONAL_THRESHOLD } from '../../modules/local/enchantr/find_threshold'
 include { FIND_THRESHOLD as REPORT_THRESHOLD } from '../../modules/local/enchantr/find_threshold'
-include { CLONAL_ASSIGNMENT as CLONAL_ASSIGNMENT_COMPUTE  } from '../../modules/local/enchantr/clonal_assignment'
-include { REPERTOIRE_ANALYSIS as REPERTOIRE_ANALYSIS_REPORT } from '../../modules/local/enchantr/repertoire_analysis'
+include { CLONAL_ASSIGNMENT } from '../../modules/local/enchantr/clonal_assignment'
+include { REPERTOIRE_ANALYSIS} from '../../modules/local/enchantr/repertoire_analysis'
 include { DOWSER_LINEAGES } from '../../modules/local/enchantr/dowser_lineages'
 
 workflow CLONAL_ANALYSIS {
@@ -91,17 +91,17 @@ workflow CLONAL_ANALYSIS {
                 .map{ get_meta_tabs(it) }
                 .set{ ch_clonal_assignment }
 
-    CLONAL_ASSIGNMENT_COMPUTE(
+    CLONAL_ASSIGNMENT(
         ch_clonal_assignment,
         clone_threshold.collect(),
         ch_reference_fasta.collect(),
         []
     )
 
-    ch_versions = ch_versions.mix(CLONAL_ASSIGNMENT_COMPUTE.out.versions)
+    ch_versions = ch_versions.mix(CLONAL_ASSIGNMENT.out.versions)
 
     // prepare ch for define clones all samples report
-    CLONAL_ASSIGNMENT_COMPUTE.out.tab
+    CLONAL_ASSIGNMENT.out.tab
             .map { it -> it[1]}
             .collect()
             .map { it -> [ [id:'all_reps'], it ] }
@@ -115,22 +115,22 @@ workflow CLONAL_ANALYSIS {
                                         .map{ it -> it.getName().toString() }
                                         .collectFile(name: 'all_repertoires_cloned_samplesheet.txt', newLine: true)
 
-        REPERTOIRE_ANALYSIS_REPORT(
+        REPERTOIRE_ANALYSIS(
             ch_all_repertoires_cloned,
             ch_all_repertoires_cloned_samplesheet
         )
-        ch_versions = ch_versions.mix(REPERTOIRE_ANALYSIS_REPORT.out.versions)
+        ch_versions = ch_versions.mix(REPERTOIRE_ANALYSIS.out.versions)
     }
 
     if (params.lineage_trees){
         DOWSER_LINEAGES(
-            CLONAL_ASSIGNMENT_COMPUTE.out.tab
+            CLONAL_ASSIGNMENT.out.tab
         )
         ch_versions = ch_versions.mix(DOWSER_LINEAGES.out.versions)
     }
 
     emit:
-    repertoire = REPERTOIRE_ANALYSIS_REPORT.out.tab
+    repertoire = REPERTOIRE_ANALYSIS.out.tab
     versions = ch_versions
     logs = ch_logs
 }
