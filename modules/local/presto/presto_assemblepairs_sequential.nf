@@ -3,10 +3,10 @@ process PRESTO_ASSEMBLEPAIRS_SEQUENTIAL {
     label 'process_long_parallelized'
     label 'immcantation'
 
-    conda "bioconda::presto=0.7.6 bioconda::igblast=1.22.0 conda-forge::wget=1.21.4 conda-forge::biopython=1.85"
+    conda "bioconda::presto=0.7.8 bioconda::igblast=1.22.0 conda-forge::wget=1.25.0 conda-forge::biopython=1.85"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/63/633f1ff1426784e70bde4cd52ea1e46f690fd97876e4fbedd8dfe01977f94e5a/data':
-        'community.wave.seqera.io/library/igblast_presto_biopython_wget:82da8ebc3ab7e416' }"
+        'oras://community.wave.seqera.io/library/igblast_presto_biopython_wget:998420b05d633f8b':
+        'community.wave.seqera.io/library/igblast_presto_biopython_wget:f5b8b5bc422078ec' }"
 
     input:
     tuple val(meta), path(R1), path(R2) // reads in fastq format
