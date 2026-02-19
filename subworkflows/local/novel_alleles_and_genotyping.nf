@@ -18,7 +18,7 @@ workflow NOVEL_ALLELES_AND_GENOTYPING {
     // merge all repertoires by genotypeby metadata field
     ch_repertoire
         .combine(ch_reference_fasta)
-        .map{ it -> 
+        .map{ it ->
              def meta = it[0]
              def rep = it[1]
              def ref = it[2]
@@ -44,14 +44,14 @@ workflow NOVEL_ALLELES_AND_GENOTYPING {
         // reassign novel alleles (we can skip this step if no novel alleles were inferred)
         ch_grouped_repertoires
             .join(NOVEL_ALLELE_INFERENCE.out.reference)
-            .map { it -> 
+            .map { it ->
                 def meta = it[0]
                 def reps = it[1]
                 def new_ref = it[3]
                 [ meta, reps, new_ref ]
             }
             .set{ ch_for_genotyping }
-        
+
         REASSIGN_ALLELES_NOVEL (
             ch_for_genotyping,
             ["v"],
@@ -61,7 +61,7 @@ workflow NOVEL_ALLELES_AND_GENOTYPING {
         REASSIGN_ALLELES_NOVEL.out.tab
             .join(NOVEL_ALLELE_INFERENCE.out.reference)
             .set{ ch_for_genotyping }
-        
+
 
     } else {
         ch_for_genotyping = ch_grouped_repertoires
@@ -92,7 +92,7 @@ workflow NOVEL_ALLELES_AND_GENOTYPING {
     BAYESIAN_GENOTYPE_INFERENCE (
         ch_for_genotyping
     )
-    
+
     ch_grouped_repertoires
         .map{ it -> [it[0], it[1]] }
         .join(BAYESIAN_GENOTYPE_INFERENCE.out.reference)
