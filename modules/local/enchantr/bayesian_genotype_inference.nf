@@ -24,7 +24,7 @@ process BAYESIAN_GENOTYPE_INFERENCE {
     if (workflow.profile.tokenize(',').intersect(['conda', 'mamba']).size() >= 1) {
         error "nf-core/airrflow currently does not support Conda. Please use a container profile instead."
     }
-    container "docker.io/immcantation/airrflow:genotyping"
+    container "docker.io/immcantation/airrflow:5.0.0dev"
 
     input:
     tuple val(meta), path(tabs), path(reference_fasta) // meta, sequence tsv in AIRR format
