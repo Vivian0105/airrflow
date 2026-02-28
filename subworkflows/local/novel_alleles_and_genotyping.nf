@@ -34,7 +34,7 @@ workflow NOVEL_ALLELES_AND_GENOTYPING {
                     .groupTuple()
                     .map{ get_meta_tabs(it) }
                     .set{ ch_grouped_repertoires }
-                
+
     // infer novel alleles
     if (params.novel_allele_inference) {
         NOVEL_ALLELE_INFERENCE (
@@ -51,7 +51,7 @@ workflow NOVEL_ALLELES_AND_GENOTYPING {
                 [ meta, reps, new_ref ]
             }
             .set{ ch_reassign_alleles }
-    
+
         REASSIGN_ALLELES_NOVEL (
             ch_reassign_alleles,
             ["v"],
