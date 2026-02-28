@@ -28,9 +28,8 @@ process CLONAL_ASSIGNMENT {
     container "docker.io/immcantation/airrflow:5.0.0dev"
 
     input:
-    tuple val(meta), path(tabs) // meta, sequence tsv in AIRR format
+    tuple val(meta), path(tabs), path(reference_fasta) // meta, sequence tsv in AIRR format
     val threshold
-    path reference_fasta
     path repertoires_samplesheet
 
     output:

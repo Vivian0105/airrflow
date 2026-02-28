@@ -14,27 +14,27 @@ workflow NOVEL_ALLELES_AND_GENOTYPING {
     main:
     ch_versions = Channel.empty()
     ch_logs = Channel.empty()
-    def outputby = params.genotypeby=="sample_id" ? "id" : params.genotypeby //TODO: we need to change this so we can handle the cases of inferring based on naive and reassigning all
+
     // merge all repertoires by genotypeby metadata field
     ch_repertoire
         .combine(ch_reference_fasta)
         .map{ it ->
-             def meta = it[0]
-             def rep = it[1]
-             def ref = it[2]
-             def genotypeby = params.genotypeby=="sample_id" ? "id" : params.genotypeby
-             [ meta."${genotypeby}",
-                                meta.id,
-                                meta.subject_id,
-                                meta.species,
-                                meta.single_cell,
-                                meta.locus,
-                                rep,
-                                ref ] }
-                .groupTuple()
-                .map{ get_meta_tabs(it) }
-                .set{ ch_grouped_repertoires }
-
+                def meta = it[0]
+                def rep = it[1]
+                def ref = it[2]
+                def genotypeby = params.genotypeby=="sample_id" ? "id" : params.genotypeby
+                [ meta."${genotypeby}",
+                                    meta.id,
+                                    meta.subject_id,
+                                    meta.species,
+                                    meta.single_cell,
+                                    meta.locus,
+                                    rep,
+                                    ref ] }
+                    .groupTuple()
+                    .map{ get_meta_tabs(it) }
+                    .set{ ch_grouped_repertoires }
+                
     // infer novel alleles
     if (params.novel_allele_inference) {
         NOVEL_ALLELE_INFERENCE (
@@ -50,42 +50,39 @@ workflow NOVEL_ALLELES_AND_GENOTYPING {
                 def new_ref = it[3]
                 [ meta, reps, new_ref ]
             }
-            .set{ ch_for_genotyping }
-
+            .set{ ch_reassign_alleles }
+    
         REASSIGN_ALLELES_NOVEL (
-            ch_for_genotyping,
+            ch_reassign_alleles,
             ["v"],
-            outputby
+            params.genotypeby //TODO: @ayeletperes check if this is correct
         )
+
+        REASSIGN_ALLELES_NOVEL.out.tab.dump(tag: "reassign alleles novel")
 
         REASSIGN_ALLELES_NOVEL.out.tab
             .join(NOVEL_ALLELE_INFERENCE.out.reference)
-            .set{ ch_for_genotyping }
-
+            .set{ ch_repertoire_reference }
 
     } else {
-        ch_for_genotyping = ch_grouped_repertoires
+        ch_repertoire_reference = ch_grouped_repertoires
     }
 
     if (params.single_clone_representative) {
         // TODO: Check if we need the cloneby parameter, or here it can be the same as genotypeby.
         // create separate channels for repertoire and reference based on the genotypeby metadata field
-        ch_for_genotyping
-            .map{ it -> [it[0], it[1]] }
-            .set{ ch_for_genotyping_rep }
-        ch_for_genotyping
-            .map{ it -> it[2] }
-            .set{ ch_for_genotyping_ref }
+
         CLONAL_ASSIGNMENT(
-            ch_for_genotyping_rep,
+            ch_repertoire_reference,
             [params.genotype_clone_threshold],
-            ch_for_genotyping_ref,
             []
         )
         CLONAL_ASSIGNMENT.out.tab
-            .join(ch_for_genotyping
-            .map{ it -> [it[0], it[2]] })
+            .join(ch_repertoire_reference
+                        .map{ it -> [it[0], it[2]] })
             .set{ ch_for_genotyping }
+    } else {
+        ch_for_genotyping = ch_repertoire_reference
     }
 
     // infer genotype
@@ -98,15 +95,24 @@ workflow NOVEL_ALLELES_AND_GENOTYPING {
         .join(BAYESIAN_GENOTYPE_INFERENCE.out.reference)
         .set{ ch_for_reassign }
 
+    BAYESIAN_GENOTYPE_INFERENCE.out.reference.dump(tag: "bayesian genotype inference out ref")
+
+
     // reassign genotypes
     REASSIGN_ALLELES_GENOTYPE (
         ch_for_reassign,
         ["auto"],
-        outputby
+        params.genotypeby
     )
 
+    REASSIGN_ALLELES_GENOTYPE.out.tab.dump(tag: "reassign alleles genotype out tab")
+
+    ch_repertoire_reference = REASSIGN_ALLELES_GENOTYPE.out.tab.join(BAYESIAN_GENOTYPE_INFERENCE.out.reference)
+    ch_repertoire_reference.dump(tag: "ch_repertoire_reference_genotyping")
+
+
     emit:
-    repertoire = REASSIGN_ALLELES_GENOTYPE.out.tab
+    repertoire_reference = ch_repertoire_reference
     versions = ch_versions
     logs = ch_logs
 }

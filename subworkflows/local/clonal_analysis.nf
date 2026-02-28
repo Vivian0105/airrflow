@@ -6,18 +6,16 @@ include { DOWSER_LINEAGES } from '../../modules/local/enchantr/dowser_lineages'
 
 workflow CLONAL_ANALYSIS {
     take:
-    ch_repertoire
-    ch_reference_fasta
+    ch_repertoire_reference
     ch_logo
 
     main:
     ch_versions = Channel.empty()
     ch_logs = Channel.empty()
 
-
     if (params.clonal_threshold == "auto") {
 
-        ch_find_threshold = ch_repertoire.map{ it -> it[1] }
+        ch_find_threshold = ch_repertoire_reference.map{ it -> it[1] }
                                         .collect()
         ch_find_threshold_samplesheet =  ch_find_threshold
                         .flatten()
@@ -62,7 +60,7 @@ workflow CLONAL_ANALYSIS {
     } else {
         clone_threshold = params.clonal_threshold
 
-        ch_find_threshold = ch_repertoire.map{ it -> it[1] }
+        ch_find_threshold = ch_repertoire_reference.map{ it -> it[1] }
                                         .collect()
         ch_find_threshold_samplesheet =  ch_find_threshold
                         .flatten()
@@ -80,7 +78,7 @@ workflow CLONAL_ANALYSIS {
     }
 
     // merge all repertoires by cloneby metadata field
-    ch_repertoire.map{ it -> [ it[0]."${params.cloneby}",
+    ch_repertoire_reference.map{ it -> [ it[0]."${params.cloneby}",
                                 it[0].id,
                                 it[0].subject_id,
                                 it[0].species,
@@ -89,12 +87,11 @@ workflow CLONAL_ANALYSIS {
                                 it[1] ] }
                 .groupTuple()
                 .map{ get_meta_tabs(it) }
-                .set{ ch_clonal_assignment }
+                .set{ ch_repertoire_groupped }
 
     CLONAL_ASSIGNMENT(
-        ch_clonal_assignment,
+        ch_repertoire_reference,
         clone_threshold.collect(),
-        ch_reference_fasta.collect(),
         []
     )
 
