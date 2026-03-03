@@ -1,6 +1,6 @@
 process CHANGEO_MAKEDB {
     tag "$meta.id"
-    label 'process_low'
+    label 'process_medium'
     label 'immcantation'
 
 
@@ -25,6 +25,7 @@ process CHANGEO_MAKEDB {
     """
     MakeDb.py igblast -i $igblast -s $reads -r \\
     ${reference_fasta}/${meta.species.toLowerCase()}/vdj/ \\
+    --nproc ${task.cpus} \\
     $args $partial \\
     --outname ${meta.id} > ${meta.id}_makedb_command_log.txt
 
