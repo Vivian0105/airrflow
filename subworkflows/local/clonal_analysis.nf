@@ -80,6 +80,7 @@ workflow CLONAL_ANALYSIS {
     // merge all repertoires by cloneby metadata field
     ch_repertoire_reference.map{ it -> [ it[0]."${params.cloneby}",
                                 it[0].id,
+                                it[0].sample_id,
                                 it[0].subject_id,
                                 it[0].species,
                                 it[0].single_cell,
@@ -139,22 +140,22 @@ workflow CLONAL_ANALYSIS {
 
 // Function to map
 def get_meta_tabs(arr) {
-    if (arr[2].unique().size() > 1) {
-            error "Multiple subject_id found for ${arr[0]} (${arr[2].join(', ')}). Please check your input parameters and ensure that all samples with the same 'cloneby' value have the same 'subject_id' value."
+    if (arr[3].unique().size() > 1) {
+            error "Multiple subject_id found for ${arr[0]} (${arr[3].join(', ')}). Please check your input parameters and ensure that all samples with the same 'cloneby' value have the same 'subject_id' value."
     }
 
     def meta = [:]
-    meta.id            = [arr[0]].unique().join("")
-    meta.sample_ids         = arr[1]
-    meta.subject_id         = arr[2].unique().join("")
-    meta.species            = arr[3].unique().join("")
-    meta.single_cell        = arr[4].unique().join("")
-    meta.locus              = arr[5].unique().join("")
+    meta.id                 = [arr[0]].unique().join("")
+    meta.sample_id          = arr[2].flatten()
+    meta.subject_id         = arr[3].unique().join("")
+    meta.species            = arr[4].unique().join("")
+    meta.single_cell        = arr[5].unique().join("")
+    meta.locus              = arr[6].unique().join("")
 
     def array = []
 
-        array = [ meta, arr[6].flatten(), arr[7].unique() ]
-        if (arr[7].size() > 1) {
+        array = [ meta, arr[7].flatten(), arr[8].unique() ]
+        if (arr[8].size() > 1) {
             error "Multiple reference fasta files found for ${meta.id}. Please check your input parameters and ensure that all samples with the same ${params.genotypeby} value (parameter 'genotype_by') have the same ${params.cloneby} value (parameter 'clone_by')."
         }
     return array
