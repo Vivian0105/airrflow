@@ -119,16 +119,24 @@ workflow NOVEL_ALLELES_AND_GENOTYPING {
 
 // Function to map
 def get_meta_tabs(arr) {
+    if (arr[2].unique().size() > 1) {
+        error "Multiple subject IDs found for ${arr[0]} (${arr[2].join(', ')}). It is not possible to perform joint genotyping of samples from different subjects. Please check the 'genotypeby' parameter."
+    }
+
     def meta = [:]
     meta.id            = [arr[0]].unique().join("")
     meta.sample_ids         = arr[1]
-    meta.subject_id         = arr[2]
-    meta.species            = arr[3]
+    meta.subject_id         = arr[2].unique().join("")
+    meta.species            = arr[3].unique().join("")
     meta.single_cell        = arr[4].unique().join("")
     meta.locus              = arr[5].unique().join("")
-
     def array = []
 
-    array = [ meta, arr[6].flatten(), arr[7][0] ]
+    array = [ meta, arr[6].flatten(), arr[7].unique() ]
+    if (arr[7].size() > 1) {
+        error "Multiple reference fasta files found for ${meta.id}."
+    }
+    
+
     return array
 }
