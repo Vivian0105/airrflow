@@ -5,7 +5,7 @@ process PRESTO_POSTCONSENSUS_PAIRSEQ {
 
     conda "bioconda::presto=0.7.7"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'oras://community.wave.seqera.io/library/pip_presto:0f8e73dc0555493d' :
+        'https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/c0/c01c6e6bcfd26b9a1a615e18f51a9bbdf8674ae1ab441e19f25d5481eba01248/data' :
         'biocontainers/presto:0.7.7--pyhdfd78af_0' }"
 
     input:
