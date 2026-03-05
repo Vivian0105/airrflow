@@ -1,36 +1,25 @@
 {
     "-profile test_tcr": {
         "content": [
-            63,
+            61,
             {
                 "ADD_META_TO_TAB": {
-                    "dplyr": "1.1.4",
+                    "dplyr": "1.2.0",
                     "optparse": "1.7.5",
-                    "R": "4.5.1"
-                },
-                "AIRRFLOW_REPORT": {
-                    "alakazam": "1.3.1",
-                    "shazam": "1.2.1",
-                    "stringr": "1.5.2",
-                    "dplyr": "1.1.4",
-                    "knitr": 1.5,
-                    "R": "4.5.1"
+                    "R": "4.5.2"
                 },
                 "CHANGEO_ASSIGNGENES": {
                     "igblastn": "1.22.0",
-                    "changeo": "1.3.0"
+                    "changeo": "1.3.4"
                 },
                 "CHANGEO_MAKEDB": {
                     "igblastn": "1.22.0",
-                    "changeo": "1.3.0"
+                    "changeo": "1.3.4"
                 },
                 "CHANGEO_PARSEDB_SPLIT": {
-                    "changeo": "1.3.0"
+                    "changeo": "1.3.4"
                 },
                 "CLONAL_ASSIGNMENT": {
-                    "enchantr": "0.1.24"
-                },
-                "CLONAL_ASSIGNMENT_REPORT": {
                     "enchantr": "0.1.24"
                 },
                 "COLLAPSE_DUPLICATES": {
@@ -43,19 +32,19 @@
                     "fastqc": "0.12.1"
                 },
                 "FILTER_JUNCTION_MOD3": {
-                    "alakazam": "1.3.1",
+                    "alakazam": "1.4.2.999",
                     "optparse": "1.7.5",
-                    "airr": "1.5.0",
-                    "R": "4.5.1"
+                    "airr": "1.6.1",
+                    "R": "4.5.2"
                 },
                 "FILTER_QUALITY": {
-                    "alakazam": "1.3.1",
+                    "alakazam": "1.4.2.999",
                     "optparse": "1.7.5",
-                    "stringi": "1.8.3",
-                    "dplyr": "1.1.4",
-                    "airr": "1.5.0",
+                    "stringi": "1.8.7",
+                    "dplyr": "1.2.0",
+                    "airr": "1.6.1",
                     "DT": "0.34.0",
-                    "R": "4.5.1"
+                    "R": "4.5.2"
                 },
                 "GUNZIP_UMI": {
                     "gunzip": 1.1
@@ -65,50 +54,50 @@
                     "pandas": "1.1.5"
                 },
                 "PRESTO_ASSEMBLEPAIRS_UMI": {
-                    "presto": "0.7.6"
+                    "presto": "0.7.7"
                 },
                 "PRESTO_BUILDCONSENSUS_UMI": {
-                    "presto": "0.7.6"
+                    "presto": "0.7.7"
                 },
                 "PRESTO_CLUSTERSETS_UMI": {
-                    "presto": "0.7.6",
-                    "vsearch": "v2.30.0"
+                    "presto": "0.7.7",
+                    "vsearch": "v2.30.4"
                 },
                 "PRESTO_COLLAPSESEQ_UMI": {
-                    "presto": "0.7.6"
+                    "presto": "0.7.7"
                 },
                 "PRESTO_FILTERSEQ_UMI": {
-                    "presto": "0.7.6"
+                    "presto": "0.7.7"
                 },
                 "PRESTO_MASKPRIMERS_SCORE_UMI_R1": {
-                    "presto": "0.7.6"
+                    "presto": "0.7.7"
                 },
                 "PRESTO_MASKPRIMERS_SCORE_UMI_R2": {
-                    "presto": "0.7.6"
+                    "presto": "0.7.7"
                 },
                 "PRESTO_PAIRSEQ_CLUSTERSETS": {
-                    "presto": "0.7.6"
+                    "presto": "0.7.7"
                 },
                 "PRESTO_PAIRSEQ_UMI": {
-                    "presto": "0.7.6"
+                    "presto": "0.7.7"
                 },
                 "PRESTO_PARSEHEADERS_COLLAPSE_UMI": {
-                    "presto": "0.7.6"
+                    "presto": "0.7.7"
                 },
                 "PRESTO_PARSEHEADERS_METADATA_UMI": {
-                    "presto": "0.7.6"
+                    "presto": "0.7.7"
                 },
                 "PRESTO_PARSEHEADERS_PRIMERS_UMI": {
-                    "presto": "0.7.6"
+                    "presto": "0.7.7"
                 },
                 "PRESTO_PARSE_CLUSTER_UMI": {
-                    "presto": "0.7.6"
+                    "presto": "0.7.7"
                 },
                 "PRESTO_POSTCONSENSUS_PAIRSEQ_UMI": {
-                    "presto": "0.7.6"
+                    "presto": "0.7.7"
                 },
                 "PRESTO_SPLITSEQ_UMI": {
-                    "presto": "0.7.6"
+                    "presto": "0.7.7"
                 },
                 "REPORT_FILE_SIZE": {
                     "enchantr": "0.1.24"
@@ -139,9 +128,6 @@
                 "clonal_analysis/clonal_assignment/Patient1_clone_report/repertoires",
                 "clonal_analysis/clonal_assignment/Patient1_clone_report/repertoires/Patient1__clone-pass.tsv",
                 "clonal_analysis/clonal_assignment/Patient1_clone_report/search_index.json",
-                "clonal_analysis/clonal_assignment/Patient1_clone_report/tables",
-                "clonal_analysis/clonal_assignment/Patient1_clone_report/tables/clone_sizes_table.tsv",
-                "clonal_analysis/clonal_assignment/Patient1_clone_report/tables/num_clones_table.tsv",
                 "clonal_analysis/clonal_assignment/Patient2_clone_report",
                 "clonal_analysis/clonal_assignment/Patient2_clone_report/Patient2_clone_command_log.txt",
                 "clonal_analysis/clonal_assignment/Patient2_clone_report/assets",
@@ -153,24 +139,6 @@
                 "clonal_analysis/clonal_assignment/Patient2_clone_report/repertoires",
                 "clonal_analysis/clonal_assignment/Patient2_clone_report/repertoires/Patient2__clone-pass.tsv",
                 "clonal_analysis/clonal_assignment/Patient2_clone_report/search_index.json",
-                "clonal_analysis/clonal_assignment/Patient2_clone_report/tables",
-                "clonal_analysis/clonal_assignment/Patient2_clone_report/tables/clone_sizes_table.tsv",
-                "clonal_analysis/clonal_assignment/Patient2_clone_report/tables/num_clones_table.tsv",
-                "clonal_analysis/clonal_assignment/all_reps_clone_report",
-                "clonal_analysis/clonal_assignment/all_reps_clone_report/all_reps_clone_command_log.txt",
-                "clonal_analysis/clonal_assignment/all_reps_clone_report/assets",
-                "clonal_analysis/clonal_assignment/all_reps_clone_report/assets/logo.png",
-                "clonal_analysis/clonal_assignment/all_reps_clone_report/assets/style.css",
-                "clonal_analysis/clonal_assignment/all_reps_clone_report/index.html",
-                "clonal_analysis/clonal_assignment/all_reps_clone_report/params.RData",
-                "clonal_analysis/clonal_assignment/all_reps_clone_report/reference-keys.txt",
-                "clonal_analysis/clonal_assignment/all_reps_clone_report/repertoires",
-                "clonal_analysis/clonal_assignment/all_reps_clone_report/repertoires/Patient1__clone-pass.tsv",
-                "clonal_analysis/clonal_assignment/all_reps_clone_report/repertoires/Patient2__clone-pass.tsv",
-                "clonal_analysis/clonal_assignment/all_reps_clone_report/search_index.json",
-                "clonal_analysis/clonal_assignment/all_reps_clone_report/tables",
-                "clonal_analysis/clonal_assignment/all_reps_clone_report/tables/clone_sizes_table.tsv",
-                "clonal_analysis/clonal_assignment/all_reps_clone_report/tables/num_clones_table.tsv",
                 "clonal_analysis/report_threshold",
                 "clonal_analysis/report_threshold/all_reps_dist_report",
                 "clonal_analysis/report_threshold/all_reps_dist_report/assets",
@@ -198,126 +166,6 @@
                 "fastqc/postassembly/Sample1_ASSEMBLED_fastqc.zip",
                 "fastqc/postassembly/Sample2_ASSEMBLED_fastqc.html",
                 "fastqc/postassembly/Sample2_ASSEMBLED_fastqc.zip",
-                "multiqc",
-                "multiqc/multiqc_data",
-                "multiqc/multiqc_data/fastp-insert-size-plot.txt",
-                "multiqc/multiqc_data/fastp-seq-content-gc-plot_Read_1_After_filtering.txt",
-                "multiqc/multiqc_data/fastp-seq-content-gc-plot_Read_1_Before_filtering.txt",
-                "multiqc/multiqc_data/fastp-seq-content-gc-plot_Read_2_After_filtering.txt",
-                "multiqc/multiqc_data/fastp-seq-content-gc-plot_Read_2_Before_filtering.txt",
-                "multiqc/multiqc_data/fastp-seq-content-n-plot_Read_1_After_filtering.txt",
-                "multiqc/multiqc_data/fastp-seq-content-n-plot_Read_1_Before_filtering.txt",
-                "multiqc/multiqc_data/fastp-seq-content-n-plot_Read_2_After_filtering.txt",
-                "multiqc/multiqc_data/fastp-seq-content-n-plot_Read_2_Before_filtering.txt",
-                "multiqc/multiqc_data/fastp-seq-quality-plot_Read_1_After_filtering.txt",
-                "multiqc/multiqc_data/fastp-seq-quality-plot_Read_1_Before_filtering.txt",
-                "multiqc/multiqc_data/fastp-seq-quality-plot_Read_2_After_filtering.txt",
-                "multiqc/multiqc_data/fastp-seq-quality-plot_Read_2_Before_filtering.txt",
-                "multiqc/multiqc_data/fastp_filtered_reads_plot.txt",
-                "multiqc/multiqc_data/fastqc-1-status-check-heatmap.txt",
-                "multiqc/multiqc_data/fastqc-1_overrepresented_sequences_plot.txt",
-                "multiqc/multiqc_data/fastqc-1_per_base_n_content_plot.txt",
-                "multiqc/multiqc_data/fastqc-1_per_base_sequence_quality_plot.txt",
-                "multiqc/multiqc_data/fastqc-1_per_sequence_gc_content_plot_Counts.txt",
-                "multiqc/multiqc_data/fastqc-1_per_sequence_gc_content_plot_Percentages.txt",
-                "multiqc/multiqc_data/fastqc-1_per_sequence_quality_scores_plot.txt",
-                "multiqc/multiqc_data/fastqc-1_sequence_counts_plot.txt",
-                "multiqc/multiqc_data/fastqc-1_sequence_duplication_levels_plot.txt",
-                "multiqc/multiqc_data/fastqc-1_top_overrepresented_sequences_table.txt",
-                "multiqc/multiqc_data/fastqc_sequence_length_distribution_plot.txt",
-                "multiqc/multiqc_data/llms-full.txt",
-                "multiqc/multiqc_data/multiqc.log",
-                "multiqc/multiqc_data/multiqc.parquet",
-                "multiqc/multiqc_data/multiqc_citations.txt",
-                "multiqc/multiqc_data/multiqc_data.json",
-                "multiqc/multiqc_data/multiqc_fastp.txt",
-                "multiqc/multiqc_data/multiqc_fastqc_fastqc-1.txt",
-                "multiqc/multiqc_data/multiqc_general_stats.txt",
-                "multiqc/multiqc_data/multiqc_software_versions.txt",
-                "multiqc/multiqc_data/multiqc_sources.txt",
-                "multiqc/multiqc_plots",
-                "multiqc/multiqc_plots/pdf",
-                "multiqc/multiqc_plots/pdf/fastp-insert-size-plot.pdf",
-                "multiqc/multiqc_plots/pdf/fastp-seq-content-gc-plot_Read_1_After_filtering.pdf",
-                "multiqc/multiqc_plots/pdf/fastp-seq-content-gc-plot_Read_1_Before_filtering.pdf",
-                "multiqc/multiqc_plots/pdf/fastp-seq-content-gc-plot_Read_2_After_filtering.pdf",
-                "multiqc/multiqc_plots/pdf/fastp-seq-content-gc-plot_Read_2_Before_filtering.pdf",
-                "multiqc/multiqc_plots/pdf/fastp-seq-content-n-plot_Read_1_After_filtering.pdf",
-                "multiqc/multiqc_plots/pdf/fastp-seq-content-n-plot_Read_1_Before_filtering.pdf",
-                "multiqc/multiqc_plots/pdf/fastp-seq-content-n-plot_Read_2_After_filtering.pdf",
-                "multiqc/multiqc_plots/pdf/fastp-seq-content-n-plot_Read_2_Before_filtering.pdf",
-                "multiqc/multiqc_plots/pdf/fastp-seq-quality-plot_Read_1_After_filtering.pdf",
-                "multiqc/multiqc_plots/pdf/fastp-seq-quality-plot_Read_1_Before_filtering.pdf",
-                "multiqc/multiqc_plots/pdf/fastp-seq-quality-plot_Read_2_After_filtering.pdf",
-                "multiqc/multiqc_plots/pdf/fastp-seq-quality-plot_Read_2_Before_filtering.pdf",
-                "multiqc/multiqc_plots/pdf/fastp_filtered_reads_plot-cnt.pdf",
-                "multiqc/multiqc_plots/pdf/fastp_filtered_reads_plot-pct.pdf",
-                "multiqc/multiqc_plots/pdf/fastqc-1_overrepresented_sequences_plot.pdf",
-                "multiqc/multiqc_plots/pdf/fastqc-1_per_base_n_content_plot.pdf",
-                "multiqc/multiqc_plots/pdf/fastqc-1_per_base_sequence_quality_plot.pdf",
-                "multiqc/multiqc_plots/pdf/fastqc-1_per_sequence_gc_content_plot_Counts.pdf",
-                "multiqc/multiqc_plots/pdf/fastqc-1_per_sequence_gc_content_plot_Percentages.pdf",
-                "multiqc/multiqc_plots/pdf/fastqc-1_per_sequence_quality_scores_plot.pdf",
-                "multiqc/multiqc_plots/pdf/fastqc-1_sequence_counts_plot-cnt.pdf",
-                "multiqc/multiqc_plots/pdf/fastqc-1_sequence_counts_plot-pct.pdf",
-                "multiqc/multiqc_plots/pdf/fastqc-1_sequence_duplication_levels_plot.pdf",
-                "multiqc/multiqc_plots/pdf/fastqc-1_top_overrepresented_sequences_table.pdf",
-                "multiqc/multiqc_plots/pdf/fastqc_sequence_length_distribution_plot.pdf",
-                "multiqc/multiqc_plots/png",
-                "multiqc/multiqc_plots/png/fastp-insert-size-plot.png",
-                "multiqc/multiqc_plots/png/fastp-seq-content-gc-plot_Read_1_After_filtering.png",
-                "multiqc/multiqc_plots/png/fastp-seq-content-gc-plot_Read_1_Before_filtering.png",
-                "multiqc/multiqc_plots/png/fastp-seq-content-gc-plot_Read_2_After_filtering.png",
-                "multiqc/multiqc_plots/png/fastp-seq-content-gc-plot_Read_2_Before_filtering.png",
-                "multiqc/multiqc_plots/png/fastp-seq-content-n-plot_Read_1_After_filtering.png",
-                "multiqc/multiqc_plots/png/fastp-seq-content-n-plot_Read_1_Before_filtering.png",
-                "multiqc/multiqc_plots/png/fastp-seq-content-n-plot_Read_2_After_filtering.png",
-                "multiqc/multiqc_plots/png/fastp-seq-content-n-plot_Read_2_Before_filtering.png",
-                "multiqc/multiqc_plots/png/fastp-seq-quality-plot_Read_1_After_filtering.png",
-                "multiqc/multiqc_plots/png/fastp-seq-quality-plot_Read_1_Before_filtering.png",
-                "multiqc/multiqc_plots/png/fastp-seq-quality-plot_Read_2_After_filtering.png",
-                "multiqc/multiqc_plots/png/fastp-seq-quality-plot_Read_2_Before_filtering.png",
-                "multiqc/multiqc_plots/png/fastp_filtered_reads_plot-cnt.png",
-                "multiqc/multiqc_plots/png/fastp_filtered_reads_plot-pct.png",
-                "multiqc/multiqc_plots/png/fastqc-1_overrepresented_sequences_plot.png",
-                "multiqc/multiqc_plots/png/fastqc-1_per_base_n_content_plot.png",
-                "multiqc/multiqc_plots/png/fastqc-1_per_base_sequence_quality_plot.png",
-                "multiqc/multiqc_plots/png/fastqc-1_per_sequence_gc_content_plot_Counts.png",
-                "multiqc/multiqc_plots/png/fastqc-1_per_sequence_gc_content_plot_Percentages.png",
-                "multiqc/multiqc_plots/png/fastqc-1_per_sequence_quality_scores_plot.png",
-                "multiqc/multiqc_plots/png/fastqc-1_sequence_counts_plot-cnt.png",
-                "multiqc/multiqc_plots/png/fastqc-1_sequence_counts_plot-pct.png",
-                "multiqc/multiqc_plots/png/fastqc-1_sequence_duplication_levels_plot.png",
-                "multiqc/multiqc_plots/png/fastqc-1_top_overrepresented_sequences_table.png",
-                "multiqc/multiqc_plots/png/fastqc_sequence_length_distribution_plot.png",
-                "multiqc/multiqc_plots/svg",
-                "multiqc/multiqc_plots/svg/fastp-insert-size-plot.svg",
-                "multiqc/multiqc_plots/svg/fastp-seq-content-gc-plot_Read_1_After_filtering.svg",
-                "multiqc/multiqc_plots/svg/fastp-seq-content-gc-plot_Read_1_Before_filtering.svg",
-                "multiqc/multiqc_plots/svg/fastp-seq-content-gc-plot_Read_2_After_filtering.svg",
-                "multiqc/multiqc_plots/svg/fastp-seq-content-gc-plot_Read_2_Before_filtering.svg",
-                "multiqc/multiqc_plots/svg/fastp-seq-content-n-plot_Read_1_After_filtering.svg",
-                "multiqc/multiqc_plots/svg/fastp-seq-content-n-plot_Read_1_Before_filtering.svg",
-                "multiqc/multiqc_plots/svg/fastp-seq-content-n-plot_Read_2_After_filtering.svg",
-                "multiqc/multiqc_plots/svg/fastp-seq-content-n-plot_Read_2_Before_filtering.svg",
-                "multiqc/multiqc_plots/svg/fastp-seq-quality-plot_Read_1_After_filtering.svg",
-                "multiqc/multiqc_plots/svg/fastp-seq-quality-plot_Read_1_Before_filtering.svg",
-                "multiqc/multiqc_plots/svg/fastp-seq-quality-plot_Read_2_After_filtering.svg",
-                "multiqc/multiqc_plots/svg/fastp-seq-quality-plot_Read_2_Before_filtering.svg",
-                "multiqc/multiqc_plots/svg/fastp_filtered_reads_plot-cnt.svg",
-                "multiqc/multiqc_plots/svg/fastp_filtered_reads_plot-pct.svg",
-                "multiqc/multiqc_plots/svg/fastqc-1_overrepresented_sequences_plot.svg",
-                "multiqc/multiqc_plots/svg/fastqc-1_per_base_n_content_plot.svg",
-                "multiqc/multiqc_plots/svg/fastqc-1_per_base_sequence_quality_plot.svg",
-                "multiqc/multiqc_plots/svg/fastqc-1_per_sequence_gc_content_plot_Counts.svg",
-                "multiqc/multiqc_plots/svg/fastqc-1_per_sequence_gc_content_plot_Percentages.svg",
-                "multiqc/multiqc_plots/svg/fastqc-1_per_sequence_quality_scores_plot.svg",
-                "multiqc/multiqc_plots/svg/fastqc-1_sequence_counts_plot-cnt.svg",
-                "multiqc/multiqc_plots/svg/fastqc-1_sequence_counts_plot-pct.svg",
-                "multiqc/multiqc_plots/svg/fastqc-1_sequence_duplication_levels_plot.svg",
-                "multiqc/multiqc_plots/svg/fastqc-1_top_overrepresented_sequences_table.svg",
-                "multiqc/multiqc_plots/svg/fastqc_sequence_length_distribution_plot.svg",
-                "multiqc/multiqc_report.html",
                 "parsed_logs",
                 "parsed_logs/Table_all_details_assemble_mates.tsv",
                 "parsed_logs/Table_all_details_build_consensus.tsv",
@@ -513,14 +361,8 @@
                 "style.css:md5,d0833d790556369103776a429102fedf",
                 "Patient2_clone_command_log.txt:md5,6ea99de4ee56f20a50674b330eb8a5e4",
                 "style.css:md5,d0833d790556369103776a429102fedf",
-                "all_reps_clone_command_log.txt:md5,9fc4198d0626ce47ae4fbd7a81004c04",
-                "style.css:md5,d0833d790556369103776a429102fedf",
                 "style.css:md5,d0833d790556369103776a429102fedf",
                 "all_reps_threshold_command_log.txt:md5,55715f61d6eae305c67956037e2bdc60",
-                "multiqc_citations.txt:md5,d35df50e9903a96a2b3bce3c1fbc8ad2",
-                "multiqc_fastp.txt:md5,38703a7dacd7ee4fe61851b1c5007528",
-                "multiqc_fastqc_fastqc-1.txt:md5,60cde1beac3b5cee601b9887f7685b4f",
-                "multiqc_general_stats.txt:md5,ed8c37b6a9bfef0c1f2ab8214e5a9e79",
                 "Sample1_collapse_command_log.txt:md5,698a875db6baa94f76abead31a1e4356",
                 "style.css:md5,d0833d790556369103776a429102fedf",
                 "Sample2_collapse_command_log.txt:md5,6e8089ac50103566ec474354076d08f7",
@@ -540,6 +382,6 @@
             "nf-test": "0.9.3",
             "nextflow": "25.10.2"
         },
-        "timestamp": "2026-01-23T14:21:28.365538325"
+        "timestamp": "2026-03-05T12:37:31.959920411"
     }
 }

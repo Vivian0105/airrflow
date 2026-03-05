@@ -1,59 +1,48 @@
 {
     "-profile test_10x_sc": {
         "content": [
-            20,
+            18,
             {
                 "ADD_META_TO_TAB": {
-                    "dplyr": "1.1.4",
+                    "dplyr": "1.2.0",
                     "optparse": "1.7.5",
-                    "R": "4.5.1"
-                },
-                "AIRRFLOW_REPORT": {
-                    "alakazam": "1.3.1",
-                    "shazam": "1.2.1",
-                    "stringr": "1.5.2",
-                    "dplyr": "1.1.4",
-                    "knitr": 1.5,
-                    "R": "4.5.1"
+                    "R": "4.5.2"
                 },
                 "CELLRANGER_VDJ": {
                     "cellranger": "8.0.0"
                 },
                 "CHANGEO_ASSIGNGENES": {
                     "igblastn": "1.22.0",
-                    "changeo": "1.3.0"
+                    "changeo": "1.3.4"
                 },
                 "CHANGEO_CONVERTDB_FASTA_FROM_AIRR": {
                     "igblastn": "1.22.0",
-                    "changeo": "1.3.0"
+                    "changeo": "1.3.4"
                 },
                 "CHANGEO_MAKEDB": {
                     "igblastn": "1.22.0",
-                    "changeo": "1.3.0"
+                    "changeo": "1.3.4"
                 },
                 "CHANGEO_PARSEDB_SPLIT": {
-                    "changeo": "1.3.0"
+                    "changeo": "1.3.4"
                 },
                 "CLONAL_ASSIGNMENT": {
                     "enchantr": "0.1.24"
                 },
-                "CLONAL_ASSIGNMENT_REPORT": {
-                    "enchantr": "0.1.24"
-                },
                 "FILTER_JUNCTION_MOD3": {
-                    "alakazam": "1.3.1",
+                    "alakazam": "1.4.2.999",
                     "optparse": "1.7.5",
-                    "airr": "1.5.0",
-                    "R": "4.5.1"
+                    "airr": "1.6.1",
+                    "R": "4.5.2"
                 },
                 "FILTER_QUALITY": {
-                    "alakazam": "1.3.1",
+                    "alakazam": "1.4.2.999",
                     "optparse": "1.7.5",
-                    "stringi": "1.8.3",
-                    "dplyr": "1.1.4",
-                    "airr": "1.5.0",
+                    "stringi": "1.8.7",
+                    "dplyr": "1.2.0",
+                    "airr": "1.6.1",
                     "DT": "0.34.0",
-                    "R": "4.5.1"
+                    "R": "4.5.2"
                 },
                 "REPORT_FILE_SIZE": {
                     "enchantr": "0.1.24"
@@ -125,23 +114,6 @@
                 "clonal_analysis/clonal_assignment/Patient1_clone_report/repertoires",
                 "clonal_analysis/clonal_assignment/Patient1_clone_report/repertoires/Patient1__clone-pass.tsv",
                 "clonal_analysis/clonal_assignment/Patient1_clone_report/search_index.json",
-                "clonal_analysis/clonal_assignment/Patient1_clone_report/tables",
-                "clonal_analysis/clonal_assignment/Patient1_clone_report/tables/clone_sizes_table.tsv",
-                "clonal_analysis/clonal_assignment/Patient1_clone_report/tables/num_clones_table.tsv",
-                "clonal_analysis/clonal_assignment/all_reps_clone_report",
-                "clonal_analysis/clonal_assignment/all_reps_clone_report/all_reps_clone_command_log.txt",
-                "clonal_analysis/clonal_assignment/all_reps_clone_report/assets",
-                "clonal_analysis/clonal_assignment/all_reps_clone_report/assets/logo.png",
-                "clonal_analysis/clonal_assignment/all_reps_clone_report/assets/style.css",
-                "clonal_analysis/clonal_assignment/all_reps_clone_report/index.html",
-                "clonal_analysis/clonal_assignment/all_reps_clone_report/params.RData",
-                "clonal_analysis/clonal_assignment/all_reps_clone_report/reference-keys.txt",
-                "clonal_analysis/clonal_assignment/all_reps_clone_report/repertoires",
-                "clonal_analysis/clonal_assignment/all_reps_clone_report/repertoires/Patient1__clone-pass.tsv",
-                "clonal_analysis/clonal_assignment/all_reps_clone_report/search_index.json",
-                "clonal_analysis/clonal_assignment/all_reps_clone_report/tables",
-                "clonal_analysis/clonal_assignment/all_reps_clone_report/tables/clone_sizes_table.tsv",
-                "clonal_analysis/clonal_assignment/all_reps_clone_report/tables/num_clones_table.tsv",
                 "clonal_analysis/report_threshold",
                 "clonal_analysis/report_threshold/all_reps_dist_report",
                 "clonal_analysis/report_threshold/all_reps_dist_report/assets",
@@ -154,16 +126,6 @@
                 "clonal_analysis/report_threshold/all_reps_dist_report/tables",
                 "clonal_analysis/report_threshold/all_reps_dist_report/tables/all_reps_threshold-mean.tsv",
                 "clonal_analysis/report_threshold/all_reps_threshold_command_log.txt",
-                "multiqc",
-                "multiqc/multiqc_data",
-                "multiqc/multiqc_data/llms-full.txt",
-                "multiqc/multiqc_data/multiqc.log",
-                "multiqc/multiqc_data/multiqc.parquet",
-                "multiqc/multiqc_data/multiqc_citations.txt",
-                "multiqc/multiqc_data/multiqc_data.json",
-                "multiqc/multiqc_data/multiqc_software_versions.txt",
-                "multiqc/multiqc_data/multiqc_sources.txt",
-                "multiqc/multiqc_report.html",
                 "pipeline_info",
                 "pipeline_info/nf_core_airrflow_software_mqc_versions.yml",
                 "pipeline_info/samplesheet.valid.tsv",
@@ -261,11 +223,8 @@
                 "regions.fa:md5,1953406d913fb0fd753c6b56e847da83",
                 "Patient1_clone_command_log.txt:md5,c845c438c035a70e5b01d7100dc07a9c",
                 "style.css:md5,d0833d790556369103776a429102fedf",
-                "all_reps_clone_command_log.txt:md5,a2196dc568533023a52852f10efb8ce3",
-                "style.css:md5,d0833d790556369103776a429102fedf",
                 "style.css:md5,d0833d790556369103776a429102fedf",
                 "all_reps_threshold_command_log.txt:md5,929fdf4dbf9472d3dc2433e4916d2fd5",
-                "multiqc_citations.txt:md5,4c806e63a283ec1b7e78cdae3a923d4f",
                 "all_reps_scqc_command_log.txt:md5,75ab0f6296ba7605d520af5e74ba8788",
                 "style.css:md5,d0833d790556369103776a429102fedf",
                 "style.css:md5,d0833d790556369103776a429102fedf",
@@ -281,6 +240,6 @@
             "nf-test": "0.9.3",
             "nextflow": "25.10.2"
         },
-        "timestamp": "2026-01-23T13:18:30.134091641"
+        "timestamp": "2026-03-05T10:48:07.943810212"
     }
 }
