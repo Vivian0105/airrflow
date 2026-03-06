@@ -137,7 +137,7 @@ def get_meta_tabs(arr) {
     if (arr[8].size() > 1) {
         error "Multiple reference fasta files found for ${meta.id}."
     }
-    
+
 
     return array
 }
