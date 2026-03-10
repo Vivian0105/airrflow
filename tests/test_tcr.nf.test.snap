@@ -62,50 +62,50 @@
                     "pandas": "1.1.5"
                 },
                 "PRESTO_ASSEMBLEPAIRS_UMI": {
-                    "presto": "0.7.7"
+                    "presto": "0.7.8"
                 },
                 "PRESTO_BUILDCONSENSUS_UMI": {
-                    "presto": "0.7.7"
+                    "presto": "0.7.8"
                 },
                 "PRESTO_CLUSTERSETS_UMI": {
-                    "presto": "0.7.7",
+                    "presto": "0.7.8",
                     "vsearch": "v2.30.4"
                 },
                 "PRESTO_COLLAPSESEQ_UMI": {
-                    "presto": "0.7.7"
+                    "presto": "0.7.8"
                 },
                 "PRESTO_FILTERSEQ_UMI": {
-                    "presto": "0.7.7"
+                    "presto": "0.7.8"
                 },
                 "PRESTO_MASKPRIMERS_SCORE_UMI_R1": {
-                    "presto": "0.7.7"
+                    "presto": "0.7.8"
                 },
                 "PRESTO_MASKPRIMERS_SCORE_UMI_R2": {
-                    "presto": "0.7.7"
+                    "presto": "0.7.8"
                 },
                 "PRESTO_PAIRSEQ_CLUSTERSETS": {
-                    "presto": "0.7.7"
+                    "presto": "0.7.8"
                 },
                 "PRESTO_PAIRSEQ_UMI": {
-                    "presto": "0.7.7"
+                    "presto": "0.7.8"
                 },
                 "PRESTO_PARSEHEADERS_COLLAPSE_UMI": {
-                    "presto": "0.7.7"
+                    "presto": "0.7.8"
                 },
                 "PRESTO_PARSEHEADERS_METADATA_UMI": {
-                    "presto": "0.7.7"
+                    "presto": "0.7.8"
                 },
                 "PRESTO_PARSEHEADERS_PRIMERS_UMI": {
-                    "presto": "0.7.7"
+                    "presto": "0.7.8"
                 },
                 "PRESTO_PARSE_CLUSTER_UMI": {
-                    "presto": "0.7.7"
+                    "presto": "0.7.8"
                 },
                 "PRESTO_POSTCONSENSUS_PAIRSEQ_UMI": {
-                    "presto": "0.7.7"
+                    "presto": "0.7.8"
                 },
                 "PRESTO_SPLITSEQ_UMI": {
-                    "presto": "0.7.7"
+                    "presto": "0.7.8"
                 },
                 "REPERTOIRE_ANALYSIS": {
                     "enchantr": "0.1.24"
@@ -534,6 +534,6 @@
             "nf-test": "0.9.3",
             "nextflow": "25.10.2"
         },
-        "timestamp": "2026-03-05T15:15:02.473904428"
+        "timestamp": "2026-03-10T12:35:47.541769171"
     }
 }

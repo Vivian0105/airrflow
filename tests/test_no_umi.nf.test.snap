@@ -65,25 +65,25 @@
                     "pandas": "1.1.5"
                 },
                 "PRESTO_ASSEMBLEPAIRS_SANS_UMI": {
-                    "presto": "0.7.7"
+                    "presto": "0.7.8"
                 },
                 "PRESTO_COLLAPSESEQ_SANS_UMI": {
-                    "presto": "0.7.7"
+                    "presto": "0.7.8"
                 },
                 "PRESTO_FILTERSEQ_POSTASSEMBLY_SANS_UMI": {
-                    "presto": "0.7.7"
+                    "presto": "0.7.8"
                 },
                 "PRESTO_MASKPRIMERS_SCORE_SANSUMI_FWD": {
-                    "presto": "0.7.7"
+                    "presto": "0.7.8"
                 },
                 "PRESTO_PARSEHEADERS_METADATA_SANS_UMI": {
-                    "presto": "0.7.7"
+                    "presto": "0.7.8"
                 },
                 "PRESTO_PARSEHEADERS_PRIMERS_SANS_UMI": {
-                    "presto": "0.7.7"
+                    "presto": "0.7.8"
                 },
                 "PRESTO_SPLITSEQ_SANS_UMI": {
-                    "presto": "0.7.7"
+                    "presto": "0.7.8"
                 },
                 "REPERTOIRE_ANALYSIS": {
                     "enchantr": "0.1.24"
@@ -413,6 +413,6 @@
             "nf-test": "0.9.3",
             "nextflow": "25.10.2"
         },
-        "timestamp": "2026-03-05T12:19:10.154588133"
+        "timestamp": "2026-03-10T12:17:31.73220846"
     }
 }
