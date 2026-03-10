@@ -79,6 +79,7 @@ nf-core/airrflow allows the end-to-end processing of BCR and TCR bulk and single
   - Modify `cell_id`s to ensure they are unique in each run.
 
 4. Novel allele and genotyping (optional)
+
 - Novel allele detection (`TIgGER`).
 - Individual genotype inference (`TIgGER`).
 - Allele calls correction (`TIgGER`).
@@ -164,8 +165,7 @@ nextflow run nf-core/airrflow \
 --outdir results
 ```
 
-If you want to detect novel alleles and infer genotype of each individual, add `--genotyping = true` in your command. 
-
+If you want to detect novel alleles and infer genotype of each individual, add `--genotyping = true` in your command.
 
 See the [usage documentation](https://nf-co.re/airrflow/usage) and the [parameter documentation](https://nf-co.re/airrflow/parameters) for more details on how to use the pipeline and all the available parameters.
 

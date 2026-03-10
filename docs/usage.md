@@ -85,7 +85,8 @@ nextflow run nf-core/airrfow \
 --read_format bc:0:15,um:16:27 \
 --outdir results
 ```
-If you want to detect novel alleles and infer genotype of each individual, add `--genotyping = true` in your command. 
+
+If you want to detect novel alleles and infer genotype of each individual, add `--genotyping = true` in your command.
 
 Check the section [Input samplesheet](#input-samplesheet) below for instructions on how to create the samplesheet, and the [Supported library generation protocols](#supported-bulk-library-generation-methods-protocols) section below for examples on how to run the pipeline for the different bulk and single-cell sequencing protocols.
 For more detailed information about all the available parameters, please refer to the [parameters documentation](https://nf-co.re/airrflow/parameters).
