@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This document describes the output produced by the pipeline. Most of the plots are taken from the MultiQC report, which summarises results at the end of the pipeline.
+This document describes the output produced by the pipeline. 
 
 The directories listed below will be created in the results directory after the pipeline has finished. All paths are relative to the top-level results directory.
 
@@ -36,16 +36,21 @@ The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes d
   - [Detect contamination](#detect-contamination-optional)
   - [Collapse duplicates](#collapse-duplicates)
 - [Single cell QC](#single-cell-qc)
+- [Novel allele and genotyping] (#novel-allele-and-genotyping)
+  - [Novel allele detection](#novel-allele-detection)
+  - [Bayesian genotype inference](#bayesian-genotype-inference)
+  - [Reassign allele](#reassign-allele)
 - [Clonal analysis](#clonal-analysis)
   - [Find clonal threshold](#find-clonal-threshold)
-  - [SCOPer define clones](#scoper-define-clones) - Defining clonal B-cell or T-cell groups
+  - [SCOPer clonal assignment](#scoper-clonal-assignment) - Defining clonal B-cell or T-cell groups
+  - [Repertoire analysis](#repertoire-analysis)
   - [Dowser lineage reconstruction](#dowser-lineage-reconstruction) - Clonal lineage reconstruction.
-- [Repertoire analysis](#repertoire-analysis) - Repertoire analysis and comparison.
+- [Repertoire comparison](#repertoire-comparison) - Repertoire analysis and comparison.
 - [Report file size](#report-file-size) - Log parsing.
 - [Log parsing](#log-parsing) - Log parsing.
-- [Databases](#databases) - Downloaded databases.
 - [MultiQC](#MultiQC) - MultiQC report.
 - [Pipeline information](#pipeline-information) - Pipeline information
+- [Airrflow report](#Airrflow-report)
 
 ## Sequence assembly
 
@@ -375,6 +380,41 @@ This folder is genereated when `detect_contamination` is set to `true`.
 
 </details>
 
+## Novel allele and genotyping
+
+### Novel allele detection
+
+<details markdown="1">
+<summary>Output files</summary>
+
+- `novel/<subjectID>`
+  - `*log`: Log of the process.
+  - `db_novel`
+  - `ggplots`
+  - `tables`: novel allele report. 
+
+</details>
+
+### Bayesian genotype inference
+<details markdown="1">
+<summary>Output files</summary>
+
+- `bayesian/<subjectID>_bayesian_genotype_inference_report/`
+  - `*log`: Log of the process.
+  - `genotypes`: Genotype report. 
+
+</details>
+
+### Reassign allele
+<details markdown="1">
+<summary>Output files</summary>
+
+- `reassign/<subjectID>_reassign_allele_report/`
+  - `*log`: Log of the process.
+  - `repertoires`: Rearrangement tables in AIRR-C format with sequences after allele reassignment. 
+
+</details>
+
 ## Clonal analysis
 
 ### Find clonal threshold
@@ -393,30 +433,36 @@ This folder is genereated when `detect_contamination` is set to `true`.
 
 Determining the hamming distance threshold of the junction regions for clonal determination using [Shazam](https://shazam.readthedocs.io) when `clonal_threshold` is set to `auto`.
 
-### SCOPer define clones
+### SCOPer clonal assignment
+
+Assigning clones to the sequences obtained from IgBlast with the [scoper::hierarchicalClones](https://scoper.readthedocs.io/en/stable/topics/hierarchicalClones/) Immcantation tool.
 
 <details markdown="1">
 <summary>Output files</summary>
 
 - `clonal_analysis/clonal_assignment/<subjectID>`
   - `*log`: Log of the process that will be parsed to generate a report.
-  - `repertoires/<sampleID>_clone-pass.tsv`: Rearrangement tables in AIRR-C format with sequences that
+  - `repertoires/<subjectID>_clone-pass.tsv`: Rearrangement tables in AIRR-C format with sequences that
     passed the clonal assignment step. The field `clone_id` contains the clonal clusters identifiers.
-  - `tables/`: Table in AIRR format containing the assigned gene information and an additional field with the clone id.
-    - `clonal_abundance.tsv`
-    - `clonal_diversity.tsv`
-    - `clone_sizes_table.tsv`
-    - `num_clones_table_nosingle.tsv`
-    - `num_clones_table.tsv`
-  - `ggplots/`: Diversity and abundance plots as `ggplot` objects.
-  - `figures/`: Clone size, diversity and abundance `png` plots.
-
-A similar output folder `clonal_analysis/clonal_assignment/all_reps_clone_report` is generated for all data, with additional
-`ggplot` objects and `png` figures showing the convergence between samples.
 
 </details>
 
-Assigning clones to the sequences obtained from IgBlast with the [scoper::hierarchicalClones](https://scoper.readthedocs.io/en/stable/topics/hierarchicalClones/) Immcantation tool.
+### Repertoire analysis
+
+<details markdown="1">
+<summary>Output files</summary>
+
+- `clonal_analysis/repertoire_analysis/repertoire_analysis_report`
+  - `repertoires`: Rearrangement tables in AIRR-C format with sequences from all samples.
+  - `tables/`: 
+    - `clonal_abundance.tsv`
+    - `clonal_diversity.tsv`
+    - `clonal_overlap.tsv`
+    - `clone_sizes_table.tsv`
+    - `num_clones_table.tsv`
+  - `ggplots/`: Abundance, diversity, clonal overlap and mutation frequency plots as `ggplot` objects.
+
+</details>
 
 ### Dowser Lineage reconstruction
 
@@ -432,17 +478,15 @@ Assigning clones to the sequences obtained from IgBlast with the [scoper::hierar
 Reconstructing clonal lineage with [IgPhyML](https://igphyml.readthedocs.io/en/stable/) and
 [dowser](https://dowser.readthedocs.io/en/stable/topics/getTrees/) from the Immcantation toolset.
 
-## Repertoire analysis
+## Repertoire comparison
 
 <details markdown="1">
 <summary>Output files</summary>
 
-- `repertoire_analysis/repertoire_comparison/`
-  - `all_data.tsv`: AIRR format table containing the processed sequence information for all subjects.
-  - `Abundance`: contains clonal abundance calculation plots and tables.
-  - `Diversity`: contains diversity calculation plots and tables.
+- `repertoire_comparison/`
+  - `Sequence_numbers_summary`: contains number of sequences left after each step.
   - `V_family`: contains V gene and family distribution calculation plots and tables.
-- `Airrflow_report.html`: Contains the repertoire comparison results in an html report form: Abundance, Diversity, V gene usage tables and plots. Comparison between treatments and subjects.
+
 
 </details>
 
@@ -471,12 +515,6 @@ Parsing the logs from the previous processes. Summary of the number of sequences
 </details>
 
 Parsing the logs from the previous processes. Summary of the number of sequences left after each of the most important pipeline steps.
-
-## Databases
-
-Copy of the downloaded IMGT database by the process `fetch_databases`, used for the gene assignment step.
-
-If databases are provided with `--reference_fasta` and `--reference_igblast` this folder will not be present.
 
 ## MultiQC
 
@@ -508,3 +546,14 @@ Results generated by MultiQC collate pipeline QC from supported tools e.g. FastQ
 </details>
 
 [Nextflow](https://www.nextflow.io/docs/latest/tracing.html) provides excellent functionality for generating various reports relevant to the running and execution of the pipeline. This will allow you to troubleshoot errors with the running of the pipeline, and also provide you with other information such as launch commands, run times and resource usage.
+
+## Airrflow report
+
+Contains the plots of number of sequences left after each of the assembly step and after each of the downstream step. 
+
+<details markdown="1">
+<summary>Output files</summary>
+
+- `Airrflow_report.html`: 
+
+</details>
