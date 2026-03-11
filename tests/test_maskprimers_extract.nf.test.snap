@@ -507,6 +507,19 @@
                 "presto/05-parse-clusters/Sample7/Sample7_command_log.txt",
                 "presto/05-parse-clusters/Sample8",
                 "presto/05-parse-clusters/Sample8/Sample8_command_log.txt",
+                "presto/05-parse-clusters/pairseq",
+                "presto/05-parse-clusters/pairseq/Sample2",
+                "presto/05-parse-clusters/pairseq/Sample2/Sample2_command_log.txt",
+                "presto/05-parse-clusters/pairseq/Sample3",
+                "presto/05-parse-clusters/pairseq/Sample3/Sample3_command_log.txt",
+                "presto/05-parse-clusters/pairseq/Sample4",
+                "presto/05-parse-clusters/pairseq/Sample4/Sample4_command_log.txt",
+                "presto/05-parse-clusters/pairseq/Sample6",
+                "presto/05-parse-clusters/pairseq/Sample6/Sample6_command_log.txt",
+                "presto/05-parse-clusters/pairseq/Sample7",
+                "presto/05-parse-clusters/pairseq/Sample7/Sample7_command_log.txt",
+                "presto/05-parse-clusters/pairseq/Sample8",
+                "presto/05-parse-clusters/pairseq/Sample8/Sample8_command_log.txt",
                 "presto/06-build-consensus",
                 "presto/06-build-consensus/Sample2",
                 "presto/06-build-consensus/Sample2/Sample2_R1_table.tab",
@@ -879,8 +892,8 @@
         ],
         "meta": {
             "nf-test": "0.9.3",
-            "nextflow": "25.10.2"
+            "nextflow": "25.04.8"
         },
-        "timestamp": "2026-01-23T13:56:24.803902442"
+        "timestamp": "2026-03-11T14:42:32.921116818"
     }
 }
