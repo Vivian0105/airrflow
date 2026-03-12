@@ -368,6 +368,11 @@
                 "presto/05-parse-clusters/Sample1/Sample1_command_log.txt",
                 "presto/05-parse-clusters/Sample2",
                 "presto/05-parse-clusters/Sample2/Sample2_command_log.txt",
+                "presto/05-parse-clusters/pairseq",
+                "presto/05-parse-clusters/pairseq/Sample1",
+                "presto/05-parse-clusters/pairseq/Sample1/Sample1_command_log.txt",
+                "presto/05-parse-clusters/pairseq/Sample2",
+                "presto/05-parse-clusters/pairseq/Sample2/Sample2_command_log.txt",
                 "presto/06-build-consensus",
                 "presto/06-build-consensus/Sample1",
                 "presto/06-build-consensus/Sample1/Sample1_R1_table.tab",
@@ -532,7 +537,7 @@
         ],
         "meta": {
             "nf-test": "0.9.3",
-            "nextflow": "25.10.2"
+            "nextflow": "25.04.8"
         },
         "timestamp": "2026-03-10T12:35:47.541769171"
     }
