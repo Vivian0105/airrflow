@@ -3,7 +3,7 @@
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## 5.0.0 dev [Unreleased]
+## 5.0.1 dev [Unreleased]
 
 ### `Added`
 
@@ -30,7 +30,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### `Deprecations and changes`
 
-- Removed repertoire analysis from clonal assignment report. Added repertoire report which includes clone size distribution, clonal abundance, diversity, clonal overlap and mutation frequency.
+- [#451](https://github.com/nf-core/airrflow/pull/451) Removed repertoire analysis from clonal assignment report. Added repertoire report which includes clone size distribution, clonal abundance, diversity, clonal overlap and mutation frequency.
 
 ## [5.0.0] - Tarantallegra
 
