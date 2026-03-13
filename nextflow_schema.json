@@ -571,8 +571,8 @@
                     "fa_icon": "fab fa-pagelines"
                 },
                 "genotyping_clonal_threshold": {
-                    "type": "string",
-                    "default": "0.2",
+                    "type": "number",
+                    "default": 0.2,
                     "description": "Threshold for determining if two sequences come from the same clone or not.",
                     "fa_icon": "fas fa-dna"
                 },
