@@ -43,7 +43,6 @@ process NOVEL_ALLELE_INFERENCE {
     Rscript -e "enchantr::enchantr_report('novel_allele_inference', \\
                                         report_params=list('input'='${input}', \\
                                         'imgt_db'='${reference_fasta}', \\
-                                        'species'='auto', \\
                                         'outdir'=getwd(), \\
                                         'nproc'=${task.cpus}, \\
                                         'log'='${meta.id}_novel_allele_inference_command_log' ${args}))"

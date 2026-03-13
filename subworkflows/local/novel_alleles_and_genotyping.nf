@@ -2,7 +2,7 @@ include { NOVEL_ALLELE_INFERENCE } from '../../modules/local/enchantr/novel_alle
 include { BAYESIAN_GENOTYPE_INFERENCE  } from '../../modules/local/enchantr/bayesian_genotype_inference'
 include { REASSIGN_ALLELES as REASSIGN_ALLELES_NOVEL; REASSIGN_ALLELES as REASSIGN_ALLELES_GENOTYPE} from '../../modules/local/enchantr/reassign_alleles'
 include { CLONAL_ANALYSIS } from './clonal_analysis.nf'
-include { CLONAL_ASSIGNMENT } from '../../modules/local/enchantr/clonal_assignment'
+include { CLONAL_ASSIGNMENT as CLONAL_ASSIGNMENT_GENOTYPING } from '../../modules/local/enchantr/clonal_assignment'
 
 workflow NOVEL_ALLELES_AND_GENOTYPING {
     take:
@@ -73,12 +73,12 @@ workflow NOVEL_ALLELES_AND_GENOTYPING {
         // TODO: Check if we need the cloneby parameter, or here it can be the same as genotypeby.
         // create separate channels for repertoire and reference based on the genotypeby metadata field
 
-        CLONAL_ASSIGNMENT(
+        CLONAL_ASSIGNMENT_GENOTYPING(
             ch_repertoire_reference,
-            [params.genotype_clone_threshold],
+            [params.genotyping_clonal_threshold],
             []
         )
-        CLONAL_ASSIGNMENT.out.tab
+        CLONAL_ASSIGNMENT_GENOTYPING.out.tab
             .join(ch_repertoire_reference
                         .map{ it -> [it[0], it[2]] })
             .set{ ch_for_genotyping }

@@ -43,7 +43,6 @@ process BAYESIAN_GENOTYPE_INFERENCE {
     Rscript -e "enchantr::enchantr_report('tigger_bayesian_genotype', \\
                                         report_params=list('input'='${input}', \\
                                         'imgt_db'='${reference_fasta}', \\
-                                        'species'='auto', \\
                                         'genotypeby'='${params.genotypeby}', \\
                                         'single_clone_representative'='${params.single_clone_representative}', \\
                                         'outdir'=getwd(), \\

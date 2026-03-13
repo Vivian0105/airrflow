@@ -20,6 +20,7 @@ process COLLAPSE_DUPLICATES {
     path "versions.yml" , emit: versions
 
     script:
+    def args = task.ext.args ? asString(task.ext.args) : ''
     """
     echo "${tabs.join('\n')}" > tabs.txt
     Rscript -e "enchantr::enchantr_report('collapse_duplicates', \\
@@ -28,7 +29,7 @@ process COLLAPSE_DUPLICATES {
         'outdir'=getwd(),\\
         'nproc'=${task.cpus},\\
         'outname'='${meta.id}',\\
-        'log'='${meta.id}_collapse_command_log'))"
+        'log'='${meta.id}_collapse_command_log' ${args}))"
 
     cp -r enchantr ${meta.id}_collapse_report && rm -r enchantr
 

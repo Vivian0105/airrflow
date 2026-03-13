@@ -387,7 +387,7 @@ This folder is genereated when `detect_contamination` is set to `true`.
 <details markdown="1">
 <summary>Output files</summary>
 
-- `novel/<subjectID>`
+- `novel_alleles_and_genotyping/01-novel_allele_inference/`
   - `*log`: Log of the process.
   - `db_novel`
   - `ggplots`
@@ -400,21 +400,10 @@ This folder is genereated when `detect_contamination` is set to `true`.
 <details markdown="1">
 <summary>Output files</summary>
 
-- `bayesian/<subjectID>_bayesian_genotype_inference_report/`
+- `novel_alleles_and_genotyping/02-genotype_inference/`
   - `*log`: Log of the process.
   - `genotypes`: Genotype report.
-
-</details>
-
-### Reassign allele
-
-<details markdown="1">
-<summary>Output files</summary>
-
-- `reassign/<subjectID>_reassign_allele_report/`
-  - `*log`: Log of the process.
   - `repertoires`: Rearrangement tables in AIRR-C format with sequences after allele reassignment.
-
 </details>
 
 ## Clonal analysis
@@ -516,6 +505,20 @@ Parsing the logs from the previous processes. Summary of the number of sequences
 </details>
 
 Parsing the logs from the previous processes. Summary of the number of sequences left after each of the most important pipeline steps.
+
+## Germline reference
+
+Copy of the downloaded germline reference database by the process `fetch_databases`, used for the gene assignment step, only stored if `--save_databases` is true.
+
+If databases are provided with `--reference_fasta` and `--reference_igblast` this folder will not be present.
+
+<details markdown="1">
+<summary>Output files</summary>
+
+- `germline_reference/`
+  - Directory containing the downloaded germline reference in the `fetch_databases` process.
+
+</details>
 
 ## MultiQC
 

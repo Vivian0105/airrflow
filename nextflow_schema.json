@@ -570,7 +570,7 @@
                     "description": "Name of the field used to group data files to infer genotype.",
                     "fa_icon": "fab fa-pagelines"
                 },
-                "genotype_clone_threshold": {
+                "genotyping_clonal_threshold": {
                     "type": "string",
                     "default": "0.2",
                     "description": "Threshold for determining if two sequences come from the same clone or not.",
