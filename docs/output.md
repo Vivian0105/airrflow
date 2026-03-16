@@ -36,10 +36,9 @@ The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes d
   - [Detect contamination](#detect-contamination-optional)
   - [Collapse duplicates](#collapse-duplicates)
 - [Single cell QC](#single-cell-qc)
-- [Novel allele and genotyping] (#novel-allele-and-genotyping)
+- [Novel allele and genotyping](#Novel-allele-and-genotyping)
   - [Novel allele detection](#novel-allele-detection)
   - [Bayesian genotype inference](#bayesian-genotype-inference)
-  - [Reassign allele](#reassign-allele)
 - [Clonal analysis](#clonal-analysis)
   - [Find clonal threshold](#find-clonal-threshold)
   - [SCOPer clonal assignment](#scoper-clonal-assignment) - Defining clonal B-cell or T-cell groups
