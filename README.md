@@ -172,7 +172,6 @@ nextflow run nf-core/airrflow \
 - Translate BCR / TCR sequences with IgBLAST.
 - Embed sequences with pre-trained models using `AMULETY`.
 
-
 See the [usage documentation](https://nf-co.re/airrflow/usage) and the [parameter documentation](https://nf-co.re/airrflow/parameters) for more details on how to use the pipeline and all the available parameters.
 
 :::warning

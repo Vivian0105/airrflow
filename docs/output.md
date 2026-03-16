@@ -404,7 +404,7 @@ This folder is genereated when `detect_contamination` is set to `true`.
   - `*log`: Log of the process.
   - `genotypes`: Genotype report.
   - `repertoires`: Rearrangement tables in AIRR-C format with sequences after allele reassignment.
-</details>
+  </details>
 
 ## Clonal analysis
 
