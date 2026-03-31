@@ -40,7 +40,6 @@ include { VDJ_ANNOTATION                } from '../subworkflows/local/vdj_annota
 include { BULK_QC_AND_FILTER            } from '../subworkflows/local/bulk_qc_and_filter'
 include { SINGLE_CELL_QC_AND_FILTERING  } from '../subworkflows/local/single_cell_qc_and_filtering'
 include { CLONAL_ANALYSIS               } from '../subworkflows/local/clonal_analysis'
-include { REPERTOIRE_ANALYSIS_REPORTING } from '../subworkflows/local/repertoire_analysis_reporting'
 include { SC_RAW_INPUT                  } from '../subworkflows/local/sc_raw_input'
 include { FASTQ_INPUT_CHECK             } from '../subworkflows/local/fastq_input_check'
 include { RNASEQ_INPUT                  } from '../subworkflows/local/rnaseq_input'
@@ -260,36 +259,6 @@ workflow AIRRFLOW {
             ch_versions = ch_versions.mix( TRANSLATE_EMBED.out.versions )
         }
 
-        if (!params.skip_report){
-            ch_all_repertoires_after_qc = ch_repertoires_after_qc
-                .map { it -> it[1] }
-                .collect()
-                .map { it -> [ [id:'all_reps'], it ] }
-
-            REPERTOIRE_ANALYSIS_REPORTING(
-                ch_presto_filterseq_logs.collect().ifEmpty([]),
-                ch_presto_maskprimers_logs.collect().ifEmpty([]),
-                ch_presto_pairseq_logs.collect().ifEmpty([]),
-                ch_presto_clustersets_logs.collect().ifEmpty([]),
-                ch_presto_buildconsensus_logs.collect().ifEmpty([]),
-                ch_presto_postconsensus_pairseq_logs.collect().ifEmpty([]),
-                ch_presto_assemblepairs_logs.collect().ifEmpty([]),
-                ch_presto_collapseseq_logs.collect().ifEmpty([]),
-                ch_presto_splitseq_logs.collect().ifEmpty([]),
-                ch_reassign_logs.collect().ifEmpty([]),
-                VDJ_ANNOTATION.out.changeo_makedb_logs.collect().ifEmpty([]),
-                VDJ_ANNOTATION.out.logs.collect().ifEmpty([]),
-                BULK_QC_AND_FILTER.out.logs.collect().ifEmpty([]),
-                SINGLE_CELL_QC_AND_FILTERING.out.logs.collect().ifEmpty([]),
-                ch_all_repertoires_after_qc,
-                ch_input.collect(),
-                ch_report_rmd.collect(),
-                ch_report_css.collect(),
-                ch_report_logo.collect(),
-                ch_validated_samplesheet.collect()
-            )
-        }
-        ch_versions = ch_versions.mix( REPERTOIRE_ANALYSIS_REPORTING.out.versions )
 
     //
     // Collate and save software versions
