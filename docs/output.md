@@ -474,9 +474,9 @@ Parsing the logs from the previous processes. Summary of the number of sequences
 
 ## Databases
 
-Copy of the downloaded IMGT database by the process `fetch_databases`, used for the gene assignment step.
+Copy of the downloaded reference bundle created by the process `fetch_databases`, used for the gene assignment step.
 
-If databases are provided with `--reference_fasta` and `--reference_igblast` this folder will not be present.
+This folder is only present when `--fetch_database` is set, for example `imgt` or `airrc-imgt`. If databases are provided with `--reference_fasta` and `--reference_igblast` this folder will not be present.
 
 ## MultiQC
 

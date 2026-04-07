@@ -20,8 +20,21 @@ process CHANGEO_ASSIGNGENES {
 
     script:
     def args = task.ext.args ?: ''
+    def species = meta.species.toLowerCase()
+    def loci = meta.locus.toLowerCase()
     """
-    AssignGenes.py igblast -s $reads -b $igblast --organism $meta.species --loci ${meta.locus.toLowerCase()} $args --nproc $task.cpus --outname $meta.id > ${meta.id}_changeo_assigngenes_command_log.txt
+    AssignGenes.py igblast \\
+        -s $reads \\
+        -b $igblast \\
+        --organism $meta.species \\
+        --loci ${loci} \\
+        --vdb ${species}_${loci}_v \\
+        --ddb ${species}_${loci}_d \\
+        --jdb ${species}_${loci}_j \\
+        --cdb ${species}_${loci}_c \\
+        $args \\
+        --nproc $task.cpus \\
+        --outname $meta.id > ${meta.id}_changeo_assigngenes_command_log.txt
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

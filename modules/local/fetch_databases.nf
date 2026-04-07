@@ -1,5 +1,5 @@
 process FETCH_DATABASES {
-    tag "IMGT IGBLAST"
+    tag "$database_type IGBLAST"
     label 'process_low'
     label 'immcantation'
 
@@ -8,24 +8,27 @@ process FETCH_DATABASES {
         'https://depot.galaxyproject.org/singularity/mulled-v2-7d8e418eb73acc6a80daea8e111c94cf19a4ecfd:a9ee25632c9b10bbb012da76e6eb539acca8f9cd-1' :
         'biocontainers/mulled-v2-7d8e418eb73acc6a80daea8e111c94cf19a4ecfd:a9ee25632c9b10bbb012da76e6eb539acca8f9cd-1' }"
 
+    input:
+    val(database_type)
+
     output:
     path("igblast_base"), emit: igblast
-    path("imgtdb_base"), emit: reference_fasta
-    path "versions.yml" , emit: versions
-    path("igblast_base/database/imgt_human_ig_v.ndb"), emit: igblast_human_ig_v
-    path("igblast_base/database/imgt_human_ig_d.ndb"), emit: igblast_human_ig_d
-    path("igblast_base/database/imgt_human_ig_j.ndb"), emit: igblast_human_ig_j
-    path("igblast_base/database/imgt_human_tr_v.ndb"), emit: igblast_human_tr_v
-    path("igblast_base/database/imgt_human_tr_d.ndb"), emit: igblast_human_tr_d
-    path("igblast_base/database/imgt_human_tr_j.ndb"), emit: igblast_human_tr_j
+    path("reference_base"), emit: reference_fasta
+    path "versions.yml", emit: versions
+    path("igblast_base/database/human_ig_v.ndb"), emit: igblast_human_ig_v
+    path("igblast_base/database/human_ig_d.ndb"), emit: igblast_human_ig_d
+    path("igblast_base/database/human_ig_j.ndb"), emit: igblast_human_ig_j
+    path("igblast_base/database/human_tr_v.ndb"), emit: igblast_human_tr_v
+    path("igblast_base/database/human_tr_d.ndb"), emit: igblast_human_tr_d
+    path("igblast_base/database/human_tr_j.ndb"), emit: igblast_human_tr_j
 
     script:
     """
-    fetch_databases.sh
+    fetch_databases.sh -d ${database_type}
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        IMGT download date: \$( echo \$(date "+%F") )
+        Reference download date: \$( echo \$(date "+%F") )
         igblastn: \$( igblastn -version | grep -o "igblast[0-9\\. ]\\+" | grep -o "[0-9\\. ]\\+" )
         changeo: \$( AssignGenes.py --version | awk -F' '  '{print \$2}' )
     END_VERSIONS

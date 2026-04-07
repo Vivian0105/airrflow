@@ -432,21 +432,23 @@
                 "reference_fasta": {
                     "type": "string",
                     "description": "Path to the germline reference fasta.",
-                    "help_text": "By default, we provide a pre-downloaded version of the IMGT database. It is also possible to provide a custom reference fasta database. To fetch a fresh version of IMGT, set the `--fetch_imgt` parameter instead.",
+                    "help_text": "By default, we provide a pre-downloaded IMGT reference bundle. It is also possible to provide a custom reference fasta database. To fetch a fresh reference bundle at runtime, set `--fetch_database imgt` or `--fetch_database airrc-imgt`.",
                     "fa_icon": "fas fa-database",
                     "default": "https://raw.githubusercontent.com/nf-core/test-datasets/airrflow/database-cache/imgtdb_base.zip"
                 },
                 "reference_igblast": {
                     "type": "string",
                     "description": "Path to the cached igblast database.",
-                    "help_text": "By default, we provide a pre-downloaded version of the IMGT database. It is also possible to provide a custom reference fasta database. To fetch a fresh version of IMGT, set the `--fetch_imgt` parameter instead.",
+                    "help_text": "By default, we provide a pre-downloaded IMGT IgBLAST database. It is also possible to provide a custom cached IgBLAST database. To fetch a fresh reference bundle at runtime, set `--fetch_database imgt` or `--fetch_database airrc-imgt`.",
                     "fa_icon": "fas fa-database",
                     "default": "https://raw.githubusercontent.com/nf-core/test-datasets/airrflow/database-cache/igblast_base.zip"
                 },
-                "fetch_imgt": {
-                    "type": "boolean",
-                    "description": "Set this flag to fetch the IMGT reference data at runtime.",
-                    "fa_icon": "fas fa-cloud-download-alt"
+                "fetch_database": {
+                    "type": ["boolean", "string"],
+                    "description": "Fetch the selected reference bundle at runtime instead of using cached reference inputs.",
+                    "fa_icon": "fas fa-cloud-download-alt",
+                    "enum": [false, "imgt", "airrc-imgt"],
+                    "default": false
                 }
             },
             "fa_icon": "fas fa-edit"
