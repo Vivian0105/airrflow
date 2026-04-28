@@ -14,6 +14,8 @@ nextflow_pipeline {
         }
 
         then {
+            // stable_name: All files + folders in ${params.outdir}/ with a stable name
+            def stable_name = getAllFilesFromDir(params.outdir, relative: true, includeDir: true, ignore: ['pipeline_info/*.{html,json,txt}'])
             // stable_path: All files in ${params.outdir}/ with stable content
             def stable_path = getAllFilesFromDir(params.outdir, ignoreFile: 'tests/.nftignore')
             assertAll(
@@ -28,8 +30,7 @@ nextflow_pipeline {
                     // All files with stable contents
                     stable_path,
                     // Additional files that are excluded in .nftignore but need to be checked
-                    "$outputDir/repertoire_comparison/Sequence_numbers_summary/Table_sequences_assembled.tsv",
-                    "$outputDir/repertoire_comparison/Sequence_numbers_summary/Table_sequences_assembly.tsv"
+                    "$outputDir/repertoire_comparison/Sequence_numbers_summary/Table_sequences_assembled.tsv"
                 ).match() }
             )
         }
