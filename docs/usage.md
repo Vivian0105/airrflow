@@ -86,6 +86,8 @@ nextflow run nf-core/airrfow \
 --outdir results
 ```
 
+If you want to detect novel alleles and infer genotype of each individual, add the `--genotyping` flag in your command.
+
 Check the section [Input samplesheet](#input-samplesheet) below for instructions on how to create the samplesheet, and the [Supported library generation protocols](#supported-bulk-library-generation-methods-protocols) section below for examples on how to run the pipeline for the different bulk and single-cell sequencing protocols.
 For more detailed information about all the available parameters, please refer to the [parameters documentation](https://nf-co.re/airrflow/parameters).
 The command above will launch the pipeline with the `docker` configuration profile. See below for more information about profiles.
