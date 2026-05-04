@@ -36,7 +36,7 @@ The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes d
   - [Detect contamination](#detect-contamination-optional)
   - [Collapse duplicates](#collapse-duplicates)
 - [Single cell QC](#single-cell-qc)
-- [Novel allele and genotyping](#Novel-allele-and-genotyping)
+- [Novel allele and genotyping](#novel-allele-and-genotyping)
   - [Novel allele detection](#novel-allele-detection)
   - [Bayesian genotype inference](#bayesian-genotype-inference)
 - [Clonal analysis](#clonal-analysis)
