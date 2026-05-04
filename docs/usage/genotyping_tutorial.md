@@ -6,7 +6,7 @@ This tutorial provides an introduction on how to add novel allele detection and 
 Novel allele detection and genotype inference are optional add-on steps in nf-core/airrflow pipeline. Before using these features, make sure you are familiar with the basic usage of the pipeline. If not, we recommend reviewing the bulk or single-cell tutorials before proceeding with this guide.
 
 ## How to add novel allele detection and genotype inference in the pipeline
-To include novel allele detection and genotype inference to the pipeline, just add flag `genotyping` in your command. 
+To include novel allele detection and genotype inference to the pipeline, just add flag `--genotyping` in your command. 
 
 ## Testing novel allele detection and genotype inference with built-in tests
 If you have set up Nextflow and Docker for your local machine, test nf-core/airrflow novel allele detection and genotype inference with the built-in test data.
@@ -29,7 +29,7 @@ nextflow run nf-core/airrflow -r 5.0.0 -profile test_genotyping_small,singularit
 ```
 
 > [!NOTE]
-> The '-r' flag in the command specifies which nf-core/airrflow release to run. We recommend always [checking and using the latest release] (https://nf-co.re/airrflow/releases_stats/).
+> The '-r' flag in the command specifies which nf-core/airrflow release to run. We recommend always [checking and using the latest release](https://nf-co.re/airrflow/releases_stats/).
 
 > [!NOTE]
 > Because Codespaces provides limited CPU and RAM resources, the test run may take 20-25 minutes. The process will be faster on systems with greater CPU and RAM capacity.
@@ -73,15 +73,15 @@ The results of novel allele detection and genotype inference are stored in the `
 Plots of three evidence for novel allele IGHV1-24*01_G9A:
 
 <p align="center">
-  <img src="../images/novelle_evidence.png" style="width:70%;">
+  <img src="../images/novel_evidence.png" style="width:70%;">
 </p>
 
 2. Genotype inference plots can be found in html report in the folder 'novel_alleles_and_genotyping/02-genotype_inference/subject_id/subject_id_bayesian_genotype_inference_report/index.html'. 
 
 ## Genotyping related flags in nf-core/airrflow pipeline
 
-1. `genotyping`:  Perform TIgGER genotype inference if it is set to be `true`. It is `false` by default. 
-2. `single_clone_representative`: Keep only one sequence in a clone to represent all the sequences in the same clone if it is set to be `true`. If `genotyping` is `true`, `single_clone_repersentative` is `true` by default. 
-3. `genotyping_clonal_threshold`: Threshold for determining if two sequences come from the same clone or not while inferring clones to find single clone representative before genotype inference. Default value is 0.2. 
-4. `novel_allele_inference`: whether to perform TIgGER novel allele inference. If `genotyping` is `true`, `single_clone_repersentative` is `true` by default. 
+1. `--genotyping`:  Perform TIgGER genotype inference if it is set to be `true`. It is `false` by default. 
+2. `--single_clone_representative`: Keep only one sequence in a clone to represent all the sequences in the same clone if it is set to be `true`. If `--genotyping` is `true`, `single_clone_representative` is `true` by default. 
+3. `--genotyping_clonal_threshold`: Threshold for determining if two sequences come from the same clone or not while inferring clones to find single clone representative before genotype inference. Default value is 0.2. 
+4. `--novel_allele_inference`: whether to perform TIgGER novel allele inference. If `--genotyping` is `true`, `--single_clone_representative` is `true` by default. 
 
