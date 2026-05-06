@@ -505,13 +505,15 @@ workflow AIRRFLOW {
             ch_multiqc_files = ch_multiqc_files.mix(ch_fastp_json.collect().ifEmpty([]))
             ch_multiqc_files = ch_multiqc_files.mix(ch_fastqc_postassembly_mqc.collect{it[1]}.ifEmpty([]))
 
+
+
             MULTIQC (
                 ch_multiqc_files.collect(),
-                ch_multiqc_config.toList(),
-                ch_multiqc_custom_config.toList(),
-                ch_report_logo.toList(),
-                [],
-                []
+                //ch_multiqc_config.toList(),
+                //ch_multiqc_custom_config.toList(),
+                //ch_report_logo.toList(),
+                //[],
+                //[]
             )
             multiqc_report = MULTIQC.out.report.toList()
         } else {
