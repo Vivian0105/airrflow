@@ -29,7 +29,7 @@ workflow NOVEL_ALLELES_AND_GENOTYPING {
                 def rep = it[1]
                 def ref = it[2]
                 def genotypeby_field = genotypeby=="sample_id" ? "id" : genotypeby
-                [ meta.$genotypeby_field,
+                [ meta[genotypeby_field],
                                     meta.id,
                                     meta.sample_id,
                                     meta.subject_id,

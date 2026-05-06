@@ -68,8 +68,8 @@ def create_fastq_channels(LinkedHashMap col, collapseby, cloneby, index_file) {
     meta.sample_id          = col.sample_id
     meta.subject_id         = col.subject_id
     meta.species            = col.species
-    meta.collapseby_group   = col.$collapseby
-    meta.cloneby_group      = col.$cloneby
+    meta.collapseby_group   = col[collapseby]
+    meta.cloneby_group      = col[cloneby]
     meta.filetype           = "fastq"
     meta.single_cell        = col.single_cell.toLowerCase()
     meta.locus              = col.pcr_target_locus

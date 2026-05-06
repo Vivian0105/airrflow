@@ -94,7 +94,7 @@ workflow CLONAL_ANALYSIS {
     }
 
     // merge all repertoires by cloneby metadata field
-    ch_repertoire_reference.map{ it -> [ it[0].$cloneby,
+    ch_repertoire_reference.map{ it -> [ it[0][cloneby],
                                 it[0].id,
                                 it[0].sample_id,
                                 it[0].subject_id,
