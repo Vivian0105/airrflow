@@ -81,16 +81,20 @@ workflow PRESTO_SANS_UMI {
                 ch_reads,
                 ch_cprimers.collect(),
                 primer_maxlen,
+                barcode_R1,
                 primer_r1_maxerror,
                 primer_r1_mask_mode,
+                false,
                 suffix_FWD
             )
             PRESTO_MASKPRIMERS_ALIGN_SANSUMI_REV(
                 PRESTO_MASKPRIMERS_ALIGN_SANSUMI_FWD.out.reads,
                 ch_vprimers.collect(),
                 primer_maxlen,
+                barcode_R2,
                 primer_r2_maxerror,
                 primer_r2_mask_mode,
+                primer_revpr,
                 suffix_REV
             )
         } else if (cprimer_position == "R2") {
@@ -98,16 +102,20 @@ workflow PRESTO_SANS_UMI {
                 ch_reads,
                 ch_vprimers.collect(),
                 primer_maxlen,
+                barcode_R1,
                 primer_r1_maxerror,
                 primer_r1_mask_mode,
+                false,
                 suffix_FWD
             )
             PRESTO_MASKPRIMERS_ALIGN_SANSUMI_REV(
                 PRESTO_MASKPRIMERS_ALIGN_SANSUMI_FWD.out.reads,
                 ch_cprimers.collect(),
                 primer_maxlen,
+                barcode_R2,
                 primer_r2_maxerror,
                 primer_r2_mask_mode,
+                primer_revpr,
                 suffix_REV
             )
         } else {

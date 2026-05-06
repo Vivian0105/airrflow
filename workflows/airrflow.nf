@@ -287,7 +287,8 @@ workflow AIRRFLOW {
                 ch_input,
                 miairr,
                 collapseby,
-                cloneby
+                cloneby,
+                reassign
             )
             ch_versions = ch_versions.mix( ASSEMBLED_INPUT_CHECK.out.versions )
             ch_input_check_logs = ASSEMBLED_INPUT_CHECK.out.logs
