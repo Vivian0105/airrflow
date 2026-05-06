@@ -18,7 +18,7 @@ After that, you’ll be directed to the configuration page. Select "4-core" for 
 <img src="https://raw.githubusercontent.com/nf-core/airrflow/dev/docs/images/Codespaces_4core.png" width="400" alt="Chose 4-core">
 </p>
 
-If you want to know more about Codespaces, check [the Codespaces overview](https://docs.github.com/en/codespaces/about-codespaces/what-are-codespaces) or the Codespaces section in nf-core documentation [the Devcontainers overview](https://nf-co.re/docs/tutorials/devcontainer/overview).
+If you want to know more about Codespaces, check [the Codespaces overview](https://docs.github.com/en/codespaces/about-codespaces/what-are-codespaces) or the Codespaces section in nf-core documentation [the Dev Containers overview](https://nf-co.re/docs/tutorials/devcontainer/overview).
 
 When running this tutorial on your local machine, you'll first have to set up Nextflow and a container engine (Docker or Singularity).
 
