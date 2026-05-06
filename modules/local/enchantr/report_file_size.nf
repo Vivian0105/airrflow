@@ -7,9 +7,6 @@ process REPORT_FILE_SIZE {
     label 'process_single'
     label 'immcantation_container'
 
-    if (workflow.profile.tokenize(',').intersect(['conda', 'mamba']).size() >= 1) {
-        error "nf-core/airrflow currently does not support Conda. Please use a container profile instead."
-    }
     container "docker.io/immcantation/airrflow:5.0.0dev"
 
     input:
@@ -23,6 +20,10 @@ process REPORT_FILE_SIZE {
     path "file_size_report/tables/log_data.tsv", emit: table
 
     script:
+    // Exit if running this module with -profile conda / -profile mamba
+    if (workflow.profile.tokenize(',').intersect(['conda', 'mamba']).size() >= 1) {
+        error "nf-core/airrflow currently does not support Conda. Please use a container profile instead."
+    }
     """
     Rscript -e "enchantr::enchantr_report('file_size', \\
         report_params=list('input'='${logs_tabs}', 'metadata'='${metadata}',\\

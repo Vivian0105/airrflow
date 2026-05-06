@@ -15,7 +15,7 @@ workflow ASSEMBLED_INPUT_CHECK {
     cloneby
 
     main:
-    ch_logs = Channel.empty()
+    ch_logs = channel.empty()
 
     SAMPLESHEET_CHECK_ASSEMBLED ( samplesheet )
     VALIDATE_INPUT ( samplesheet, miairr, collapseby, cloneby)

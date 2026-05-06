@@ -1,3 +1,12 @@
+def asString (args) {
+    if (args.size() == 0 || args[0] == 'none') return ""
+    return args.keySet().sort().collect { param ->
+        def value = args[param].toString()
+        value = value.isNumber() ? value : "'${value}'"
+        ",'${param}'=${value}"
+    }.join('')
+}
+
 process DETECT_CONTAMINATION {
     tag "multi_repertoire"
 
@@ -5,9 +14,6 @@ process DETECT_CONTAMINATION {
     label 'immcantation'
     label 'immcantation_container'
 
-    if (workflow.profile.tokenize(',').intersect(['conda', 'mamba']).size() >= 1) {
-        error "nf-core/airrflow currently does not support Conda. Please use a container profile instead."
-    }
     container "docker.io/immcantation/airrflow:5.0.0dev"
 
     input:
@@ -20,6 +26,10 @@ process DETECT_CONTAMINATION {
     path "versions.yml" , emit: versions
 
     script:
+    // Exit if running this module with -profile conda / -profile mamba
+    if (workflow.profile.tokenize(',').intersect(['conda', 'mamba']).size() >= 1) {
+        error "nf-core/airrflow currently does not support Conda. Please use a container profile instead."
+    }
     def args = task.ext.args ? asString(task.ext.args) : ''
     """
     echo "${tabs.join('\n')}" > tabs.txt

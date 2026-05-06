@@ -38,7 +38,7 @@ workflow PRESTO_SANS_UMI {
 
     main:
 
-    ch_versions = Channel.empty()
+    ch_versions = channel.empty()
 
     // Fastp
     save_merged = false

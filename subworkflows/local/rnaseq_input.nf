@@ -29,8 +29,8 @@ workflow RNASEQ_INPUT {
 
     main:
 
-    ch_versions = Channel.empty()
-    ch_logs = Channel.empty()
+    ch_versions = channel.empty()
+    ch_logs = channel.empty()
 
     //
     // read in samplesheet, validate and stage input fies

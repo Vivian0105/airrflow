@@ -18,8 +18,8 @@ workflow NOVEL_ALLELES_AND_GENOTYPING {
     singlecell
 
     main:
-    ch_versions = Channel.empty()
-    ch_logs = Channel.empty()
+    ch_versions = channel.empty()
+    ch_logs = channel.empty()
 
     // merge all repertoires by genotypeby metadata field
     ch_repertoire
@@ -29,7 +29,7 @@ workflow NOVEL_ALLELES_AND_GENOTYPING {
                 def rep = it[1]
                 def ref = it[2]
                 def genotypeby_field = genotypeby=="sample_id" ? "id" : genotypeby
-                [ meta."${genotypeby_field}",
+                [ meta.$genotypeby_field,
                                     meta.id,
                                     meta.sample_id,
                                     meta.subject_id,

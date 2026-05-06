@@ -14,8 +14,8 @@ workflow BULK_QC_AND_FILTER {
 
     main:
 
-    ch_versions = Channel.empty()
-    ch_logs = Channel.empty()
+    ch_versions = channel.empty()
+    ch_logs = channel.empty()
 
     // Remove chimeric sequences if requested
     if (remove_chimeric) {

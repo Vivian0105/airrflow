@@ -19,8 +19,8 @@ workflow VDJ_ANNOTATION {
     productive_only
 
     main:
-    ch_versions = Channel.empty()
-    ch_logs = Channel.empty()
+    ch_versions = channel.empty()
+    ch_logs = channel.empty()
 
     CHANGEO_ASSIGNGENES (
         ch_fasta,

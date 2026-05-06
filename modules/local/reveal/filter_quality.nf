@@ -4,9 +4,6 @@ process FILTER_QUALITY {
     label 'process_single'
     label 'immcantation_container'
 
-    if (workflow.profile.tokenize(',').intersect(['conda', 'mamba']).size() >= 1) {
-        error "nf-core/airrflow currently does not support Conda. Please use a container profile instead."
-    }
     container "docker.io/immcantation/airrflow:5.0.0dev"
 
     input:
@@ -18,6 +15,11 @@ process FILTER_QUALITY {
     path "versions.yml", emit: versions
 
     script:
+    // Exit if running this module with -profile conda / -profile mamba
+    if (workflow.profile.tokenize(',').intersect(['conda', 'mamba']).size() >= 1) {
+        error "nf-core/airrflow currently does not support Conda. Please use a container profile instead."
+    }
+
     """
     reveal_filter_quality.R --repertoire $tab --outname ${meta.id} > ${meta.id}_fq_command_log.txt
 

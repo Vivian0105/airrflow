@@ -21,8 +21,8 @@ workflow SC_RAW_INPUT {
 
     main:
 
-    ch_versions = Channel.empty()
-    ch_logs = Channel.empty()
+    ch_versions = channel.empty()
+    ch_logs = channel.empty()
 
     //
     // read in samplesheet, validate and stage input fies
@@ -59,7 +59,7 @@ workflow SC_RAW_INPUT {
             ch_versions = ch_versions.mix(UNZIP_CELLRANGERDB.out.versions)
             UNZIP_CELLRANGERDB.out.unzipped.set { ch_sc_reference }
         } else {
-            ch_sc_reference = Channel.fromPath(reference_10x, checkIfExists: true)
+            ch_sc_reference = channel.fromPath(reference_10x, checkIfExists: true)
         }
     } else {
         error "The single-cell 10X genomics library generation method requires you to provide a reference file."

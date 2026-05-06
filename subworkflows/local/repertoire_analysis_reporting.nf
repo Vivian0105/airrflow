@@ -32,7 +32,7 @@ workflow REPERTOIRE_ANALYSIS_REPORTING {
     cluster_sets
 
     main:
-    ch_versions = Channel.empty()
+    ch_versions = channel.empty()
 
     if (mode == "fastq" && library_generation_method != "sc_10x_genomics" && library_generation_method != "trust4" ) {
         PARSE_LOGS(
@@ -54,7 +54,7 @@ workflow REPERTOIRE_ANALYSIS_REPORTING {
         ch_parsed_logs = PARSE_LOGS.out.logs
 
     } else {
-        ch_parsed_logs = Channel.empty()
+        ch_parsed_logs = channel.empty()
     }
 
     ch_logs = ch_vdj_annotation_logs.mix(

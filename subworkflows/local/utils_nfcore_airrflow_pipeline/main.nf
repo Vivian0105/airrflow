@@ -100,9 +100,9 @@ workflow PIPELINE_INITIALISATION {
     //
     // Create channel from input file provided through params.input
     //
-    Channel.fromList(samplesheetToList(input, "${projectDir}/assets/schema_input.json"))
+    channel.fromList(samplesheetToList(input, "${projectDir}/assets/schema_input.json"))
 
-    Channel.fromPath(input).set{ch_samplesheet}
+    channel.fromPath(input).set{ch_samplesheet}
 
     emit:
     samplesheet = ch_samplesheet

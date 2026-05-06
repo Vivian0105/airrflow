@@ -82,7 +82,7 @@ workflow SEQUENCE_ASSEMBLY {
     }
 
     if (adapter_fasta) {
-        ch_adapter_fasta = Channel.fromPath(adapter_fasta, checkIfExists: true)
+        ch_adapter_fasta = channel.fromPath(adapter_fasta, checkIfExists: true)
     } else {
         ch_adapter_fasta = []
     }
@@ -92,12 +92,12 @@ workflow SEQUENCE_ASSEMBLY {
     if (library_generation_method == 'specific_pcr_umi'){
         if (!maskprimers_extract){
             if (vprimers)  {
-                ch_vprimers_fasta = Channel.fromPath(vprimers, checkIfExists: true)
+                ch_vprimers_fasta = channel.fromPath(vprimers, checkIfExists: true)
             } else {
                 error "Please provide a V-region primers fasta file with the '--vprimers' option when using the 'specific_pcr_umi' library generation method."
             }
             if (cprimers)  {
-                ch_cprimers_fasta = Channel.fromPath(cprimers, checkIfExists: true)
+                ch_cprimers_fasta = channel.fromPath(cprimers, checkIfExists: true)
             } else {
                 error "Please provide a C-region primers fasta file with the '--cprimers' option when using the 'specific_pcr_umi' library generation method."
             }
@@ -105,25 +105,25 @@ workflow SEQUENCE_ASSEMBLY {
                 error "Please do not set '--race_linker' when using the 'specific_pcr_umi' library generation method."
             }
         } else {
-            ch_vprimers_fasta = Channel.of([])
-            ch_cprimers_fasta = Channel.of([])
+            ch_vprimers_fasta = channel.of([])
+            ch_cprimers_fasta = channel.of([])
         }
         if (umi_length < 2)  {
             error "The 'specific_pcr_umi' library generation method requires setting the '--umi_length' to a value greater than 1."
         }
         if (internal_cregion_sequences) {
-            ch_internal_cregion = Channel.fromPath(internal_cregion_sequences, checkIfExists: true)
+            ch_internal_cregion = channel.fromPath(internal_cregion_sequences, checkIfExists: true)
         } else {
-            ch_internal_cregion = Channel.of([])
+            ch_internal_cregion = channel.of([])
         }
     } else if (library_generation_method == 'specific_pcr') {
         if (vprimers)  {
-            ch_vprimers_fasta = Channel.fromPath(vprimers, checkIfExists: true)
+            ch_vprimers_fasta = channel.fromPath(vprimers, checkIfExists: true)
         } else {
             error "Please provide a V-region primers fasta file with the '--vprimers' option when using the 'specific_pcr' library generation method."
         }
         if (cprimers)  {
-            ch_cprimers_fasta = Channel.fromPath(cprimers, checkIfExists: true)
+            ch_cprimers_fasta = channel.fromPath(cprimers, checkIfExists: true)
         } else {
             error "Please provide a C-region primers fasta file with the '--cprimers' option when using the 'specific_pcr' library generation method."
         }
@@ -142,14 +142,14 @@ workflow SEQUENCE_ASSEMBLY {
         if (vprimers) {
             error "The oligo-dT 5'-RACE UMI library generation method does not accept V-region primers, please provide a linker with '--race_linker' instead or select another library method option."
         } else if (race_linker) {
-            ch_vprimers_fasta = Channel.fromPath(race_linker, checkIfExists: true)
+            ch_vprimers_fasta = channel.fromPath(race_linker, checkIfExists: true)
         } else if (maskprimers_align_race) {
-            ch_vprimers_fasta = Channel.of([])
+            ch_vprimers_fasta = channel.of([])
         } else {
             error "The oligo-dT 5'-RACE UMI library generation method requires a linker or Template Switch Oligo sequence, please provide it with the option '--race_linker'."
         }
         if (cprimers)  {
-            ch_cprimers_fasta = Channel.fromPath(cprimers, checkIfExists: true)
+            ch_cprimers_fasta = channel.fromPath(cprimers, checkIfExists: true)
         } else {
             error "The oligo-dT 5'-RACE UMI library generation method requires the C-region primer sequences, please provide a fasta file with the '--cprimers' option."
         }
@@ -157,22 +157,22 @@ workflow SEQUENCE_ASSEMBLY {
             error "The oligo-dT 5'-RACE UMI 'dt_5p_race_umi' library generation method requires specifying the '--umi_length' to a value greater than 1."
         }
         if (internal_cregion_sequences) {
-            ch_internal_cregion = Channel.fromPath(internal_cregion_sequences, checkIfExists: true)
+            ch_internal_cregion = channel.fromPath(internal_cregion_sequences, checkIfExists: true)
         } else {
-            ch_internal_cregion = Channel.of([])
+            ch_internal_cregion = channel.of([])
         }
     } else if (library_generation_method == 'dt_5p_race') {
         if (vprimers) {
             error "The oligo-dT 5'-RACE library generation method does not accept V-region primers, please provide a linker with '--race_linker' instead or select another library method option."
         } else if (race_linker) {
-            ch_vprimers_fasta = Channel.fromPath(race_linker, checkIfExists: true)
+            ch_vprimers_fasta = channel.fromPath(race_linker, checkIfExists: true)
         } else if (maskprimers_align_race) {
-            ch_vprimers_fasta = Channel.of([])
+            ch_vprimers_fasta = channel.of([])
         } else {
             error "The oligo-dT 5'-RACE library generation method requires a linker or Template Switch Oligo sequence, please provide it with the option '--race_linker'."
         }
         if (cprimers)  {
-            ch_cprimers_fasta = Channel.fromPath(cprimers, checkIfExists: true)
+            ch_cprimers_fasta = channel.fromPath(cprimers, checkIfExists: true)
         } else {
             error "The oligo-dT 5'-RACE library generation method requires the C-region primer sequences, please provide a fasta file with the '--cprimers' option."
         }
@@ -196,7 +196,7 @@ workflow SEQUENCE_ASSEMBLY {
     //
     // SUBWORKFLOW: Read in samplesheet, validate and stage input files
     //
-    ch_versions = Channel.empty()
+    ch_versions = channel.empty()
 
     FASTQ_INPUT_CHECK(
         ch_input,
@@ -241,16 +241,16 @@ workflow SEQUENCE_ASSEMBLY {
         ch_presto_maskprimers_logs = PRESTO_SANS_UMI.out.presto_maskprimers_logs
         ch_presto_collapseseq_logs = PRESTO_SANS_UMI.out.presto_collapseseq_logs
         ch_presto_splitseq_logs = PRESTO_SANS_UMI.out.presto_splitseq_logs
-        ch_presto_pairseq_logs = Channel.empty()
-        ch_presto_clustersets_logs = Channel.empty()
-        ch_presto_buildconsensus_logs = Channel.empty()
-        ch_presto_postconsensus_pairseq_logs = Channel.empty()
+        ch_presto_pairseq_logs = channel.empty()
+        ch_presto_clustersets_logs = channel.empty()
+        ch_presto_buildconsensus_logs = channel.empty()
+        ch_presto_postconsensus_pairseq_logs = channel.empty()
 
     } else {
         //
         // SUBWORKFLOW: pRESTO with UMIs
         //
-        PRESTO_UMI(
+        PRESTO_UMI (
             ch_reads,
             ch_cprimers_fasta,
             ch_vprimers_fasta,
@@ -266,6 +266,7 @@ workflow SEQUENCE_ASSEMBLY {
             primer_r1_maxerror,
             primer_r1_mask_mode,
             umi_length,
+            umi_start,
             primer_r2_extract_len,
             primer_r2_mask_mode,
             maskprimers_align,

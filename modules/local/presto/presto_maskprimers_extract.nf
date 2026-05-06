@@ -25,14 +25,14 @@ process PRESTO_MASKPRIMERS_EXTRACT {
     script:
     def args = task.ext.args?: ''
     def args2 = task.ext.args2?: ''
-    def barcode = barcode ? '--barcode' : ''
+    def barcode_param = barcode ? '--barcode' : ''
     """
     MaskPrimers.py extract \\
     --nproc ${task.cpus} \\
     -s $read \\
     --start ${extract_start} \\
     --len ${extract_length} \\
-    $barcode \\
+    $barcode_param \\
     $args \\
     --mode ${extract_mode} \\
     --outname ${meta.id}_${suffix} \\

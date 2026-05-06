@@ -57,6 +57,7 @@ workflow PRESTO_UMI {
     primer_r1_maxerror
     primer_r1_mask_mode
     umi_length
+    umi_start
     primer_r2_extract_len
     primer_r2_mask_mode
     maskprimers_align
@@ -76,7 +77,7 @@ workflow PRESTO_UMI {
 
     main:
 
-    ch_versions = Channel.empty()
+    ch_versions = channel.empty()
 
     // Validate params
     if (maskprimers_align_race & umi_position == 'R1') {error "The maskprimers align race option is only supported with UMI barcodes in the R2 reads (reads containing V region)."}
@@ -282,11 +283,11 @@ workflow PRESTO_UMI {
 
         if (cprimer_position == "R1"){
             def barcode_R1 = (index_file | umi_position == 'R1') ? true : false
-            def cprimer_start = (index_file | umi_position == 'R1') ? "${umi_length + cprimer_start}" : "${cprimer_start}"
+            def cprimer_start_var = (index_file | umi_position == 'R1') ? "${umi_length + cprimer_start}" : "${cprimer_start}"
 
             PRESTO_MASKPRIMERS_EXTRACT_R1(
                 ch_reads_R1,
-                cprimer_start,
+                cprimer_start_var,
                 primer_r1_extract_len,
                 primer_r1_mask_mode,
                 barcode_R1,
@@ -294,11 +295,11 @@ workflow PRESTO_UMI {
             )
 
             def barcode_R2 = (umi_position == "R2") ? true : false
-            def vprimer_start = (umi_position == "R2") ? "${umi_length + vprimer_start}" : "${vprimer_start}"
+            def vprimer_start_var = (umi_position == "R2") ? "${umi_length + vprimer_start}" : "${vprimer_start}"
 
             PRESTO_MASKPRIMERS_EXTRACT_R2(
                 ch_reads_R2,
-                vprimer_start,
+                vprimer_start_var,
                 primer_r2_extract_len,
                 primer_r2_mask_mode,
                 barcode_R2,
@@ -306,11 +307,11 @@ workflow PRESTO_UMI {
             )
         } else if (cprimer_position == "R2") {
             def barcode_R1 = (index_file | umi_position == 'R1') ? true : false
-            def vprimer_start = (index_file | umi_position == 'R1') ? "${umi_length + vprimer_start}" : "${vprimer_start}"
+            def vprimer_start_var = (index_file | umi_position == 'R1') ? "${umi_length + vprimer_start}" : "${vprimer_start}"
 
             PRESTO_MASKPRIMERS_EXTRACT_R1(
                 ch_reads_R1,
-                vprimer_start,
+                vprimer_start_var,
                 primer_r1_extract_len,
                 primer_r1_mask_mode,
                 barcode_R1,
@@ -318,11 +319,11 @@ workflow PRESTO_UMI {
             )
 
             def barcode_R2 = (umi_position == "R2") ? true : false
-            def cprimer_start = (umi_position == "R2") ? "${umi_length + cprimer_start}" : "${cprimer_start}"
+            def cprimer_start_var = (umi_position == "R2") ? "${umi_length + cprimer_start}" : "${cprimer_start}"
 
             PRESTO_MASKPRIMERS_EXTRACT_R2(
                 ch_reads_R2,
-                cprimer_start,
+                cprimer_start_var,
                 primer_r2_extract_len,
                 primer_r2_mask_mode,
                 barcode_R2,
@@ -357,11 +358,11 @@ workflow PRESTO_UMI {
 
         if (cprimer_position == "R1") {
             def barcode_R1 = (index_file | umi_position == 'R1') ? true : false
-            def cprimer_start = (index_file | umi_position == 'R1') ? "${umi_length + cprimer_start}" : "${cprimer_start}"
+            def cprimer_start_var = (index_file | umi_position == 'R1') ? "${umi_length + cprimer_start}" : "${cprimer_start}"
             PRESTO_MASKPRIMERS_SCORE_UMI_R1(
                 ch_reads_R1,
                 ch_cprimers.collect(),
-                cprimer_start,
+                cprimer_start_var,
                 barcode_R1,
                 primer_r1_maxerror,
                 primer_r1_mask_mode,
@@ -370,11 +371,11 @@ workflow PRESTO_UMI {
             )
 
             def barcode_R2 = (umi_position == "R2") ? true : false
-            def vprimer_start = (umi_position == "R2") ? "${umi_length + vprimer_start}" : "${vprimer_start}"
+            def vprimer_start_var = (umi_position == "R2") ? "${umi_length + vprimer_start}" : "${vprimer_start}"
             PRESTO_MASKPRIMERS_SCORE_UMI_R2(
                 ch_reads_R2,
                 ch_vprimers.collect(),
-                vprimer_start,
+                vprimer_start_var,
                 barcode_R2,
                 primer_r2_maxerror,
                 primer_r2_mask_mode,
@@ -383,11 +384,11 @@ workflow PRESTO_UMI {
             )
         } else if (cprimer_position == "R2") {
             def barcode_R1 = (index_file | umi_position == 'R1') ? true : false
-            def vprimer_start = (index_file | umi_position == 'R1') ? "${umi_length + vprimer_start}" : "${vprimer_start}"
+            def vprimer_start_var = (index_file | umi_position == 'R1') ? "${umi_length + vprimer_start}" : "${vprimer_start}"
             PRESTO_MASKPRIMERS_SCORE_UMI_R1(
                 ch_reads_R1,
                 ch_vprimers.collect(),
-                vprimer_start,
+                vprimer_start_var,
                 barcode_R1,
                 primer_r1_maxerror,
                 primer_r1_mask_mode,
@@ -395,12 +396,12 @@ workflow PRESTO_UMI {
                 "R1"
             )
             def barcode_R2 = (umi_position == "R2") ? true : false
-            def cprimer_start = (umi_position == "R2") ? "${umi_length + cprimer_start}" : "${cprimer_start}"
+            def cprimer_start_var = (umi_position == "R2") ? "${umi_length + cprimer_start}" : "${cprimer_start}"
 
             PRESTO_MASKPRIMERS_SCORE_UMI_R2(
                 ch_reads_R2,
                 ch_cprimers.collect(),
-                cprimer_start,
+                cprimer_start_var,
                 barcode_R2,
                 primer_r2_maxerror,
                 primer_r2_mask_mode,
@@ -462,7 +463,7 @@ workflow PRESTO_UMI {
 
     } else {
         ch_for_buildconsensus = ch_for_clustersets
-        ch_clustersets_logs = Channel.empty()
+        ch_clustersets_logs = channel.empty()
     }
 
     // Build consensus of sequences with same UMI barcode

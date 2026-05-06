@@ -26,24 +26,6 @@ include { getGenomeAttribute      } from './subworkflows/local/utils_nfcore_airr
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-/*
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    CONFIG FILES
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-*/
-
-ch_multiqc_config        = Channel.fromPath("$projectDir/assets/multiqc_config.yml", checkIfExists: true)
-ch_multiqc_custom_config = params.multiqc_config ? Channel.fromPath( params.multiqc_config, checkIfExists: true ) : Channel.empty()
-ch_multiqc_logo          = params.multiqc_logo   ? Channel.fromPath( params.multiqc_logo, checkIfExists: true ) : Channel.empty()
-ch_multiqc_custom_methods_description = params.multiqc_methods_description ? file(params.multiqc_methods_description, checkIfExists: true) : file("$projectDir/assets/methods_description_template.yml", checkIfExists: true)
-
-// Report files
-ch_report_rmd       = Channel.fromPath(params.report_rmd, checkIfExists: true)
-ch_report_css       = Channel.fromPath(params.report_css, checkIfExists: true)
-ch_report_logo      = Channel.fromPath(params.report_logo, checkIfExists: true)
-ch_report_logo_img  = Channel.fromPath(params.report_logo_img, checkIfExists: true)
-
-/*
 
 
 /*
@@ -61,6 +43,23 @@ workflow NFCORE_AIRRFLOW {
     samplesheet // channel: samplesheet read in from --input
 
     main:
+
+    /*
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        CONFIG FILES
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    */
+
+    ch_multiqc_config        = channel.fromPath("$projectDir/assets/multiqc_config.yml", checkIfExists: true)
+    ch_multiqc_custom_config = params.multiqc_config ? channel.fromPath( params.multiqc_config, checkIfExists: true ) : channel.empty()
+    ch_multiqc_logo          = params.multiqc_logo   ? channel.fromPath( params.multiqc_logo, checkIfExists: true ) : channel.empty()
+    ch_multiqc_custom_methods_description = params.multiqc_methods_description ? file(params.multiqc_methods_description, checkIfExists: true) : file("$projectDir/assets/methods_description_template.yml", checkIfExists: true)
+
+    // Report files
+    ch_report_rmd       = channel.fromPath(params.report_rmd, checkIfExists: true)
+    ch_report_css       = channel.fromPath(params.report_css, checkIfExists: true)
+    ch_report_logo      = channel.fromPath(params.report_logo, checkIfExists: true)
+    ch_report_logo_img  = channel.fromPath(params.report_logo_img, checkIfExists: true)
 
     //
     // WORKFLOW: Run pipeline
