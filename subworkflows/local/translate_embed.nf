@@ -8,6 +8,8 @@ workflow TRANSLATE_EMBED {
     take:
     ch_repertoire
     ch_reference_igblast
+    embeddings
+    embedding_chain
 
     main:
     ch_versions = Channel.empty()
@@ -17,34 +19,34 @@ workflow TRANSLATE_EMBED {
         ch_reference_igblast
     )
 
-    if (params.embeddings && params.embeddings.split(',').contains('antiberty') ){
+    if (embeddings && embeddings.split(',').contains('antiberty') ){
         AMULETY_EMBED_ANTIBERTY(
             AMULETY_TRANSLATE.out.repertoire_translated,
-            params.embedding_chain,
+            embedding_chain,
             "antiberty"
         )
     }
 
-    if (params.embeddings && params.embeddings.split(',').contains('antiberta2') ){
+    if (embeddings && embeddings.split(',').contains('antiberta2') ){
         AMULETY_EMBED_ANTIBERTA2(
             AMULETY_TRANSLATE.out.repertoire_translated,
-            params.embedding_chain,
+            embedding_chain,
             "antiberta2"
         )
     }
 
-    if (params.embeddings && params.embeddings.split(',').contains('esm2') ){
+    if (embeddings && embeddings.split(',').contains('esm2') ){
         AMULETY_EMBED_ESM2(
             AMULETY_TRANSLATE.out.repertoire_translated,
-            params.embedding_chain,
+            embedding_chain,
             "esm2"
         )
     }
 
-    if (params.embeddings && params.embeddings.split(',').contains('balmpaired') ){
+    if (embeddings && embeddings.split(',').contains('balmpaired') ){
         AMULETY_EMBED_BALMPAIRED(
             AMULETY_TRANSLATE.out.repertoire_translated,
-            params.embedding_chain,
+            embedding_chain,
             "balm-paired"
         )
     }

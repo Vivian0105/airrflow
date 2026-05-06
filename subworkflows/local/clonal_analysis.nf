@@ -8,12 +8,18 @@ workflow CLONAL_ANALYSIS {
     take:
     ch_repertoire_reference
     ch_logo
+    clonal_threshold
+    skip_report_threshold
+    cloneby
+    skip_all_clones_report
+    lineage_trees
+    genotypeby
 
     main:
     ch_versions = Channel.empty()
     ch_logs = Channel.empty()
 
-    if (params.clonal_threshold == "auto") {
+    if (clonal_threshold == "auto") {
 
         ch_find_threshold = ch_repertoire_reference.map{ it -> it[1] }
                                         .collect()
@@ -58,7 +64,7 @@ workflow CLONAL_ANALYSIS {
             .flatten()
 
     } else {
-        clone_threshold = params.clonal_threshold
+        clone_threshold = clonal_threshold
 
         ch_find_threshold = ch_repertoire_reference.map{ it -> it[1] }
                                         .collect()
@@ -67,7 +73,7 @@ workflow CLONAL_ANALYSIS {
                         .map{ it -> it.getName().toString() }
                         .collectFile(name: 'find_threshold_samplesheet.txt', newLine: true)
 
-        if (!params.skip_report_threshold){
+        if (!skip_report_threshold){
             REPORT_THRESHOLD (
                 ch_find_threshold,
                 ch_logo,
@@ -78,7 +84,7 @@ workflow CLONAL_ANALYSIS {
     }
 
     // merge all repertoires by cloneby metadata field
-    ch_repertoire_reference.map{ it -> [ it[0]."${params.cloneby}",
+    ch_repertoire_reference.map{ it -> [ it[0]."${cloneby}",
                                 it[0].id,
                                 it[0].sample_id,
                                 it[0].subject_id,
@@ -88,7 +94,7 @@ workflow CLONAL_ANALYSIS {
                                 it[1],
                                 it[2] ] }
                 .groupTuple()
-                .map{ get_meta_tabs(it) }
+                .map{ get_meta_tabs(it, genotypeby, cloneby) }
                 .set{ ch_repertoire_grouped }
 
     ch_repertoire_grouped.dump(tag: "ch_repertoire_grouped")
@@ -110,7 +116,7 @@ workflow CLONAL_ANALYSIS {
 
     ch_all_repertoires_cloned.dump(tag: "ch_all_repertoires_cloned")
 
-    if (!params.skip_all_clones_report){
+    if (!skip_all_clones_report){
 
         ch_all_repertoires_cloned_samplesheet = ch_all_repertoires_cloned.map{ it -> it[1] }
                                         .collect()
@@ -125,7 +131,7 @@ workflow CLONAL_ANALYSIS {
         ch_versions = ch_versions.mix(REPERTOIRE_ANALYSIS.out.versions)
     }
 
-    if (params.lineage_trees){
+    if (lineage_trees){
         DOWSER_LINEAGES(
             CLONAL_ASSIGNMENT.out.tab
         )
@@ -139,7 +145,7 @@ workflow CLONAL_ANALYSIS {
 }
 
 // Function to map
-def get_meta_tabs(arr) {
+def get_meta_tabs(arr, genotypeby, cloneby) {
     if (arr[3].unique().size() > 1) {
             error "Multiple subject_id found for ${arr[0]} (${arr[3].join(', ')}). Please check your input parameters and ensure that all samples with the same 'cloneby' value have the same 'subject_id' value."
     }
@@ -156,7 +162,7 @@ def get_meta_tabs(arr) {
 
         array = [ meta, arr[7].flatten(), arr[8].unique() ]
         if (arr[8].size() > 1) {
-            error "Multiple reference fasta files found for ${meta.id}. Please check your input parameters and ensure that all samples with the same ${params.genotypeby} value (parameter 'genotype_by') have the same ${params.cloneby} value (parameter 'clone_by')."
+            error "Multiple reference fasta files found for ${meta.id}. Please check your input parameters and ensure that all samples with the same ${genotypeby} value (parameter 'genotype_by') have the same ${cloneby} value (parameter 'clone_by')."
         }
     return array
 }

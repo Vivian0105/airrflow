@@ -5,24 +5,7 @@
 */
 
 
-/*
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    CONFIG FILES
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-*/
 
-ch_multiqc_config        = Channel.fromPath("$projectDir/assets/multiqc_config.yml", checkIfExists: true)
-ch_multiqc_custom_config = params.multiqc_config ? Channel.fromPath( params.multiqc_config, checkIfExists: true ) : Channel.empty()
-ch_multiqc_logo          = params.multiqc_logo   ? Channel.fromPath( params.multiqc_logo, checkIfExists: true ) : Channel.empty()
-ch_multiqc_custom_methods_description = params.multiqc_methods_description ? file(params.multiqc_methods_description, checkIfExists: true) : file("$projectDir/assets/methods_description_template.yml", checkIfExists: true)
-
-// Report files
-ch_report_rmd       = Channel.fromPath(params.report_rmd, checkIfExists: true)
-ch_report_css       = Channel.fromPath(params.report_css, checkIfExists: true)
-ch_report_logo      = Channel.fromPath(params.report_logo, checkIfExists: true)
-ch_report_logo_img  = Channel.fromPath(params.report_logo_img, checkIfExists: true)
-
-/*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     IMPORT LOCAL MODULES/SUBWORKFLOWS
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -43,7 +26,6 @@ include { CLONAL_ANALYSIS               } from '../subworkflows/local/clonal_ana
 include { NOVEL_ALLELES_AND_GENOTYPING   } from '../subworkflows/local/novel_alleles_and_genotyping'
 include { REPERTOIRE_ANALYSIS_REPORTING } from '../subworkflows/local/repertoire_analysis_reporting'
 include { SC_RAW_INPUT                  } from '../subworkflows/local/sc_raw_input'
-include { FASTQ_INPUT_CHECK             } from '../subworkflows/local/fastq_input_check'
 include { RNASEQ_INPUT                  } from '../subworkflows/local/rnaseq_input'
 include { TRANSLATE_EMBED              } from '../subworkflows/local/translate_embed'
 
@@ -72,6 +54,77 @@ workflow AIRRFLOW {
 
     take:
         ch_input
+        mode
+        library_generation_method
+        miairr
+        collapseby
+        cloneby
+        reassign
+        genotyping
+        skip_clonal_analysis
+        translate
+        embeddings
+        skip_report
+        outdir
+        skip_multiqc
+        multiqc_methods_description
+        ch_report_rmd
+        ch_report_css
+        ch_report_logo
+        ch_report_logo_img
+        ch_multiqc_config
+        ch_multiqc_custom_config
+        fetch_imgt
+        reference_igblast
+        reference_fasta
+        vprimers
+        race_linker
+        cprimers
+        umi_length
+        reference_10x
+        index_file
+        trust4_barcode_whitelist
+        trust4_cell_barcode_read
+        trust4_umi_read
+        trust4_read_format
+        skip_alignment_filter
+        productive_only
+        remove_chimeric
+        detect_contamination
+        genotypeby
+        novel_allele_inference
+        single_clone_representative
+        genotyping_clonal_threshold
+        clonal_threshold
+        skip_report_threshold
+        skip_all_clones_report
+        lineage_trees
+        embedding_chain
+        adapter_fasta
+        maskprimers_extract
+        internal_cregion_sequences
+        maskprimers_align_race
+        umi_position
+        umi_start
+        save_trimmed
+        maskprimers_align
+        cprimer_position
+        primer_maxlen
+        primer_r1_maxerror
+        primer_r1_mask_mode
+        primer_r2_maxerror
+        primer_r2_mask_mode
+        cprimer_start
+        vprimer_start
+        primer_revpr
+        primer_r2_extract_len
+        primer_r1_extract_len
+        cluster_sets
+        assemblepairs_sequential
+        align_cregion
+        cregion_maxlen
+        cregion_maxerror
+        cregion_mask_mode
 
     main:
 
@@ -80,15 +133,28 @@ workflow AIRRFLOW {
         ch_input_check_logs = Channel.empty()
 
         // Download or fetch databases
-        DATABASES()
+        DATABASES(
+            fetch_imgt,
+            reference_igblast,
+            reference_fasta
+        )
 
-        if ( params.mode == "fastq" ) {
+        if ( mode == "fastq" ) {
 
             // SC:Perform sequence assembly if input type is fastq from single-cell sequencing data (currently only 10XGenomics)
-            if (params.library_generation_method == "sc_10x_genomics") {
+            if (library_generation_method == "sc_10x_genomics") {
 
                 SC_RAW_INPUT(
-                    ch_input
+                    ch_input,
+                    vprimers,
+                    race_linker,
+                    cprimers,
+                    umi_length,
+                    reference_10x,
+                    library_generation_method,
+                    collapseby,
+                    cloneby,
+                    index_file
                 )
 
                 ch_fasta                                = SC_RAW_INPUT.out.fasta
@@ -112,12 +178,25 @@ workflow AIRRFLOW {
                 ch_fastqc_postassembly_mqc              = Channel.empty()
                 ch_tsv_files                            = Channel.empty()
 
-            }  else if (params.library_generation_method == "trust4") {
+            }  else if (library_generation_method == "trust4") {
                 // Extract VDJ sequences from "general" RNA seq data using TRUST4
 
                 RNASEQ_INPUT (
                     ch_input,
-                    DATABASES.out.igblast.collect()
+                    DATABASES.out.igblast.collect(),
+                    vprimers,
+                    race_linker,
+                    cprimers,
+                    umi_length,
+                    reference_10x,
+                    trust4_barcode_whitelist,
+                    trust4_cell_barcode_read,
+                    trust4_umi_read,
+                    trust4_read_format,
+                    library_generation_method,
+                    collapseby,
+                    cloneby,
+                    index_file
                 )
 
                 ch_fasta                                = RNASEQ_INPUT.out.fasta
@@ -142,7 +221,40 @@ workflow AIRRFLOW {
                 // Perform sequence assembly if input type is fastq from bulk sequencing data
                 SEQUENCE_ASSEMBLY(
                     ch_input,
-                    DATABASES.out.igblast.collect()
+                    DATABASES.out.igblast.collect(),
+                    library_generation_method,
+                    adapter_fasta,
+                    maskprimers_extract,
+                    vprimers,
+                    cprimers,
+                    race_linker,
+                    umi_length,
+                    internal_cregion_sequences,
+                    maskprimers_align_race,
+                    index_file,
+                    umi_position,
+                    umi_start,
+                    collapseby,
+                    cloneby,
+                    save_trimmed,
+                    maskprimers_align,
+                    cprimer_position,
+                    primer_maxlen,
+                    primer_r1_maxerror,
+                    primer_r1_mask_mode,
+                    primer_r2_maxerror,
+                    primer_r2_mask_mode,
+                    cprimer_start,
+                    vprimer_start,
+                    primer_revpr,
+                    primer_r2_extract_len,
+                    primer_r1_extract_len,
+                    cluster_sets,
+                    assemblepairs_sequential,
+                    align_cregion,
+                    cregion_maxlen,
+                    cregion_maxerror,
+                    cregion_mask_mode
                 )
 
                 ch_fasta                                = SEQUENCE_ASSEMBLY.out.fasta
@@ -163,18 +275,18 @@ workflow AIRRFLOW {
                 ch_tsv_files                            = Channel.empty()
             }
 
-        } else if ( params.mode == "assembled" ) {
+        } else if ( mode == "assembled" ) {
 
             ASSEMBLED_INPUT_CHECK (
                 ch_input,
-                params.miairr,
-                params.collapseby,
-                params.cloneby
+                miairr,
+                collapseby,
+                cloneby
             )
             ch_versions = ch_versions.mix( ASSEMBLED_INPUT_CHECK.out.versions )
             ch_input_check_logs = ASSEMBLED_INPUT_CHECK.out.logs
 
-            if (params.reassign) {
+            if (reassign) {
                 CHANGEO_CONVERTDB_FASTA_FROM_AIRR(
                     ASSEMBLED_INPUT_CHECK.out.ch_tsv
                 )
@@ -213,7 +325,9 @@ workflow AIRRFLOW {
             ch_tsv_files,
             ch_validated_samplesheet.collect(),
             DATABASES.out.igblast.collect(),
-            DATABASES.out.reference_fasta.collect()
+            DATABASES.out.reference_fasta.collect(),
+            skip_alignment_filter,
+            productive_only
         )
         ch_versions = ch_versions.mix( VDJ_ANNOTATION.out.versions )
 
@@ -229,7 +343,9 @@ workflow AIRRFLOW {
 
         BULK_QC_AND_FILTER(
             ch_repertoire_by_processing.bulk,
-            VDJ_ANNOTATION.out.reference_fasta.collect()
+            VDJ_ANNOTATION.out.reference_fasta.collect(),
+            remove_chimeric,
+            detect_contamination
         )
         ch_versions = ch_versions.mix( BULK_QC_AND_FILTER.out.versions )
 
@@ -248,12 +364,16 @@ workflow AIRRFLOW {
                                         .mix(SINGLE_CELL_QC_AND_FILTERING.out.repertoires)
 
         // Novel alleles and genotype inference
-        if (params.genotyping) {
+        if (genotyping) {
             NOVEL_ALLELES_AND_GENOTYPING(
                 ch_repertoires_after_qc,
                 VDJ_ANNOTATION.out.reference_fasta.collect(),
                 ch_validated_samplesheet.collect(),
-                ch_report_logo_img.collect().ifEmpty([])
+                ch_report_logo_img.collect().ifEmpty([]),
+                genotypeby,
+                novel_allele_inference,
+                single_clone_representative,
+                genotyping_clonal_threshold
             )
             ch_versions = ch_versions.mix( NOVEL_ALLELES_AND_GENOTYPING.out.versions )
             ch_repertoire_reference = NOVEL_ALLELES_AND_GENOTYPING.out.repertoire_reference
@@ -264,24 +384,32 @@ workflow AIRRFLOW {
         ch_repertoire_reference.dump(tag: 'ch_repertoire_reference_forcloning')
 
         // Clonal analysis
-        if (!params.skip_clonal_analysis) {
+        if (!skip_clonal_analysis) {
             CLONAL_ANALYSIS(
                 ch_repertoire_reference,
-                ch_report_logo_img.collect().ifEmpty([])
+                ch_report_logo_img.collect().ifEmpty([]),
+                clonal_threshold,
+                skip_report_threshold,
+                cloneby,
+                skip_all_clones_report,
+                lineage_trees,
+                genotypeby
             )
             ch_versions = ch_versions.mix( CLONAL_ANALYSIS.out.versions)
         }
 
         // Translation and embedding
-        if (params.translate || params.embeddings) {
+        if (translate || embeddings) {
             TRANSLATE_EMBED(
                 ch_repertoires_after_qc,
-                DATABASES.out.igblast.collect()
+                DATABASES.out.igblast.collect(),
+                embeddings,
+                embedding_chain
             )
             ch_versions = ch_versions.mix( TRANSLATE_EMBED.out.versions )
         }
 
-        if (!params.skip_report){
+        if (!skip_report){
             ch_all_repertoires_after_qc = ch_repertoires_after_qc
                 .map { it -> it[1] }
                 .collect()
@@ -308,7 +436,9 @@ workflow AIRRFLOW {
                 ch_report_rmd.collect(),
                 ch_report_css.collect(),
                 ch_report_logo.collect(),
-                ch_validated_samplesheet.collect()
+                ch_validated_samplesheet.collect(),
+                mode,
+                library_generation_method
             )
         }
         ch_versions = ch_versions.mix( REPERTOIRE_ANALYSIS_REPORTING.out.versions )
@@ -336,7 +466,7 @@ workflow AIRRFLOW {
     softwareVersionsToYAML(ch_versions.mix(topic_versions.versions_file))
         .mix(topic_versions_string)
         .collectFile(
-            storeDir: "${params.outdir}/pipeline_info",
+            storeDir: "${outdir}/pipeline_info",
             name: 'nf_core_'  +  'airrflow_software_'  + 'mqc_'  + 'versions.yml',
             sort: true,
             newLine: true
@@ -345,11 +475,11 @@ workflow AIRRFLOW {
 
         // MODULE: MultiQC
 
-        if (!params.skip_multiqc) {
+        if (!skip_multiqc) {
             summary_params = paramsSummaryMap(workflow, parameters_schema: "nextflow_schema.json")
             ch_workflow_summary = Channel.value(paramsSummaryMultiqc(summary_params))
 
-            ch_multiqc_custom_methods_description = params.multiqc_methods_description ? file(params.multiqc_methods_description, checkIfExists: true) : file("$projectDir/assets/methods_description_template.yml", checkIfExists: true)
+            ch_multiqc_custom_methods_description = multiqc_methods_description ? file(multiqc_methods_description, checkIfExists: true) : file("$projectDir/assets/methods_description_template.yml", checkIfExists: true)
             ch_methods_description  = Channel.value(methodsDescriptionText(ch_multiqc_custom_methods_description))
 
             ch_multiqc_files = Channel.empty()

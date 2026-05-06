@@ -26,11 +26,13 @@ workflow REPERTOIRE_ANALYSIS_REPORTING {
     ch_report_css // Report CSS file
     ch_report_logo // Logo to be displayed in report
     ch_metadata // Validated samplesheet
+    mode
+    library_generation_method
 
     main:
     ch_versions = Channel.empty()
 
-    if (params.mode == "fastq" && params.library_generation_method != "sc_10x_genomics" && params.library_generation_method != "trust4" ) {
+    if (mode == "fastq" && library_generation_method != "sc_10x_genomics" && library_generation_method != "trust4" ) {
         PARSE_LOGS(
             ch_presto_filterseq_logs,
             ch_presto_maskprimers_logs,

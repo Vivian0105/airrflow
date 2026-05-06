@@ -23,6 +23,17 @@ workflow PRESTO_SANS_UMI {
     ch_cprimers    // channel: [ cprimers.fasta ]
     ch_vprimers    // channel: [ vprimers.fasta ]
     ch_adapter_fasta // channel: [ adapters.fasta ]
+    save_trimmed
+    maskprimers_align
+    cprimer_position
+    primer_maxlen
+    primer_r1_maxerror
+    primer_r1_mask_mode
+    primer_r2_maxerror
+    primer_r2_mask_mode
+    cprimer_start
+    vprimer_start
+    primer_revpr
 
     main:
 
@@ -33,7 +44,7 @@ workflow PRESTO_SANS_UMI {
     FASTP (
         ch_reads,
         ch_adapter_fasta,
-        params.save_trimmed,
+        save_trimmed,
         save_merged
     )
     ch_versions = ch_versions.mix(FASTP.out.versions)
@@ -62,39 +73,39 @@ workflow PRESTO_SANS_UMI {
     def barcode_R1 = false
     def barcode_R2 = false
     ch_reads = PRESTO_FILTERSEQ_POSTASSEMBLY_SANS_UMI.out.reads
-    if (params.maskprimers_align){
-        if (params.cprimer_position == "R1") {
+    if (maskprimers_align){
+        if (cprimer_position == "R1") {
             PRESTO_MASKPRIMERS_ALIGN_SANSUMI_FWD(
                 ch_reads,
                 ch_cprimers.collect(),
-                params.primer_maxlen,
-                params.primer_r1_maxerror,
-                params.primer_r1_mask_mode,
+                primer_maxlen,
+                primer_r1_maxerror,
+                primer_r1_mask_mode,
                 suffix_FWD
             )
             PRESTO_MASKPRIMERS_ALIGN_SANSUMI_REV(
                 PRESTO_MASKPRIMERS_ALIGN_SANSUMI_FWD.out.reads,
                 ch_vprimers.collect(),
-                params.primer_maxlen,
-                params.primer_r2_maxerror,
-                params.primer_r2_mask_mode,
+                primer_maxlen,
+                primer_r2_maxerror,
+                primer_r2_mask_mode,
                 suffix_REV
             )
-        } else if (params.cprimer_position == "R2") {
+        } else if (cprimer_position == "R2") {
             PRESTO_MASKPRIMERS_ALIGN_SANSUMI_FWD(
                 ch_reads,
                 ch_vprimers.collect(),
-                params.primer_maxlen,
-                params.primer_r1_maxerror,
-                params.primer_r1_mask_mode,
+                primer_maxlen,
+                primer_r1_maxerror,
+                primer_r1_mask_mode,
                 suffix_FWD
             )
             PRESTO_MASKPRIMERS_ALIGN_SANSUMI_REV(
                 PRESTO_MASKPRIMERS_ALIGN_SANSUMI_FWD.out.reads,
                 ch_cprimers.collect(),
-                params.primer_maxlen,
-                params.primer_r2_maxerror,
-                params.primer_r2_mask_mode,
+                primer_maxlen,
+                primer_r2_maxerror,
+                primer_r2_mask_mode,
                 suffix_REV
             )
         } else {
@@ -109,17 +120,17 @@ workflow PRESTO_SANS_UMI {
 
         ch_masked_reads = PRESTO_MASKPRIMERS_ALIGN_SANSUMI_REV.out.reads
     } else {
-        if (params.cprimer_position == "R1") {
-            def start_FWD = "${params.cprimer_start}"
-            def start_REV = "${params.vprimer_start}"
+        if (cprimer_position == "R1") {
+            def start_FWD = "${cprimer_start}"
+            def start_REV = "${vprimer_start}"
             def revpr_FWD = false
             PRESTO_MASKPRIMERS_SCORE_SANSUMI_FWD(
                 ch_reads,
                 ch_cprimers.collect(),
                 start_FWD,
                 barcode_R1,
-                params.primer_r1_maxerror,
-                params.primer_r1_mask_mode,
+                primer_r1_maxerror,
+                primer_r1_mask_mode,
                 revpr_FWD,
                 suffix_FWD
             )
@@ -128,14 +139,14 @@ workflow PRESTO_SANS_UMI {
                 ch_vprimers.collect(),
                 start_REV,
                 barcode_R2,
-                params.primer_r2_maxerror,
-                params.primer_r2_mask_mode,
-                params.primer_revpr,
+                primer_r2_maxerror,
+                primer_r2_mask_mode,
+                primer_revpr,
                 suffix_REV
             )
-        } else if (params.cprimer_position == "R2") {
-            def start_FWD = "${params.vprimer_start}"
-            def start_REV = "${params.cprimer_start}"
+        } else if (cprimer_position == "R2") {
+            def start_FWD = "${vprimer_start}"
+            def start_REV = "${cprimer_start}"
             def revpr_FWD = false
 
             PRESTO_MASKPRIMERS_SCORE_SANSUMI_FWD(
@@ -143,8 +154,8 @@ workflow PRESTO_SANS_UMI {
                 ch_vprimers.collect(),
                 start_FWD,
                 barcode_R1,
-                params.primer_r1_maxerror,
-                params.primer_r1_mask_mode,
+                primer_r1_maxerror,
+                primer_r1_mask_mode,
                 revpr_FWD,
                 suffix_FWD
             )
@@ -153,9 +164,9 @@ workflow PRESTO_SANS_UMI {
                 ch_cprimers.collect(),
                 start_REV,
                 barcode_R2,
-                params.primer_r2_maxerror,
-                params.primer_r2_mask_mode,
-                params.primer_revpr,
+                primer_r2_maxerror,
+                primer_r2_mask_mode,
+                primer_revpr,
                 suffix_REV
             )
         } else {

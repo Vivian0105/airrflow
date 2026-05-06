@@ -9,6 +9,15 @@ workflow SC_RAW_INPUT {
 
     take:
     ch_input
+    vprimers
+    race_linker
+    cprimers
+    umi_length
+    reference_10x
+    library_generation_method
+    collapseby
+    cloneby
+    index_file
 
     main:
 
@@ -19,34 +28,38 @@ workflow SC_RAW_INPUT {
     // read in samplesheet, validate and stage input fies
     //
     FASTQ_INPUT_CHECK(
-        ch_input
+        ch_input,
+        library_generation_method,
+        collapseby,
+        cloneby,
+        index_file
     )
     ch_versions = ch_versions.mix(FASTQ_INPUT_CHECK.out.versions)
 
     ch_reads = FASTQ_INPUT_CHECK.out.reads
 
     // validate library generation method parameter
-    if (params.vprimers) {
+    if (vprimers) {
         error "The single-cell 10X genomics library generation method does not require V-region primers, please provide a reference file instead or select another library method option."
-    } else if (params.race_linker) {
+    } else if (race_linker) {
         error "The single-cell 10X genomics library generation method does not require the --race_linker parameter, please provide a reference file instead or select another library method option."
     }
-    if (params.cprimers)  {
+    if (cprimers)  {
         error "The single-cell 10X genomics library generation method does not require C-region primers, please provide a reference file instead or select another library method option."
     }
-    if (params.umi_length > 0)  {
+    if (umi_length > 0)  {
         error "The single-cell 10X genomics library generation method does not require to set the UMI length, please provide a reference file instead or select another library method option."
     }
-    if (params.reference_10x)  {
+    if (reference_10x)  {
         // necessary to allow tar.gz files as input so that tests can run
-        if (params.reference_10x.endsWith(".tar.gz")){
+        if (reference_10x.endsWith(".tar.gz")){
             UNZIP_CELLRANGERDB(
-                params.reference_10x
+                reference_10x
             )
             ch_versions = ch_versions.mix(UNZIP_CELLRANGERDB.out.versions)
             UNZIP_CELLRANGERDB.out.unzipped.set { ch_sc_reference }
         } else {
-            ch_sc_reference = Channel.fromPath(params.reference_10x, checkIfExists: true)
+            ch_sc_reference = Channel.fromPath(reference_10x, checkIfExists: true)
         }
     } else {
         error "The single-cell 10X genomics library generation method requires you to provide a reference file."

@@ -10,6 +10,10 @@ workflow NOVEL_ALLELES_AND_GENOTYPING {
     ch_reference_fasta
     ch_validated_samplesheet
     ch_logo
+    genotypeby
+    novel_allele_inference
+    single_clone_representative
+    genotyping_clonal_threshold
 
     main:
     ch_versions = Channel.empty()
@@ -22,8 +26,8 @@ workflow NOVEL_ALLELES_AND_GENOTYPING {
                 def meta = it[0]
                 def rep = it[1]
                 def ref = it[2]
-                def genotypeby = params.genotypeby=="sample_id" ? "id" : params.genotypeby
-                [ meta."${genotypeby}",
+                def genotypeby_field = genotypeby=="sample_id" ? "id" : genotypeby
+                [ meta."${genotypeby_field}",
                                     meta.id,
                                     meta.sample_id,
                                     meta.subject_id,
@@ -37,7 +41,7 @@ workflow NOVEL_ALLELES_AND_GENOTYPING {
                     .set{ ch_grouped_repertoires }
 
     // infer novel alleles
-    if (params.novel_allele_inference) {
+    if (novel_allele_inference) {
         NOVEL_ALLELE_INFERENCE (
             ch_grouped_repertoires
         )
@@ -56,7 +60,7 @@ workflow NOVEL_ALLELES_AND_GENOTYPING {
         REASSIGN_ALLELES_NOVEL (
             ch_reassign_alleles,
             ["v"],
-            params.genotypeby //TODO: @ayeletperes check if this is correct
+            genotypeby //TODO: @ayeletperes check if this is correct
         )
 
         REASSIGN_ALLELES_NOVEL.out.tab.dump(tag: "reassign alleles novel")
@@ -69,13 +73,13 @@ workflow NOVEL_ALLELES_AND_GENOTYPING {
         ch_repertoire_reference = ch_grouped_repertoires
     }
 
-    if (params.single_clone_representative) {
+    if (single_clone_representative) {
         // TODO: Check if we need the cloneby parameter, or here it can be the same as genotypeby.
         // create separate channels for repertoire and reference based on the genotypeby metadata field
 
         CLONAL_ASSIGNMENT_GENOTYPING(
             ch_repertoire_reference,
-            [params.genotyping_clonal_threshold],
+            [genotyping_clonal_threshold],
             []
         )
         CLONAL_ASSIGNMENT_GENOTYPING.out.tab
@@ -103,7 +107,7 @@ workflow NOVEL_ALLELES_AND_GENOTYPING {
     REASSIGN_ALLELES_GENOTYPE (
         ch_for_reassign,
         ["auto"],
-        params.genotypeby
+        genotypeby
     )
 
     REASSIGN_ALLELES_GENOTYPE.out.tab.dump(tag: "reassign alleles genotype out tab")

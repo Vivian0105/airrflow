@@ -26,6 +26,25 @@ include { getGenomeAttribute      } from './subworkflows/local/utils_nfcore_airr
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
+/*
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    CONFIG FILES
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+*/
+
+ch_multiqc_config        = Channel.fromPath("$projectDir/assets/multiqc_config.yml", checkIfExists: true)
+ch_multiqc_custom_config = params.multiqc_config ? Channel.fromPath( params.multiqc_config, checkIfExists: true ) : Channel.empty()
+ch_multiqc_logo          = params.multiqc_logo   ? Channel.fromPath( params.multiqc_logo, checkIfExists: true ) : Channel.empty()
+ch_multiqc_custom_methods_description = params.multiqc_methods_description ? file(params.multiqc_methods_description, checkIfExists: true) : file("$projectDir/assets/methods_description_template.yml", checkIfExists: true)
+
+// Report files
+ch_report_rmd       = Channel.fromPath(params.report_rmd, checkIfExists: true)
+ch_report_css       = Channel.fromPath(params.report_css, checkIfExists: true)
+ch_report_logo      = Channel.fromPath(params.report_logo, checkIfExists: true)
+ch_report_logo_img  = Channel.fromPath(params.report_logo_img, checkIfExists: true)
+
+/*
+
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -47,7 +66,78 @@ workflow NFCORE_AIRRFLOW {
     // WORKFLOW: Run pipeline
     //
     AIRRFLOW (
-        samplesheet
+        samplesheet,
+        params.mode,
+        params.library_generation_method,
+        params.miairr,
+        params.collapseby,
+        params.cloneby,
+        params.reassign,
+        params.genotyping,
+        params.skip_clonal_analysis,
+        params.translate,
+        params.embeddings,
+        params.skip_report,
+        params.outdir,
+        params.skip_multiqc,
+        params.multiqc_methods_description,
+        ch_report_rmd,
+        ch_report_css,
+        ch_report_logo,
+        ch_report_logo_img,
+        ch_multiqc_config,
+        ch_multiqc_custom_config,
+        params.fetch_imgt,
+        params.reference_igblast,
+        params.reference_fasta,
+        params.vprimers,
+        params.race_linker,
+        params.cprimers,
+        params.umi_length,
+        params.reference_10x,
+        params.index_file,
+        params.trust4_barcode_whitelist,
+        params.trust4_cell_barcode_read,
+        params.trust4_umi_read,
+        params.trust4_read_format,
+        params.skip_alignment_filter,
+        params.productive_only,
+        params.remove_chimeric,
+        params.detect_contamination,
+        params.genotypeby,
+        params.novel_allele_inference,
+        params.single_clone_representative,
+        params.genotyping_clonal_threshold,
+        params.clonal_threshold,
+        params.skip_report_threshold,
+        params.skip_all_clones_report,
+        params.lineage_trees,
+        params.embedding_chain,
+        params.adapter_fasta,
+        params.maskprimers_extract,
+        params.internal_cregion_sequences,
+        params.maskprimers_align_race,
+        params.umi_position,
+        params.umi_start,
+        params.save_trimmed,
+        params.maskprimers_align,
+        params.cprimer_position,
+        params.primer_maxlen,
+        params.primer_r1_maxerror,
+        params.primer_r1_mask_mode,
+        params.primer_r2_maxerror,
+        params.primer_r2_mask_mode,
+        params.cprimer_start,
+        params.vprimer_start,
+        params.primer_revpr,
+        params.primer_r2_extract_len,
+        params.primer_r1_extract_len,
+        params.cluster_sets,
+        params.assemblepairs_sequential,
+        params.align_cregion,
+        params.cregion_maxlen,
+        params.cregion_maxerror,
+        params.cregion_mask_mode
     )
     emit:
     multiqc_report = AIRRFLOW.out.multiqc_report // channel: /path/to/multiqc_report.html

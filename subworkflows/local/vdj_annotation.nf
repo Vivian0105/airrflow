@@ -15,6 +15,8 @@ workflow VDJ_ANNOTATION {
     ch_validated_samplesheet
     ch_igblast
     ch_reference_fasta
+    skip_alignment_filter
+    productive_only
 
     main:
     ch_versions = Channel.empty()
@@ -40,7 +42,7 @@ workflow VDJ_ANNOTATION {
 
     ch_assignment_logs = CHANGEO_MAKEDB.out.logs
 
-    if (!params.skip_alignment_filter){
+    if (!skip_alignment_filter){
         // Apply quality filters:
         // - locus should match v_call chain
         // - seq alignment min length informative positions 200
@@ -55,7 +57,7 @@ workflow VDJ_ANNOTATION {
         ch_for_parsedb_split = ch_assigned_tab
     }
 
-    if (params.productive_only) {
+    if (productive_only) {
         CHANGEO_PARSEDB_SPLIT (
             ch_for_parsedb_split
         )
