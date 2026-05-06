@@ -125,6 +125,11 @@ workflow AIRRFLOW {
         cregion_maxlen
         cregion_maxerror
         cregion_mask_mode
+        crossby
+        singlecell
+        lineage_tree_builder
+        lineage_tree_exec
+        filterseq_q
 
     main:
 
@@ -254,7 +259,8 @@ workflow AIRRFLOW {
                     align_cregion,
                     cregion_maxlen,
                     cregion_maxerror,
-                    cregion_mask_mode
+                    cregion_mask_mode,
+                    filterseq_q
                 )
 
                 ch_fasta                                = SEQUENCE_ASSEMBLY.out.fasta
@@ -345,7 +351,8 @@ workflow AIRRFLOW {
             ch_repertoire_by_processing.bulk,
             VDJ_ANNOTATION.out.reference_fasta.collect(),
             remove_chimeric,
-            detect_contamination
+            detect_contamination,
+            collapseby
         )
         ch_versions = ch_versions.mix( BULK_QC_AND_FILTER.out.versions )
 
@@ -373,7 +380,9 @@ workflow AIRRFLOW {
                 genotypeby,
                 novel_allele_inference,
                 single_clone_representative,
-                genotyping_clonal_threshold
+                genotyping_clonal_threshold,
+                cloneby,
+                singlecell
             )
             ch_versions = ch_versions.mix( NOVEL_ALLELES_AND_GENOTYPING.out.versions )
             ch_repertoire_reference = NOVEL_ALLELES_AND_GENOTYPING.out.repertoire_reference
@@ -393,7 +402,11 @@ workflow AIRRFLOW {
                 cloneby,
                 skip_all_clones_report,
                 lineage_trees,
-                genotypeby
+                genotypeby,
+                crossby,
+                singlecell,
+                lineage_tree_builder,
+                lineage_tree_exec
             )
             ch_versions = ch_versions.mix( CLONAL_ANALYSIS.out.versions)
         }
@@ -438,7 +451,9 @@ workflow AIRRFLOW {
                 ch_report_logo.collect(),
                 ch_validated_samplesheet.collect(),
                 mode,
-                library_generation_method
+                library_generation_method,
+                umi_length,
+                cluster_sets
             )
         }
         ch_versions = ch_versions.mix( REPERTOIRE_ANALYSIS_REPORTING.out.versions )

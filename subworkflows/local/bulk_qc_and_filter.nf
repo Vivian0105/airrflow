@@ -10,6 +10,7 @@ workflow BULK_QC_AND_FILTER {
     ch_reference_fasta
     remove_chimeric
     detect_contamination
+    collapseby
 
     main:
 
@@ -57,7 +58,8 @@ workflow BULK_QC_AND_FILTER {
     }
 
     COLLAPSE_DUPLICATES(
-        ch_bulk_chimeric_pass
+        ch_bulk_chimeric_pass,
+        collapseby
     )
 
     ch_versions = ch_versions.mix(COLLAPSE_DUPLICATES.out.versions)

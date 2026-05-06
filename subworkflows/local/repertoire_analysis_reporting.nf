@@ -28,6 +28,8 @@ workflow REPERTOIRE_ANALYSIS_REPORTING {
     ch_metadata // Validated samplesheet
     mode
     library_generation_method
+    umi_length
+    cluster_sets
 
     main:
     ch_versions = Channel.empty()
@@ -44,7 +46,9 @@ workflow REPERTOIRE_ANALYSIS_REPORTING {
             ch_presto_collapseseq_logs,
             ch_presto_splitseq_logs,
             ch_changeo_makedb_logs,
-            ch_input
+            ch_input,
+            umi_length,
+            cluster_sets
         )
         ch_versions = ch_versions.mix(PARSE_LOGS.out.versions)
         ch_parsed_logs = PARSE_LOGS.out.logs

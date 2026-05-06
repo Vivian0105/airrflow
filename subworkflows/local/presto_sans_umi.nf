@@ -34,6 +34,7 @@ workflow PRESTO_SANS_UMI {
     cprimer_start
     vprimer_start
     primer_revpr
+    filterseq_q
 
     main:
 
@@ -63,7 +64,8 @@ workflow PRESTO_SANS_UMI {
 
     // Filter sequences by quality score
     PRESTO_FILTERSEQ_POSTASSEMBLY_SANS_UMI (
-        PRESTO_ASSEMBLEPAIRS_SANS_UMI.out.reads
+        PRESTO_ASSEMBLEPAIRS_SANS_UMI.out.reads,
+        filterseq_q
     )
     ch_versions = ch_versions.mix(PRESTO_FILTERSEQ_POSTASSEMBLY_SANS_UMI.out.versions)
 
@@ -190,7 +192,8 @@ workflow PRESTO_SANS_UMI {
 
     // Annotate primers in C_PRIMER and V_PRIMER field
     PRESTO_PARSEHEADERS_PRIMERS_SANS_UMI (
-        ch_masked_reads
+        ch_masked_reads,
+        cprimer_position
     )
     ch_versions = ch_versions.mix(PRESTO_PARSEHEADERS_PRIMERS_SANS_UMI.out.versions)
 

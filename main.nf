@@ -137,7 +137,12 @@ workflow NFCORE_AIRRFLOW {
         params.align_cregion,
         params.cregion_maxlen,
         params.cregion_maxerror,
-        params.cregion_mask_mode
+        params.cregion_mask_mode,
+        params.crossby,
+        params.singlecell,
+        params.lineage_tree_builder,
+        params.lineage_tree_exec,
+        params.filterseq_q
     )
     emit:
     multiqc_report = AIRRFLOW.out.multiqc_report // channel: /path/to/multiqc_report.html

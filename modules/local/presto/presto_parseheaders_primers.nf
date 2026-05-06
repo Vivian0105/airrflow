@@ -10,6 +10,7 @@ process PRESTO_PARSEHEADERS_PRIMERS {
 
     input:
     tuple val(meta), path(reads)
+    val cprimer_position
 
     output:
     tuple val(meta), path("*_reheader-pass.fastq"), emit: reads
@@ -17,7 +18,7 @@ process PRESTO_PARSEHEADERS_PRIMERS {
 
     script:
     def args = task.ext.args ?: ''
-    if (params.cprimer_position == "R1") {
+    if (cprimer_position == "R1") {
         """
         ParseHeaders.py copy -s $reads -o ${reads.baseName}_reheader-pass.fastq -f $args --act first last -k C_PRIMER V_PRIMER
 
@@ -26,7 +27,7 @@ process PRESTO_PARSEHEADERS_PRIMERS {
             presto: \$( ParseHeaders.py --version | awk -F' '  '{print \$2}' )
         END_VERSIONS
         """
-    } else if (params.cprimer_position == "R2") {
+    } else if (cprimer_position == "R2") {
         """
         ParseHeaders.py copy -s $reads -o ${reads.baseName}_reheader-pass.fastq -f $args --act first last -k V_PRIMER C_PRIMER
 

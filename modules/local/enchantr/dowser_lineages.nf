@@ -29,6 +29,8 @@ process DOWSER_LINEAGES {
 
     input:
     tuple val(meta), path(tabs)
+    val lineage_tree_builder
+    val lineage_tree_exec
 
     output:
     path("*_command_log.txt"), emit: logs //process logs
@@ -42,8 +44,8 @@ process DOWSER_LINEAGES {
     """
     Rscript -e "enchantr::enchantr_report('dowser_lineage', \\
                                         report_params=list('input'='${tabs}', \\
-                                        'build'='${params.lineage_tree_builder}', \\
-                                        'exec'='${params.lineage_tree_exec}', \\
+                                        'build'='${lineage_tree_builder}', \\
+                                        'exec'='${lineage_tree_exec}', \\
                                         'outdir'=getwd(), \\
                                         'nproc'=${task.cpus},\\
                                         'log'='${id_name}_dowser_command_log' ${args}))"

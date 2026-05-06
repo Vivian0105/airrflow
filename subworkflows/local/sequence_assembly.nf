@@ -72,6 +72,7 @@ workflow SEQUENCE_ASSEMBLY {
     cregion_maxlen
     cregion_maxerror
     cregion_mask_mode
+    filterseq_q
 
     main:
 
@@ -227,7 +228,8 @@ workflow SEQUENCE_ASSEMBLY {
             primer_r2_mask_mode,
             cprimer_start,
             vprimer_start,
-            primer_revpr
+            primer_revpr,
+            filterseq_q
         )
         ch_presto_fasta = PRESTO_SANS_UMI.out.fasta
         ch_presto_software = PRESTO_SANS_UMI.out.versions
@@ -278,7 +280,8 @@ workflow SEQUENCE_ASSEMBLY {
             align_cregion,
             cregion_maxlen,
             cregion_maxerror,
-            cregion_mask_mode
+            cregion_mask_mode,
+            filterseq_q
         )
         ch_presto_fasta = PRESTO_UMI.out.fasta
         ch_presto_software = PRESTO_UMI.out.versions

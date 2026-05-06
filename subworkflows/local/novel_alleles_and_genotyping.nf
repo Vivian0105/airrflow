@@ -14,6 +14,8 @@ workflow NOVEL_ALLELES_AND_GENOTYPING {
     novel_allele_inference
     single_clone_representative
     genotyping_clonal_threshold
+    cloneby
+    singlecell
 
     main:
     ch_versions = Channel.empty()
@@ -80,7 +82,9 @@ workflow NOVEL_ALLELES_AND_GENOTYPING {
         CLONAL_ASSIGNMENT_GENOTYPING(
             ch_repertoire_reference,
             [genotyping_clonal_threshold],
-            []
+            [],
+            cloneby,
+            singlecell
         )
         CLONAL_ASSIGNMENT_GENOTYPING.out.tab
             .join(ch_repertoire_reference
@@ -92,7 +96,9 @@ workflow NOVEL_ALLELES_AND_GENOTYPING {
 
     // infer genotype
     BAYESIAN_GENOTYPE_INFERENCE (
-        ch_for_genotyping
+        ch_for_genotyping,
+        genotypeby,
+        single_clone_representative
     )
 
     ch_grouped_repertoires

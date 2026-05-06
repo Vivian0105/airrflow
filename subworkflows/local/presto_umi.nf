@@ -72,6 +72,7 @@ workflow PRESTO_UMI {
     cregion_maxlen
     cregion_maxerror
     cregion_mask_mode
+    filterseq_q
 
     main:
 
@@ -107,7 +108,11 @@ workflow PRESTO_UMI {
         ch_meta_R1_R2_index = ch_meta_R1_R2.join( ch_meta_index )
                                             .map{ id, meta1, R1, R2, meta2, index -> [ meta1, R1, R2, index ] }
 
-        MERGE_UMI ( ch_meta_R1_R2_index )
+        MERGE_UMI (
+            ch_meta_R1_R2_index,
+            umi_start,
+            umi_length
+        )
         ch_gunzip = MERGE_UMI.out.reads
         ch_versions = ch_versions.mix(MERGE_UMI.out.versions)
 
@@ -136,7 +141,10 @@ workflow PRESTO_UMI {
     ch_versions = ch_versions.mix(GUNZIP_UMI.out.versions)
 
     // Filter sequences by quality score
-    PRESTO_FILTERSEQ_UMI ( GUNZIP_UMI.out.reads )
+    PRESTO_FILTERSEQ_UMI (
+        GUNZIP_UMI.out.reads,
+        filterseq_q
+    )
     ch_versions = ch_versions.mix(PRESTO_FILTERSEQ_UMI.out.versions)
 
     // Split reads into R1 and R2
@@ -570,7 +578,8 @@ workflow PRESTO_UMI {
 
         // Annotate primers in C_PRIMER and V_PRIMER field
         PRESTO_PARSEHEADERS_PRIMERS_UMI (
-            PRESTO_PARSEHEADERS_COLLAPSE_UMI.out.reads
+            PRESTO_PARSEHEADERS_COLLAPSE_UMI.out.reads,
+            cprimer_position
         )
         ch_versions = ch_versions.mix(PRESTO_PARSEHEADERS_PRIMERS_UMI.out.versions)
 

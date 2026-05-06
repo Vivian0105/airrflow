@@ -12,6 +12,7 @@ process COLLAPSE_DUPLICATES {
 
     input:
     tuple val(meta), path(tabs) // tuple [val(meta), sequence tsv in AIRR format ]
+    val collapseby
 
     output:
     tuple val(meta), path("*/*/*collapse-pass.tsv"), emit: tab // sequence tsv in AIRR format
@@ -25,7 +26,7 @@ process COLLAPSE_DUPLICATES {
     echo "${tabs.join('\n')}" > tabs.txt
     Rscript -e "enchantr::enchantr_report('collapse_duplicates', \\
         report_params=list('input'='tabs.txt',\\
-        'collapseby'='${params.collapseby}',\\
+        'collapseby'='${collapseby}',\\
         'outdir'=getwd(),\\
         'nproc'=${task.cpus},\\
         'outname'='${meta.id}',\\

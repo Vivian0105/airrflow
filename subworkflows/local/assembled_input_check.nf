@@ -18,7 +18,7 @@ workflow ASSEMBLED_INPUT_CHECK {
     ch_logs = Channel.empty()
 
     SAMPLESHEET_CHECK_ASSEMBLED ( samplesheet )
-    VALIDATE_INPUT ( samplesheet, miairr, collapseby, cloneby ) //removed reassign
+    VALIDATE_INPUT ( samplesheet, miairr, collapseby, cloneby)
     ch_validated_input = VALIDATE_INPUT.out.validated_input
     ch_validated_input
         .splitCsv(header: true, sep:'\t')

@@ -14,6 +14,10 @@ workflow CLONAL_ANALYSIS {
     skip_all_clones_report
     lineage_trees
     genotypeby
+    crossby
+    singlecell
+    lineage_tree_builder
+    lineage_tree_exec
 
     main:
     ch_versions = Channel.empty()
@@ -31,7 +35,10 @@ workflow CLONAL_ANALYSIS {
         FIND_CLONAL_THRESHOLD (
             ch_find_threshold,
             ch_logo,
-            ch_find_threshold_samplesheet
+            ch_find_threshold_samplesheet,
+            cloneby,
+            crossby,
+            singlecell
         )
         def ch_threshold = FIND_CLONAL_THRESHOLD.out.mean_threshold
         ch_versions = ch_versions.mix(FIND_CLONAL_THRESHOLD.out.versions)
@@ -77,7 +84,10 @@ workflow CLONAL_ANALYSIS {
             REPORT_THRESHOLD (
                 ch_find_threshold,
                 ch_logo,
-                ch_find_threshold_samplesheet
+                ch_find_threshold_samplesheet,
+                cloneby,
+                crossby,
+                singlecell
             )
             ch_versions = ch_versions.mix(REPORT_THRESHOLD.out.versions)
         }
@@ -102,7 +112,9 @@ workflow CLONAL_ANALYSIS {
     CLONAL_ASSIGNMENT(
         ch_repertoire_grouped,
         clone_threshold.collect(),
-        []
+        [],
+        cloneby,
+        singlecell
     )
 
     ch_versions = ch_versions.mix(CLONAL_ASSIGNMENT.out.versions)
@@ -126,14 +138,17 @@ workflow CLONAL_ANALYSIS {
 
         REPERTOIRE_ANALYSIS(
             ch_all_repertoires_cloned,
-            ch_all_repertoires_cloned_samplesheet
+            ch_all_repertoires_cloned_samplesheet,
+            cloneby
         )
         ch_versions = ch_versions.mix(REPERTOIRE_ANALYSIS.out.versions)
     }
 
     if (lineage_trees){
         DOWSER_LINEAGES(
-            CLONAL_ASSIGNMENT.out.tab
+            CLONAL_ASSIGNMENT.out.tab,
+            lineage_tree_builder,
+            lineage_tree_exec
         )
         ch_versions = ch_versions.mix(DOWSER_LINEAGES.out.versions)
     }

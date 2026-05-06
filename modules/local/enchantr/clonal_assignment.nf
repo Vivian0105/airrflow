@@ -31,6 +31,8 @@ process CLONAL_ASSIGNMENT {
     tuple val(meta), path(tabs), path(reference_fasta) // meta, sequence tsv in AIRR format
     val threshold
     path repertoires_samplesheet
+    val cloneby
+    val singlecell
 
     output:
     tuple val(meta), path("*/*/*clone-pass.tsv"), emit: tab // sequence tsv in AIRR format
@@ -53,11 +55,11 @@ process CLONAL_ASSIGNMENT {
                                         report_params=list('input'='${input}', \\
                                         'imgt_db'='${reference_fasta}', \\
                                         'species'='auto', \\
-                                        'cloneby'='${params.cloneby}', \\
-                                        'outputby'='${params.cloneby}', \\
+                                        'cloneby'='${cloneby}', \\
+                                        'outputby'='${cloneby}', \\
                                         'force'=FALSE, \\
                                         'threshold'=${thr}, \\
-                                        'singlecell'='${params.singlecell}', \\
+                                        'singlecell'='${singlecell}', \\
                                         'outdir'=getwd(), \\
                                         'nproc'=${task.cpus}, \\
                                         'log'='${meta.id}_clone_command_log' ${args}))"

@@ -30,6 +30,7 @@ process REPERTOIRE_ANALYSIS {
     input:
     tuple val(meta), path(tabs) // meta, sequence tsv in AIRR format
     path repertoires_samplesheet
+    val cloneby
 
     output:
     tuple val(meta), path("*/*/*repertoire-pass.tsv"), emit: tab // sequence tsv in AIRR format
@@ -49,8 +50,8 @@ process REPERTOIRE_ANALYSIS {
     """
     Rscript -e "enchantr::enchantr_report('repertoire_analysis', \\
                                         report_params=list('input'='${input}', \\
-                                        'cloneby'='${params.cloneby}', \\
-                                        'outputby'='${params.cloneby}', \\
+                                        'cloneby'='${cloneby}', \\
+                                        'outputby'='${cloneby}', \\
                                         'outdir'=getwd(), \\
                                         'nproc'=${task.cpus}, \\
                                         'log'='${meta.id}_clone_command_log' ${args}))"

@@ -20,6 +20,8 @@ process PARSE_LOGS {
     path('filter_representative_2/*') //PRESTO_SPLITSEQ logs
     path('igblast/*') //CHANGEO_MAKEDB logs
     path('metadata.tsv') //METADATA
+    val umi_length
+    val cluster_sets
 
     output:
     path "Table_sequences_process.tsv", emit: logs
@@ -27,7 +29,7 @@ process PARSE_LOGS {
     path "versions.yml" , emit: versions
 
     script:
-    if (params.umi_length == 0) {
+    if (umi_length == 0) {
         """
         log_parsing_no-umi.py
 
@@ -38,7 +40,7 @@ process PARSE_LOGS {
         END_VERSIONS
         """
     } else {
-        def clustersets = params.cluster_sets? "--cluster_sets":""
+        def clustersets = cluster_sets? "--cluster_sets":""
         """
         log_parsing.py $clustersets
 
