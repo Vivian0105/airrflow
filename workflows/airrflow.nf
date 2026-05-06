@@ -133,9 +133,9 @@ workflow AIRRFLOW {
 
     main:
 
-        ch_versions = channel.empty()
-        ch_reassign_logs = channel.empty()
-        ch_input_check_logs = channel.empty()
+        def ch_versions = channel.empty()
+        def ch_reassign_logs = channel.empty()
+        def ch_input_check_logs = channel.empty()
 
         // Download or fetch databases
         DATABASES(
@@ -479,15 +479,14 @@ workflow AIRRFLOW {
             "${process}:\n${tool_versions.join('\n')}"
         }
 
-    softwareVersionsToYAML(ch_versions.mix(topic_versions.versions_file))
+    def ch_collated_versions = softwareVersionsToYAML(ch_versions.mix(topic_versions.versions_file))
         .mix(topic_versions_string)
         .collectFile(
             storeDir: "${outdir}/pipeline_info",
             name: 'nf_core_'  +  'airrflow_software_'  + 'mqc_'  + 'versions.yml',
             sort: true,
             newLine: true
-        ).set { ch_collated_versions }
-
+        )
 
         // MODULE: MultiQC
 

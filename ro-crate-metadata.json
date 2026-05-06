@@ -1,6 +1,6 @@
 {
     "@context": [
-        "https://w3id.org/ro/crate/1.1/context",
+        "https://w3id.org/ro/crate/1.2/context",
         {
             "GithubService": "https://w3id.org/ro/terms/test#GithubService",
             "JenkinsService": "https://w3id.org/ro/terms/test#JenkinsService",
@@ -105,7 +105,7 @@
             },
             "mentions": [
                 {
-                    "@id": "#c205eefe-5b87-4217-b511-14203c21505b"
+                    "@id": "#e84ecb3d-7f0b-402a-9b16-af23de926b91"
                 }
             ],
             "name": "nf-core/airrflow"
@@ -118,7 +118,7 @@
             },
             "conformsTo": [
                 {
-                    "@id": "https://w3id.org/ro/crate/1.1"
+                    "@id": "https://w3id.org/ro/crate/1.2"
                 },
                 {
                     "@id": "https://w3id.org/workflowhub/workflow-ro-crate/1.0"
@@ -127,11 +127,7 @@
         },
         {
             "@id": "main.nf",
-            "@type": [
-                "File",
-                "SoftwareSourceCode",
-                "ComputationalWorkflow"
-            ],
+            "@type": ["File", "SoftwareSourceCode", "ComputationalWorkflow"],
             "creator": [
                 {
                     "@id": "https://orcid.org/0000-0001-7049-9474"
@@ -144,7 +140,7 @@
                 }
             ],
             "dateCreated": "",
-            "dateModified": "2026-01-23T11:42:42Z",
+            "dateModified": "2025-11-20T09:31:19Z",
             "dct:conformsTo": "https://bioschemas.org/profiles/ComputationalWorkflow/1.0-RELEASE/",
             "keywords": [
                 "nf-core",
@@ -178,13 +174,8 @@
             "sdPublisher": {
                 "@id": "https://nf-co.re/"
             },
-            "url": [
-                "https://github.com/nf-core/airrflow",
-                "https://nf-co.re/airrflow/5.0.0/"
-            ],
-            "version": [
-                "5.0.0"
-            ]
+            "url": ["https://github.com/nf-core/airrflow", "https://nf-co.re/airrflow/5.1.0/"],
+            "version": ["5.1.0"]
         },
         {
             "@id": "https://w3id.org/workflowhub/workflow-ro-crate#nextflow",
@@ -196,14 +187,14 @@
             "url": {
                 "@id": "https://www.nextflow.io/"
             },
-            "version": "!>=25.04.0"
+            "version": "!>=25.10.4"
         },
         {
-            "@id": "#c205eefe-5b87-4217-b511-14203c21505b",
+            "@id": "#e84ecb3d-7f0b-402a-9b16-af23de926b91",
             "@type": "TestSuite",
             "instance": [
                 {
-                    "@id": "#aa78c220-a401-4655-a00f-3e5e22742766"
+                    "@id": "#10695682-8c67-4399-bfc8-d13ccf37b78e"
                 }
             ],
             "mainEntity": {
@@ -212,7 +203,7 @@
             "name": "Test suite for nf-core/airrflow"
         },
         {
-            "@id": "#aa78c220-a401-4655-a00f-3e5e22742766",
+            "@id": "#10695682-8c67-4399-bfc8-d13ccf37b78e",
             "@type": "TestInstance",
             "name": "GitHub Actions workflow for testing nf-core/airrflow",
             "resource": "repos/nf-core/airrflow/actions/workflows/nf-test.yml",

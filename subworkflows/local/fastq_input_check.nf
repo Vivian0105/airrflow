@@ -16,7 +16,7 @@ workflow FASTQ_INPUT_CHECK {
 
     main:
 
-    ch_versions = channel.empty()
+    ch_versions = Channel.empty()
 
     SAMPLESHEET_CHECK ( samplesheet )
         .tsv
