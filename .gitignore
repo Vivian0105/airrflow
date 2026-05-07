@@ -10,3 +10,4 @@ null/
 .nf-test
 .nf-test.log
 .lineage/
+*reports.tsv
