@@ -1,7 +1,7 @@
 include { NOVEL_ALLELE_INFERENCE } from '../../modules/local/enchantr/novel_allele_inference'
 include { BAYESIAN_GENOTYPE_INFERENCE  } from '../../modules/local/enchantr/bayesian_genotype_inference'
 include { REASSIGN_ALLELES as REASSIGN_ALLELES_NOVEL; REASSIGN_ALLELES as REASSIGN_ALLELES_GENOTYPE} from '../../modules/local/enchantr/reassign_alleles'
-include { CLONAL_ANALYSIS } from './clonal_analysis.nf'
+include { CLONAL_ANALYSIS } from './clonal_analysis'
 include { CLONAL_ASSIGNMENT as CLONAL_ASSIGNMENT_GENOTYPING } from '../../modules/local/enchantr/clonal_assignment'
 
 workflow NOVEL_ALLELES_AND_GENOTYPING {
