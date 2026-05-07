@@ -1,5 +1,5 @@
 include { PARSE_LOGS } from '../../modules/local/parse_logs.nf'
-include { REPORT_FILE_SIZE } from '../../modules/local/enchantr/report_file_size.nf'
+include { REPORT_FILE_SIZE } from '../../modules/local/enchantr/report_file_size'
 include { AIRRFLOW_REPORT  } from '../../modules/local/airrflow_report/airrflow_report'
 
 workflow REPERTOIRE_ANALYSIS_REPORTING {
