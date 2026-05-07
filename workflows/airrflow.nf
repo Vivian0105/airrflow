@@ -74,6 +74,7 @@ workflow AIRRFLOW {
         ch_report_logo_img
         ch_multiqc_config
         ch_multiqc_custom_config
+        ch_multiqc_logo
         fetch_imgt
         reference_igblast
         reference_fasta
@@ -133,9 +134,9 @@ workflow AIRRFLOW {
 
     main:
 
-        def ch_versions = channel.empty()
-        def ch_reassign_logs = channel.empty()
-        def ch_input_check_logs = channel.empty()
+        ch_versions = channel.empty()
+        ch_reassign_logs = channel.empty()
+        ch_input_check_logs = channel.empty()
 
         // Download or fetch databases
         DATABASES(
@@ -505,10 +506,32 @@ workflow AIRRFLOW {
             ch_multiqc_files = ch_multiqc_files.mix(ch_fastp_json.collect().ifEmpty([]))
             ch_multiqc_files = ch_multiqc_files.mix(ch_fastqc_postassembly_mqc.collect{it[1]}.ifEmpty([]))
 
+            ch_multiqc_files_collected = ch_multiqc_files
+                .collect()
+                .ifEmpty([])
 
+            // Build MultiQC input tuple
+            def buildMultiqcInputTuple = { id, files ->
+                [
+                    [id: id],
+                    files,
+                    [ch_multiqc_config, ch_multiqc_custom_config].findAll { cfg -> cfg },
+                    ch_multiqc_logo,
+                    [],
+                    []
+                ]
+            }
+
+            // Merge all multiqc input channels
+            ch_multiqc_input = ch_multiqc_files_collected
+                .map { files ->
+                    buildMultiqcInputTuple.call('multiqc_report', files)
+                }
+
+            ch_multiqc_input.dump(tag: 'ch_multiqc_input_before_multiqc')
 
             MULTIQC (
-                ch_multiqc_files.collect(),
+                ch_multiqc_input//,
                 //ch_multiqc_config.toList(),
                 //ch_multiqc_custom_config.toList(),
                 //ch_report_logo.toList(),

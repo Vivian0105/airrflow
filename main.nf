@@ -50,9 +50,9 @@ workflow NFCORE_AIRRFLOW {
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     */
 
-    ch_multiqc_config        = channel.fromPath("$projectDir/assets/multiqc_config.yml", checkIfExists: true)
-    ch_multiqc_custom_config = params.multiqc_config ? channel.fromPath( params.multiqc_config, checkIfExists: true ) : channel.empty()
-    ch_multiqc_logo          = params.multiqc_logo   ? channel.fromPath( params.multiqc_logo, checkIfExists: true ) : channel.empty()
+    ch_multiqc_config        = file("$projectDir/assets/multiqc_config.yml", checkIfExists: true)
+    ch_multiqc_custom_config = params.multiqc_config ? file( params.multiqc_config, checkIfExists: true ) : []
+    ch_multiqc_logo          = params.multiqc_logo   ? file( params.multiqc_logo, checkIfExists: true ) : []
     ch_multiqc_custom_methods_description = params.multiqc_methods_description ? file(params.multiqc_methods_description, checkIfExists: true) : file("$projectDir/assets/methods_description_template.yml", checkIfExists: true)
 
     // Report files
@@ -86,6 +86,7 @@ workflow NFCORE_AIRRFLOW {
         ch_report_logo_img,
         ch_multiqc_config,
         ch_multiqc_custom_config,
+        ch_multiqc_logo,
         params.fetch_imgt,
         params.reference_igblast,
         params.reference_fasta,
