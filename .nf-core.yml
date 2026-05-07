@@ -6,9 +6,6 @@ lint:
     - .github/PULL_REQUEST_TEMPLATE.md
   multiqc_config:
     - report_comment
-  files_unchanged:
-    - .gitignore
-    - .github/PULL_REQUEST_TEMPLATE.md
   nextflow_config:
     - config_defaults:
         - params.miairr
@@ -27,4 +24,4 @@ template:
   name: airrflow
   org: nf-core
   outdir: .
-  version: 5.0.0
+  version: 5.1.0dev
