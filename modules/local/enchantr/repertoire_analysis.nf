@@ -14,7 +14,7 @@ process REPERTOIRE_ANALYSIS {
     label 'immcantation'
     label 'immcantation_container'
 
-    container "docker.io/immcantation/airrflow:5.0.0dev"
+    container "docker.io/immcantation/airrflow:5.1.0dev"
 
     input:
     tuple val(meta), path(tabs) // meta, sequence tsv in AIRR format

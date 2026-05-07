@@ -13,7 +13,7 @@ process REASSIGN_ALLELES {
     label 'process_long_parallelized'
     label 'immcantation'
 
-    container "docker.io/immcantation/airrflow:5.0.0dev"
+    container "docker.io/immcantation/airrflow:5.1.0dev"
 
     input:
     tuple val(meta), path(tabs), path(reference_fasta) // meta, sequence tsv in AIRR format, reference fasta
