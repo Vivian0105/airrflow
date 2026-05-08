@@ -75,7 +75,7 @@ nextflow run nf-core/airrflow \
 It is also possible to reconstruct BCR and TCR sequences from untargeted bulk and single-cell sequencing data. A typical command to run the pipeline from **single-cell RNA-seq fastq files** is shown below. For more information, check the section on [supported untargeted RNA-seq based methods](#supported-untargeted-rna-seq-based-methods) below.
 
 ```bash
-nextflow run nf-core/airrfow \
+nextflow run nf-core/airrflow \
 -profile <docker/singularity/podman/shifter/charliecloud/conda/institute> \
 --mode fastq \
 --input input_samplesheet.tsv \
@@ -86,7 +86,7 @@ nextflow run nf-core/airrfow \
 --outdir results
 ```
 
-If you want to detect novel alleles and infer genotype of each individual, add the `--genotyping` flag in your command.
+If you want to detect novel alleles and infer genotype of each individual, add the `--genotyping` flag in your command. Novel alleles detection and genotype inference only work for BCR sequences.
 
 Check the section [Input samplesheet](#input-samplesheet) below for instructions on how to create the samplesheet, and the [Supported library generation protocols](#supported-bulk-library-generation-methods-protocols) section below for examples on how to run the pipeline for the different bulk and single-cell sequencing protocols.
 For more detailed information about all the available parameters, please refer to the [parameters documentation](https://nf-co.re/airrflow/parameters).
@@ -303,7 +303,7 @@ nextflow run nf-core/airrflow -r <release> \
 This profile executes the sequence assembly commands based on the pRESTO pre-set pipeline [presto-clontech-umi.sh](https://raw.githubusercontent.com/immcantation/immcantation/refs/heads/master/pipelines/presto-clontech-umi.sh). A summary of the performed steps is:
 
 - Filter sequences by base quality.
-- Align and annotate the universal C region seqeunces in the R1 reads. Defaults are taken from the [Immcantation repository](https://raw.githubusercontent.com/immcantation/immcantation/refs/heads/master/protocols/Universal/).
+- Align and annotate the universal C region sequences in the R1 reads. Defaults are taken from the [Immcantation repository](https://raw.githubusercontent.com/immcantation/immcantation/refs/heads/master/protocols/Universal/).
 - Identify the primers sequences and UMI (12 nt length) in the R2 reads.
 - Pair sequences, build UMI consensus sequence.
 - Assemble read pairs with the pRESTO `AssemblePairs sequential` option.
@@ -349,7 +349,7 @@ nextflow run nf-core/airrflow -r <release> \
 This profile executes the sequence assembly commands based on the pRESTO pre-set pipeline [presto-clontech-umi.sh](https://raw.githubusercontent.com/immcantation/immcantation/refs/heads/master/pipelines/presto-clontech-umi.sh). A summary of the performed steps is:
 
 - Filter sequences by base quality.
-- Align and annotate the universal C region seqeunces in the R1 reads. Defaults are taken from the [Immcantation repository](https://raw.githubusercontent.com/immcantation/immcantation/refs/heads/master/protocols/Universal/).
+- Align and annotate the universal C region sequences in the R1 reads. Defaults are taken from the [Immcantation repository](https://raw.githubusercontent.com/immcantation/immcantation/refs/heads/master/protocols/Universal/).
 - Identify the primers sequences and UMI (12 nt length) in the R2 reads.
 - Pair sequences, build UMI consensus sequence.
 - Assemble read pairs with the pRESTO `AssemblePairs sequential` option.
@@ -564,7 +564,7 @@ To use untargeted RNA-seq based input, specify `--library_generation_method trus
 A typical command to run the pipeline from **bulk RNA-seq fastq files** is:
 
 ```bash
-nextflow run nf-core/airrfow \
+nextflow run nf-core/airrflow \
 -profile <docker/singularity/podman/shifter/charliecloud/conda/institute> \
 --mode fastq \
 --input input_samplesheet.tsv \
@@ -577,7 +577,7 @@ nextflow run nf-core/airrfow \
 A typical command to run the pipeline from **single-cell RNA-seq fastq files** is:
 
 ```bash
-nextflow run nf-core/airrfow \
+nextflow run nf-core/airrflow \
 -profile <docker/singularity/podman/shifter/charliecloud/conda/institute> \
 --mode fastq \
 --input input_samplesheet.tsv \

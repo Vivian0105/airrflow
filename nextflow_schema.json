@@ -578,7 +578,7 @@
                 },
                 "single_clone_representative": {
                     "type": "boolean",
-                    "description": "Perform TIgGER novel allele inference.",
+                    "description": "Keep only one sequence in a clone to represent all the sequences in the same clone.",
                     "fa_icon": "fas fa-dna"
                 },
                 "novel_allele_inference": {
