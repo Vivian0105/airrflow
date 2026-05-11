@@ -578,7 +578,7 @@
                 },
                 "single_clone_representative": {
                     "type": "boolean",
-                    "description": "Keep only one sequence in a clone to represent all the sequences in the same clone.",
+                    "description": "Keep only one representative sequence per clone to perform novel allele inference.",
                     "fa_icon": "fas fa-dna"
                 },
                 "novel_allele_inference": {
