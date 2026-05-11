@@ -15,7 +15,7 @@ To include novel allele detection and genotype inference to the pipeline, just a
 If you have set up Nextflow and Docker for your local machine, test nf-core/airrflow novel allele detection and genotype inference with the built-in test.
 
 ```bash
-nextflow run nf-core/airrflow -r 5.0.0 -profile test_genotyping_small,docker --outdir test_genotyping_results
+nextflow run nf-core/airrflow -r 5.1.0 -profile test_genotyping_small,docker --outdir test_genotyping_results
 ```
 
 Change the `docker` profile to `singularity` if you use Codespaces since Docker currently cannot be used in Codespaces. You can first set up a Singularity cache directory which will allow the reuse of Singularity container across all runs:
