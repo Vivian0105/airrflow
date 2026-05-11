@@ -78,7 +78,7 @@ nf-core/airrflow allows the end-to-end processing of BCR and TCR bulk and single
   - Remove sequences in different samples that share the same `cell_id` and nucleotide sequence, and thus are very likely contaminants.
   - Modify `cell_id`s to ensure they are unique in each run.
 
-4. Novel allele and genotyping (optional, only for Ig)
+4. Novel allele and genotyping (optional, only for BCR)
 
 - Novel allele detection (`TIgGER`).
 - Individual genotype inference (`TIgGER`).
