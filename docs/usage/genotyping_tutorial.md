@@ -8,7 +8,17 @@ Novel allele detection and genotype inference are optional add-on steps in nf-co
 
 ## How to add novel allele detection and genotype inference in the pipeline
 
-To include novel allele detection and genotype inference to the pipeline, just add flag `--genotyping` in your command.
+To perform novel allele detection and genotype inference in nf-core/airrflow pipeline, simply add flag `--genotyping` in your command.
+
+By default, with flag `--genotyping` on, the following steps will be executed before clonal inference:
+
+1. Infer the presence of novel IGHV alleles not in the germline database.
+2. Assign novel alleles to samples.
+3. Infer clones and use one single representative sequence per clone for genotype inference.
+4. Infer the personalized genotype of each subject.
+5. Correct the allele calls of sequences based on the genotypes of subjects.
+
+After these steps, we have more accurate allele calls for each subject for clonal inference and analysis.
 
 ## Testing novel allele detection and genotype inference with built-in tests
 
@@ -79,10 +89,3 @@ Plots of three evidence for novel allele IGHV1-24\*01_G9A:
 </p>
 
 2. Genotype inference plots can be found in html report in the folder 'novel_alleles_and_genotyping/02-genotype_inference/subject_id/subject_id_bayesian_genotype_inference_report/index.html'.
-
-## Genotyping related flags in nf-core/airrflow pipeline
-
-1. `--genotyping`: Perform TIgGER genotype inference if it is set to be `true`. It is `false` by default.
-2. `--single_clone_representative`: Keep only one sequence in a clone to represent all the sequences in the same clone if it is set to be `true`. If `--genotyping` is `true`, `single_clone_representative` is `true` by default.
-3. `--genotyping_clonal_threshold`: Threshold for determining if two sequences come from the same clone or not while inferring clones to find single clone representative before genotype inference. Default value is 0.2.
-4. `--novel_allele_inference`: whether to perform TIgGER novel allele inference. If `--genotyping` is `true`, `--single_clone_representative` is `true` by default.
