@@ -28,7 +28,7 @@ export NXF_SINGULARITY_CACHEDIR="/workspaces/airrflow/singularity_cache"
 Then run nf-core/airrflow with the genotyping test data:
 
 ```bash
-nextflow run nf-core/airrflow -r 5.0.0 -profile test_genotyping_small,singularity --outdir test_genotyping_results
+nextflow run nf-core/airrflow -r 5.1.0 -profile test_genotyping_small,singularity --outdir test_genotyping_results
 ```
 
 > [!NOTE]
