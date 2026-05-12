@@ -3,17 +3,18 @@
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## 5.0.1 dev [Unreleased]
+## 5.1.0dev [Unreleased]
 
 ### `Added`
 
-- [#407](https://github.com/nf-core/airrflow/pull/407) Added genotyping subworkflow
+- [#407](https://github.com/nf-core/airrflow/pull/407) Added genotyping subworkflow.
+- [#459](https://github.com/nf-core/airrflow/issues/424) Added support for AIRR-C germline reference.
 
 ### `Fixed`
 
 - [#420](https://github.com/nf-core/airrflow/pull/420) Fixed a bug in the Alakazam collapseDuplicates function.
 - [#411](https://github.com/nf-core/airrflow/pull/411) Fixed a bug in Enchantr dowser_lineage project.
-- [#453](https://github.com/nf-core/airrflow/pull/453) Fix publishDir collisions in `PRESTO_PARSE_CLUSTER` and `PRESTO_PAIRSEQ_CLUSTERSETS`
+- [#453](https://github.com/nf-core/airrflow/pull/453) Fix publishDir collisions in `PRESTO_PARSE_CLUSTER` and `PRESTO_PAIRSEQ_CLUSTERSETS`.
 
 ### `Dependencies`
 
@@ -28,9 +29,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 | wget       | 1.20.1      | 1.25.0      |
 | biopython  | 1.81        | 1.85        |
 
+
 ### `Deprecations and changes`
 
 - [#451](https://github.com/nf-core/airrflow/pull/451) Removed repertoire analysis from clonal assignment report. Added repertoire report which includes clone size distribution, clonal abundance, diversity, clonal overlap and mutation frequency.
+- The param `fetch_imgt` has been updated to `fetch_germlines` and it now accepts the options `imgt` or `airrc-imgt`.
+- The param `save_databases` has been updated to `save_germlines`.
 
 ## [5.0.0] - Tarantallegra
 
