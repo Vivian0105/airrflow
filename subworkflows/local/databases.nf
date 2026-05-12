@@ -10,7 +10,7 @@ workflow DATABASES {
     main:
     ch_versions = Channel.empty()
 
-    if( !params.fetch_database ){
+    if( !params.fetch_germlines ){
         if (params.reference_igblast.endsWith(".zip")) {
             Channel.fromPath("${params.reference_igblast}")
                     .ifEmpty{ error "IGBLAST DB not found: ${params.reference_igblast}" }
@@ -25,7 +25,7 @@ workflow DATABASES {
         }
     }
 
-    if( !params.fetch_database ){
+    if( !params.fetch_germlines ){
         if (params.reference_fasta.endsWith(".zip")) {
             Channel.fromPath("${params.reference_fasta}")
                     .ifEmpty{ error "IMGTDB not found: ${params.reference_fasta}" }
@@ -44,8 +44,8 @@ workflow DATABASES {
         ch_versions = ch_versions.mix(VALIDATE_IGBLAST_DB.out.versions)
     }
 
-    if (params.fetch_database == "imgt" || params.fetch_database == "airrc-imgt") {
-        FETCH_DATABASES(Channel.value(params.fetch_database))
+    if (params.fetch_germlines == "imgt" || params.fetch_germlines == "airrc-imgt") {
+        FETCH_DATABASES(Channel.value(params.fetch_germlines))
         ch_igblast = FETCH_DATABASES.out.igblast
         ch_reference_fasta = FETCH_DATABASES.out.reference_fasta
         ch_versions = ch_versions.mix(FETCH_DATABASES.out.versions)
