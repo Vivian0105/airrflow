@@ -17,8 +17,7 @@ process PREPARE_TRUST4_REFERENCE {
 
     script:
     """
-    cat ${reference_igblast}/fasta/imgt_${meta.species.toLowerCase()}_*.fasta \\
-    ${reference_igblast}/fasta/imgt_${meta.species.toLowerCase()}_*.fasta >> trust4_reference.fa
+    cat ${reference_igblast}/fasta/${meta.species.toLowerCase()}_*.fasta >> trust4_reference.fa
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
