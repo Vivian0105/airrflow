@@ -19,9 +19,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 | Dependency | Old version | New version |
 | ---------- | ----------- | ----------- |
-| alakazam   | 1.3.1       | 1.4.2       |
-| r-shazam   | 1.2.0       | 1.3.1       |
-| scoper     | 1.3.0       | 1.4.0       |
+| alakazam   | 1.3.1       | 1.4.3       |
+| r-shazam   | 1.2.0       | 1.3.2       |
+| scoper     | 1.3.0       | 1.5.0       |
+| tigger     |             | 1.1.3       |
 | presto     | 0.7.6       | 0.7.8       |
 | changeo    | 1.3.0       | 1.3.4       |
 | dowser     | 2.4.0       | 2.4.1       |

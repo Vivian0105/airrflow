@@ -14,7 +14,7 @@ process DETECT_CONTAMINATION {
     label 'immcantation'
     label 'immcantation_container'
 
-    container "docker.io/immcantation/airrflow:5.1.0dev"
+    container "docker.io/immcantation/airrflow:5.1.0"
 
     input:
     path(tabs)

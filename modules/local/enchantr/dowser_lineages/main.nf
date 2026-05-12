@@ -14,7 +14,7 @@ process DOWSER_LINEAGES {
     label 'immcantation'
     label 'immcantation_container'
 
-    container "docker.io/immcantation/airrflow:5.1.0dev"
+    container "docker.io/immcantation/airrflow:5.1.0"
 
     input:
     tuple val(meta), path(tabs)

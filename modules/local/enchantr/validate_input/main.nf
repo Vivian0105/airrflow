@@ -7,7 +7,7 @@ process VALIDATE_INPUT {
     label 'process_single'
     label 'immcantation_container'
 
-    container "docker.io/immcantation/airrflow:5.1.0dev"
+    container "docker.io/immcantation/airrflow:5.1.0"
 
     input:
     file samplesheet
