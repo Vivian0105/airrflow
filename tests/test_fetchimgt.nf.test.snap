@@ -32,10 +32,10 @@
                     "changeo": "1.3.4"
                 },
                 "CLONAL_ASSIGNMENT": {
-                    "enchantr": "0.1.24"
+                    "enchantr": "0.1.25"
                 },
                 "COLLAPSE_DUPLICATES": {
-                    "enchantr": "0.1.24"
+                    "enchantr": "0.1.25"
                 },
                 "FILTER_JUNCTION_MOD3": {
                     "alakazam": "1.4.3",
@@ -53,19 +53,19 @@
                     "R": "4.5.3"
                 },
                 "FIND_CLONAL_THRESHOLD": {
-                    "enchantr": "0.1.24"
+                    "enchantr": "0.1.25"
                 },
                 "REPERTOIRE_ANALYSIS": {
-                    "enchantr": "0.1.24"
+                    "enchantr": "0.1.25"
                 },
                 "REPORT_FILE_SIZE": {
-                    "enchantr": "0.1.24"
+                    "enchantr": "0.1.25"
                 },
                 "SINGLE_CELL_QC": {
-                    "enchantr": "0.1.24"
+                    "enchantr": "0.1.25"
                 },
                 "VALIDATE_INPUT": {
-                    "enchantr": "0.1.24"
+                    "enchantr": "0.1.25"
                 },
                 "Workflow": {
                     "nf-core/airrflow": "v5.0.0"
@@ -784,6 +784,6 @@
             "nf-test": "0.9.3",
             "nextflow": "25.10.2"
         },
-        "timestamp": "2026-05-06T11:36:15.086622422"
+        "timestamp": "2026-05-12T10:54:23.9720285"
     }
 }

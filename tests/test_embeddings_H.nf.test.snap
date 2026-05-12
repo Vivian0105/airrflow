@@ -63,13 +63,13 @@
                     "R": "4.5.3"
                 },
                 "REPORT_FILE_SIZE": {
-                    "enchantr": "0.1.24"
+                    "enchantr": "0.1.25"
                 },
                 "SINGLE_CELL_QC": {
-                    "enchantr": "0.1.24"
+                    "enchantr": "0.1.25"
                 },
                 "VALIDATE_INPUT": {
-                    "enchantr": "0.1.24"
+                    "enchantr": "0.1.25"
                 },
                 "Workflow": {
                     "nf-core/airrflow": "v5.0.0"
@@ -194,6 +194,6 @@
             "nf-test": "0.9.3",
             "nextflow": "25.10.2"
         },
-        "timestamp": "2026-05-06T11:11:41.464309679"
+        "timestamp": "2026-05-12T10:40:56.439243041"
     }
 }
