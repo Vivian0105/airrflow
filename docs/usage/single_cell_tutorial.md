@@ -20,7 +20,7 @@ After that, you’ll be directed to the configuration page. Select "4-core" for 
 <img src="https://raw.githubusercontent.com/nf-core/airrflow/dev/docs/images/Codespaces_4core.png" width="400" alt="Chose 4-core">
 </p>
 
-If you want to know more about Codespaces, check [the Codespaces overview](https://docs.github.com/en/codespaces/about-codespaces/what-are-codespaces) or the Codespaces section in nf-core documentation [the Devcontainers overview](https://nf-co.re/docs/tutorials/devcontainer/overview).
+If you want to know more about Codespaces, check [the Codespaces overview](https://docs.github.com/en/codespaces/about-codespaces/what-are-codespaces) or the Codespaces section in nf-core documentation [the Dev Containers overview](https://nf-co.re/docs/tutorials/devcontainer/overview).
 
 When running this tutorial on your local machine, you'll first have to set up Nextflow and a container engine (Docker or Singularity).
 
@@ -32,7 +32,7 @@ When running this tutorial on your local machine, you'll first have to set up Ne
 Once you have set up Nextflow and container (Docker or Singularity) for your local machine or Codespaces environment, test nf-core/airrflow with the built-in test data.
 
 ```bash
-nextflow run nf-core/airrflow -r 5.0.0 -profile test,docker --outdir test_results
+nextflow run nf-core/airrflow -r 5.1.0 -profile test,docker --outdir test_results
 ```
 
 Change the `docker` profile to `singularity` if you use Codespaces since Docker currently cannot be used in Codespaces. You can first set up a Singularity cache directory which will allow the reuse of Singularity container across all runs:
@@ -45,7 +45,7 @@ export NXF_SINGULARITY_CACHEDIR="/workspaces/airrflow/singularity_cache"
 Then run nf-core/airrflow with the test data:
 
 ```bash
-nextflow run nf-core/airrflow -r 5.0.0 -profile test,singularity --outdir test_results
+nextflow run nf-core/airrflow -r 5.1.0 -profile test,singularity --outdir test_results
 ```
 
 > [!NOTE]
@@ -112,7 +112,7 @@ We prepared the [samplesheet](https://github.com/nf-core/airrflow/blob/dev/docs/
 With all the files ready, you can start the pipeline with the following command if you run it locally.
 
 ```bash
-nextflow run nf-core/airrflow -r 5.0.0 \
+nextflow run nf-core/airrflow -r 5.1.0 \
 -profile docker \
 --mode assembled \
 --input assembled_samplesheet.tsv \
@@ -145,7 +145,7 @@ After launching the pipeline the following will be printed to the console output
  N E X T F L O W   ~  version 24.10.5
 
 WARN: It appears you have never run this project before -- Option `-resume` is ignored
-Launching `https://github.com/nf-core/airrflow` [boring_heyrovsky] DSL2 - revision: d91dd840f4 [5.0.0]
+Launching `https://github.com/nf-core/airrflow` [boring_heyrovsky] DSL2 - revision: d91dd840f4 [5.1.0]
 
 
 ------------------------------------------------------
@@ -154,7 +154,7 @@ Launching `https://github.com/nf-core/airrflow` [boring_heyrovsky] DSL2 - revisi
   |\ | |__  __ /  ` /  \ |__) |__         }  {
   | \| |       \__, \__/ |  \ |___     \`-._,-`-,
                                         `._,._,'
-  nf-core/airrflow 5.0.0
+  nf-core/airrflow 5.1.0
 ------------------------------------------------------
 
 ```
@@ -173,7 +173,7 @@ Succeeded   : 44
 
 ### Datasets
 
-For this tutorial we will use subsampled blood single-cell TCR sequencing data of one subject generated from the 10x Genomic platform. The links to the fastq files are in the samplesheet.
+For this tutorial we will use sub-sampled blood single-cell TCR sequencing data of one subject generated from the 10x Genomic platform. The links to the fastq files are in the samplesheet.
 
 ### Preparing samplesheet, gene reference and configuration file
 
@@ -194,7 +194,7 @@ Pre-built 10x genomics V(D)J references can be accessed at the [10x Genomics web
 To run the pipeline locally, use the following command to launch nf-core/airrflow for the dataset in this tutorial:
 
 ```bash
-nextflow run nf-core/airrflow -r 5.0.0 \
+nextflow run nf-core/airrflow -r 5.1.0 \
 -profile docker \
 --mode fastq \
 --input 10x_sc_raw.tsv \
@@ -223,7 +223,7 @@ After launching the pipeline the following will be printed to the console output
 ```bash
  N E X T F L O W   ~  version 24.10.5
 
-Launching `https://github.com/nf-core/airrflow` [gloomy_monod] DSL2 - revision: d91dd840f4 [5.0.0]
+Launching `https://github.com/nf-core/airrflow` [gloomy_monod] DSL2 - revision: d91dd840f4 [5.1.0]
 
 
 ------------------------------------------------------
@@ -232,7 +232,7 @@ Launching `https://github.com/nf-core/airrflow` [gloomy_monod] DSL2 - revision: 
   |\ | |__  __ /  ` /  \ |__) |__         }  {
   | \| |       \__, \__/ |  \ |___     \`-._,-`-,
                                         `._,._,'
-  nf-core/airrflow 5.0.0
+  nf-core/airrflow 5.1.0
 ------------------------------------------------------
 ```
 
