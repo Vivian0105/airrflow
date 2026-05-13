@@ -531,12 +531,7 @@ workflow AIRRFLOW {
             ch_multiqc_input.dump(tag: 'ch_multiqc_input_before_multiqc')
 
             MULTIQC (
-                ch_multiqc_input//,
-                //ch_multiqc_config.toList(),
-                //ch_multiqc_custom_config.toList(),
-                //ch_report_logo.toList(),
-                //[],
-                //[]
+                ch_multiqc_input
             )
             multiqc_report = MULTIQC.out.report.toList()
         } else {
