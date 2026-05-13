@@ -126,8 +126,6 @@ workflow CLONAL_ANALYSIS {
             .map { it -> [ [id:'all_reps'], it ] }
             .set{ch_all_repertoires_cloned}
 
-    ch_all_repertoires_cloned.dump(tag: "ch_all_repertoires_cloned")
-
     if (!skip_all_clones_report){
 
         ch_all_repertoires_cloned_samplesheet = ch_all_repertoires_cloned.map{ it -> it[1] }
