@@ -87,7 +87,7 @@ workflow NFCORE_AIRRFLOW {
         ch_multiqc_config,
         ch_multiqc_custom_config,
         ch_multiqc_logo,
-        params.fetch_imgt,
+        params.fetch_germlines,
         params.reference_igblast,
         params.reference_fasta,
         params.vprimers,

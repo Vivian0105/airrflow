@@ -75,7 +75,7 @@ workflow AIRRFLOW {
         ch_multiqc_config
         ch_multiqc_custom_config
         ch_multiqc_logo
-        fetch_imgt
+        fetch_germlines
         reference_igblast
         reference_fasta
         vprimers
@@ -140,7 +140,7 @@ workflow AIRRFLOW {
 
         // Download or fetch databases
         DATABASES(
-            fetch_imgt,
+            fetch_germlines,
             reference_igblast,
             reference_fasta
         )
