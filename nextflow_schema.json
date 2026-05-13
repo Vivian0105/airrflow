@@ -423,30 +423,33 @@
                     "description": "Subset to productive  sequences.",
                     "fa_icon": "fab fa-product-hunt"
                 },
-                "save_databases": {
+                "save_germlines": {
                     "type": "boolean",
-                    "description": "Save databases so you can use the cache in future runs.",
+                    "description": "Save germline database to reuse the cache in future runs.",
                     "fa_icon": "fas fa-file-download",
                     "default": true
                 },
                 "reference_fasta": {
                     "type": "string",
                     "description": "Path to the germline reference fasta.",
-                    "help_text": "By default, we provide a pre-downloaded version of the IMGT database. It is also possible to provide a custom reference fasta database. To fetch a fresh version of IMGT, set the `--fetch_imgt` parameter instead.",
+                    "help_text": "By default, we provide a pre-downloaded AIRR-C/IMGT reference bundle. It is also possible to provide a custom reference fasta database. To fetch a fresh reference bundle at runtime, set `--fetch_germlines airrc-imgt` or `--fetch_germlines imgt`.",
                     "fa_icon": "fas fa-database",
                     "default": "https://raw.githubusercontent.com/nf-core/test-datasets/airrflow/database-cache/imgtdb_base.zip"
                 },
                 "reference_igblast": {
                     "type": "string",
                     "description": "Path to the cached igblast database.",
-                    "help_text": "By default, we provide a pre-downloaded version of the IMGT database. It is also possible to provide a custom reference fasta database. To fetch a fresh version of IMGT, set the `--fetch_imgt` parameter instead.",
+                    "help_text": "By default, we provide a pre-downloaded AIRR-C/IMGT IgBLAST database. It is also possible to provide a custom cached IgBLAST database. To fetch a fresh reference bundle at runtime, set `--fetch_germlines airrc-imgt` or `--fetch_germlines imgt`.",
                     "fa_icon": "fas fa-database",
                     "default": "https://raw.githubusercontent.com/nf-core/test-datasets/airrflow/database-cache/igblast_base.zip"
                 },
-                "fetch_imgt": {
-                    "type": "boolean",
-                    "description": "Set this flag to fetch the IMGT reference data at runtime.",
-                    "fa_icon": "fas fa-cloud-download-alt"
+                "fetch_germlines": {
+                    "type": ["boolean", "string"],
+                    "description": "Fetch the selected germline reference bundle at runtime instead of using cached reference inputs.",
+                    "help_text": "This parameter accepts two values. airrc-imgt: the latest version of the human and mouse AIRR-C germline reference will be downloaded from https://ogrdb.airr-community.org/ for all the supported loci and from IMGT for the remaining loci. IMGT: the latest version of human and mouse germline reference will be downloaded from IMGT.",
+                    "fa_icon": "fas fa-cloud-download-alt",
+                    "enum": [false, "imgt", "airrc-imgt"],
+                    "default": false
                 }
             },
             "fa_icon": "fas fa-edit"
