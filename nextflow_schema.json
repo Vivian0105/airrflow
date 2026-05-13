@@ -444,12 +444,12 @@
                     "default": "https://raw.githubusercontent.com/nf-core/test-datasets/airrflow/database-cache/igblast_base.zip"
                 },
                 "fetch_germlines": {
-                    "type": ["boolean", "string"],
+                    "type": ["string"],
                     "description": "Fetch the selected germline reference bundle at runtime instead of using cached reference inputs.",
                     "help_text": "This parameter accepts two values. airrc-imgt: the latest version of the human and mouse AIRR-C germline reference will be downloaded from https://ogrdb.airr-community.org/ for all the supported loci and from IMGT for the remaining loci. IMGT: the latest version of human and mouse germline reference will be downloaded from IMGT.",
                     "fa_icon": "fas fa-cloud-download-alt",
-                    "enum": [false, "imgt", "airrc-imgt"],
-                    "default": false
+                    "enum": ["false", "imgt", "airrc-imgt"],
+                    "default": "false"
                 }
             },
             "fa_icon": "fas fa-edit"

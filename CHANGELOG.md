@@ -32,7 +32,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 | biopython  | 1.81        | 1.85        |
 | tigger     |             | 1.1.3       |
 
-
 ### `Deprecations and changes`
 
 - [#451](https://github.com/nf-core/airrflow/pull/451) Removed repertoire analysis from clonal assignment report. Added repertoire report which includes clone size distribution, clonal abundance, diversity, clonal overlap and mutation frequency.
