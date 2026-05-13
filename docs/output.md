@@ -36,7 +36,7 @@ The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes d
   - [Detect contamination](#detect-contamination-optional)
   - [Collapse duplicates](#collapse-duplicates)
 - [Single cell QC](#single-cell-qc)
-- [Novel allele and genotyping](#Novel-allele-and-genotyping)
+- [Novel allele and genotyping](#novel-allele-and-genotyping)
   - [Novel allele detection](#novel-allele-detection)
   - [Bayesian genotype inference](#bayesian-genotype-inference)
 - [Clonal analysis](#clonal-analysis)
@@ -507,15 +507,15 @@ Parsing the logs from the previous processes. Summary of the number of sequences
 
 ## Germline reference
 
-Copy of the downloaded germline reference database by the process `fetch_databases`, used for the gene assignment step, only stored if `--save_databases` is true.
+Copy of the downloaded germline reference database by the process `fetch_germlines`, used for the gene assignment step, only stored if `--save_germlines` is true.
 
-If databases are provided with `--reference_fasta` and `--reference_igblast` this folder will not be present.
+This folder is only present when `--fetch_germlines` is set, for example `--fetch_germlines imgt` or `--fetch_germlines airrc-imgt`. If databases are provided with `--reference_fasta` and `--reference_igblast` this folder will not be present.
 
 <details markdown="1">
 <summary>Output files</summary>
 
 - `germline_reference/`
-  - Directory containing the downloaded germline reference in the `fetch_databases` process.
+  - Directory containing the downloaded germline reference in the `fetch_germlines` process.
 
 </details>
 

@@ -3,6 +3,9 @@ process AIRRFLOW_REPORT {
     label 'process_high'
     label 'immcantation_container'
 
+    if (workflow.profile.tokenize(',').intersect(['conda', 'mamba']).size() >= 1) {
+        error "nf-core/airrflow currently does not support Conda. Please use a container profile instead."
+    }
     container "docker.io/immcantation/airrflow:5.1.0"
 
     input:
