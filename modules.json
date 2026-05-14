@@ -7,12 +7,12 @@
                 "nf-core": {
                     "amulety/embed": {
                         "branch": "master",
-                        "git_sha": "b9e13c4115eaa12f4ce1ba67433ddab33b0f4545",
+                        "git_sha": "6d46786420b4d7bc88eba026eb389c0c5535d120",
                         "installed_by": ["modules"]
                     },
                     "amulety/translate": {
                         "branch": "master",
-                        "git_sha": "b9e13c4115eaa12f4ce1ba67433ddab33b0f4545",
+                        "git_sha": "6d46786420b4d7bc88eba026eb389c0c5535d120",
                         "installed_by": ["modules"]
                     },
                     "cat/fastq": {
