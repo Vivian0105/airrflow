@@ -201,6 +201,7 @@ nextflow run nf-core/airrflow -r 5.1.0 \
 --library_generation_method sc_10x_genomics \
 --reference_10x refdata-cellranger-vdj-GRCh38-alts-ensembl-7.1.0 \
 -c resource.config \
+--clonal_threshold_auto false \
 --clonal_threshold 0 \
 --outdir sc_from_fastq_results \
 -resume
