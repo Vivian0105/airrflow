@@ -35,7 +35,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### `Deprecations and changes`
 
 - [#451](https://github.com/nf-core/airrflow/pull/451) Removed repertoire analysis from clonal assignment report. Added repertoire report which includes clone size distribution, clonal abundance, diversity, clonal overlap and mutation frequency.
-- The param `fetch_imgt` has been updated to `fetch_germlines` and it now accepts the options `imgt` or `airrc-imgt`.
+- The param `fetch_imgt` has been updated to `fetch_germlines` and it now accepts the options `none`, `imgt` or `airrc-imgt`.
 - The param `save_databases` has been updated to `save_germlines`.
 
 ## [5.0.0] - Tarantallegra

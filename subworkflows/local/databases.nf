@@ -13,7 +13,7 @@ workflow DATABASES {
     main:
     ch_versions = channel.empty()
 
-    if( fetch_germlines == "false"){
+    if( fetch_germlines == "none"){
         if (reference_igblast.endsWith(".zip")) {
             channel.fromPath("${reference_igblast}")
                     .ifEmpty{ error "IGBLAST DB not found: ${reference_igblast}" }
@@ -28,7 +28,7 @@ workflow DATABASES {
         }
     }
 
-    if( fetch_germlines == "false" ){
+    if( fetch_germlines == "none" ){
         if (reference_fasta.endsWith(".zip")) {
             channel.fromPath("${reference_fasta}")
                     .ifEmpty{ error "IMGTDB not found: ${reference_fasta}" }
