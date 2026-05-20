@@ -8,7 +8,6 @@ workflow CLONAL_ANALYSIS {
     take:
     ch_repertoire_reference
     ch_logo
-    clonal_threshold_auto
     clonal_threshold
     skip_report_threshold
     cloneby
@@ -24,7 +23,7 @@ workflow CLONAL_ANALYSIS {
     ch_versions = channel.empty()
     ch_logs = channel.empty()
 
-    if (clonal_threshold_auto) {
+    if (clonal_threshold == 'auto') {
 
         ch_find_threshold = ch_repertoire_reference.map{ it -> it[1] }
                                         .collect()

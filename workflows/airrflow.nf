@@ -96,7 +96,6 @@ workflow AIRRFLOW {
         novel_allele_inference
         single_clone_representative
         genotyping_clonal_threshold
-        clonal_threshold_auto
         clonal_threshold
         skip_report_threshold
         skip_all_clones_report
@@ -406,7 +405,6 @@ workflow AIRRFLOW {
             CLONAL_ANALYSIS(
                 ch_repertoire_reference,
                 ch_report_logo_img.collect().ifEmpty([]),
-                clonal_threshold_auto,
                 clonal_threshold,
                 skip_report_threshold,
                 cloneby,
