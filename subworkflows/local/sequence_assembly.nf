@@ -73,6 +73,9 @@ workflow SEQUENCE_ASSEMBLY {
     cregion_maxerror
     cregion_mask_mode
     filterseq_q
+    buildconsensus_maxerror
+    buildconsensus_maxgap
+    primer_consensus
 
     main:
 
@@ -282,7 +285,10 @@ workflow SEQUENCE_ASSEMBLY {
             cregion_maxlen,
             cregion_maxerror,
             cregion_mask_mode,
-            filterseq_q
+            filterseq_q,
+            buildconsensus_maxerror,
+            buildconsensus_maxgap,
+            primer_consensus
         )
         ch_presto_fasta = PRESTO_UMI.out.fasta
         ch_presto_software = PRESTO_UMI.out.versions

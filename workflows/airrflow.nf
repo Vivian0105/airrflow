@@ -132,6 +132,9 @@ workflow AIRRFLOW {
         lineage_tree_builder
         lineage_tree_exec
         filterseq_q
+        buildconsensus_maxerror
+        buildconsensus_maxgap
+        primer_consensus
 
     main:
 
@@ -262,7 +265,10 @@ workflow AIRRFLOW {
                     cregion_maxlen,
                     cregion_maxerror,
                     cregion_mask_mode,
-                    filterseq_q
+                    filterseq_q,
+                    buildconsensus_maxerror,
+                    buildconsensus_maxgap,
+                    primer_consensus
                 )
 
                 ch_fasta                                = SEQUENCE_ASSEMBLY.out.fasta

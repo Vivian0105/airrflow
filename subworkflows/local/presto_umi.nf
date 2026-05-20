@@ -74,6 +74,9 @@ workflow PRESTO_UMI {
     cregion_maxerror
     cregion_mask_mode
     filterseq_q
+    buildconsensus_maxerror
+    buildconsensus_maxgap
+    primer_consensus
 
     main:
 
@@ -470,7 +473,13 @@ workflow PRESTO_UMI {
     if (maskprimers_align_race) {
         // Only consider C_PRIMER frequency when building consensus
         PRESTO_BUILDCONSENSUS_ALIGN_RACE (
-            ch_for_buildconsensus
+            ch_for_buildconsensus,
+            buildconsensus_maxerror,
+            buildconsensus_maxgap,
+            true, // use homogeneous C primer
+            false, // do not use homogeneous linker
+            primer_consensus,
+            cluster_sets
         )
         ch_versions = ch_versions.mix(PRESTO_BUILDCONSENSUS_ALIGN_RACE.out.versions)
         ch_postconsensus = PRESTO_BUILDCONSENSUS_ALIGN_RACE.out.reads
@@ -478,7 +487,13 @@ workflow PRESTO_UMI {
     } else if (maskprimers_extract) {
         // Do not consider primers when building consensus
         PRESTO_BUILDCONSENSUS_EXTRACT(
-            ch_for_buildconsensus
+            ch_for_buildconsensus,
+            buildconsensus_maxerror,
+            buildconsensus_maxgap,
+            false,
+            false,
+            primer_consensus,
+            cluster_sets
         )
         ch_versions = ch_versions.mix(PRESTO_BUILDCONSENSUS_EXTRACT.out.versions)
         ch_postconsensus = PRESTO_BUILDCONSENSUS_EXTRACT.out.reads
@@ -486,7 +501,13 @@ workflow PRESTO_UMI {
     } else {
         // Consider both primers frequency when building consensus
         PRESTO_BUILDCONSENSUS_UMI (
-            ch_for_buildconsensus
+            ch_for_buildconsensus,
+            buildconsensus_maxerror,
+            buildconsensus_maxgap,
+            true,
+            true,
+            primer_consensus,
+            cluster_sets
         )
         ch_versions = ch_versions.mix(PRESTO_BUILDCONSENSUS_UMI.out.versions)
         ch_postconsensus = PRESTO_BUILDCONSENSUS_UMI.out.reads

@@ -326,7 +326,10 @@ workflow NFCORE_AIRRFLOW {
         params.singlecell,
         params.lineage_tree_builder,
         params.lineage_tree_exec,
-        params.filterseq_q
+        params.filterseq_q,
+        params.buildconsensus_maxerror,
+        params.buildconsensus_maxgap,
+        params.primer_consensus
     )
     emit:
     multiqc_report = AIRRFLOW.out.multiqc_report // channel: /path/to/multiqc_report.html
