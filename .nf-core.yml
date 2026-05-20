@@ -6,14 +6,8 @@ lint:
     - .github/PULL_REQUEST_TEMPLATE.md
   multiqc_config:
     - report_comment
-  nextflow_config:
-    - config_defaults:
-        - params.miairr
-        - params.report_rmd
-        - params.report_css
-        - params.report_logo
-        - params.report_logo_img
-        - params.config_profile_url
+  nextflow_config: False # Ported to params block in main.nf
+  schema_params: False # Ported to params block in main.nf
 nf_core_version: 4.0.2
 repository_type: pipeline
 template:
