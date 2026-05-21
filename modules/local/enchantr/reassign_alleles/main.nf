@@ -19,9 +19,7 @@ process REASSIGN_ALLELES {
     tuple val(meta), path(tabs), path(reference_fasta) // meta, sequence tsv in AIRR format, reference fasta
     val segments // which segments to reassign alleles to
     val outputby // which field to use for output
-    //TODO: did we want to handle all segments at once? Then this val channel would not be needed.
-    // *After novel alleles we just need to change the V, it's a time waste to go over all segments.
-    //TODO: Check if we need the outputby parameter. Right now this is the same as the genotypeby parameter.
+
     output:
     tuple val(meta), path("*/*/*reassign-pass.tsv"), emit: tab // reassigned repertoire
     path("*/*_command_log.txt"), emit: logs //process logs
