@@ -6,8 +6,8 @@ lint:
     - .github/PULL_REQUEST_TEMPLATE.md
   multiqc_config:
     - report_comment
-  nextflow_config: False # Ported to params block in main.nf
-  schema_params: False # Ported to params block in main.nf
+  nextflow_config: false # Ported to params block in main.nf
+  schema_params: false # Ported to params block in main.nf
 nf_core_version: 4.0.2
 repository_type: pipeline
 template:
@@ -18,4 +18,4 @@ template:
   name: airrflow
   org: nf-core
   outdir: .
-  version: 5.1.0dev
+  version: 5.1.0
