@@ -36,6 +36,7 @@ process PRESTO_BUILDCONSENSUS {
     --maxerror ${buildconsensus_maxerror} \\
     --maxgap ${buildconsensus_maxgap} \\
     ${primer_consensus_R1} \\
+    ${cluster_sets_val} \\
     ${args} \\
     --outname ${meta.id}_R1 \\
     --log ${meta.id}_R1.log > ${meta.id}_command_log.txt
@@ -43,6 +44,7 @@ process PRESTO_BUILDCONSENSUS {
     --maxerror ${buildconsensus_maxerror} \\
     --maxgap ${buildconsensus_maxgap} \\
     ${primer_consensus_R2} \\
+    ${cluster_sets_val} \\
     ${args2} \\
     --outname ${meta.id}_R2 \\
     --log ${meta.id}_R2.log >> ${meta.id}_command_log.txt
