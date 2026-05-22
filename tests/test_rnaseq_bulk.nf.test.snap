@@ -1,7 +1,7 @@
 {
     "-profile test_rnaseq_bulk": {
         "content": [
-            22,
+            23,
             {
                 "ADD_META_TO_TAB": {
                     "dplyr": "1.2.1",
@@ -71,7 +71,7 @@
                     "trust4": "TRUST4 using v1.1.5-r573"
                 },
                 "Workflow": {
-                    "nf-core/airrflow": "v5.0.0"
+                    "nf-core/airrflow": "v5.1.0"
                 }
             },
             [
@@ -298,17 +298,17 @@
                 "style.css:md5,d0833d790556369103776a429102fedf",
                 "all_reps_threshold_command_log.txt:md5,3eff46ec7b82afa94f532ebd47f81482",
                 "multiqc_citations.txt:md5,d35df50e9903a96a2b3bce3c1fbc8ad2",
-                "multiqc_fastp.txt:md5,adbe99c400c13729889328ef6c962248",
-                "multiqc_general_stats.txt:md5,ba1c51a05cf3067b189f83c384247f57",
-                "trust4_reference.fa:md5,a552d9b0421bf587433b483c5405883d",
+                "multiqc_fastp.txt:md5,a015e81113c7b8d1fa914cabd8552e06",
+                "multiqc_general_stats.txt:md5,83c841dc870276672d0321d5c3796216",
+                "trust4_reference.fa:md5,a2bd1e99b52d42c49776f55aef6cb00c",
                 "Sample01_collapse_command_log.txt:md5,9c7498cb48567d26d976f930e061c372",
                 "style.css:md5,d0833d790556369103776a429102fedf",
                 "style.css:md5,d0833d790556369103776a429102fedf",
-                "Sample01_annot.fa:md5,d98397603e187480cde4c6a62ca10d72",
+                "Sample01_annot.fa:md5,a6a0c19ca412846322e8e24d4292088d",
                 "Sample01_assembled_reads.fa:md5,886a1b1d2367b8eec15debf601000c45",
-                "Sample01_cdr3.out:md5,6960835996f86dcb16eacba8a8c1fa04",
-                "Sample01_final.out:md5,2b68beaf87db5b52cdaa83aaa9f972a0",
-                "Sample01_raw.out:md5,781fe45e6e3eb5580cde96306530925c",
+                "Sample01_cdr3.out:md5,9361611ec282e8a6fd49315e97c5d549",
+                "Sample01_final.out:md5,721f7ddd80e538ab4cc1eece3f7eedfb",
+                "Sample01_raw.out:md5,a3dc8b68ee07bbaa203aecaef58ff586",
                 "Sample01_toassemble_1.fq:md5,9732cb6fb019e8212862db4a989f0e16",
                 "Sample01_toassemble_2.fq:md5,3db3768e3d8c7c486717fc8bd5715ba7",
                 "Sample01_fq_command_log.txt:md5,ffbebb972c298e7a6f59d02fa7c0ad00",
@@ -319,8 +319,8 @@
         ],
         "meta": {
             "nf-test": "0.9.3",
-            "nextflow": "25.10.2"
+            "nextflow": "26.04.1"
         },
-        "timestamp": "2026-05-12T11:37:24.450151362"
+        "timestamp": "2026-05-22T10:43:39.617449332"
     }
 }

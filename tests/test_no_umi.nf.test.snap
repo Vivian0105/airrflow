@@ -1,7 +1,7 @@
 {
     "-profile test_no_umi": {
         "content": [
-            28,
+            29,
             {
                 "ADD_META_TO_TAB": {
                     "dplyr": "1.2.1",
@@ -96,7 +96,7 @@
                     "pandas": "1.1.5"
                 },
                 "Workflow": {
-                    "nf-core/airrflow": "v5.0.0"
+                    "nf-core/airrflow": "v5.1.0"
                 }
             },
             [
@@ -219,6 +219,7 @@
                 "multiqc/multiqc_plots/pdf/fastp-seq-quality-plot_Read_2_Before_filtering.pdf",
                 "multiqc/multiqc_plots/pdf/fastp_filtered_reads_plot-cnt.pdf",
                 "multiqc/multiqc_plots/pdf/fastp_filtered_reads_plot-pct.pdf",
+                "multiqc/multiqc_plots/pdf/fastqc-1-status-check-heatmap.pdf",
                 "multiqc/multiqc_plots/pdf/fastqc-1_adapter_content_plot.pdf",
                 "multiqc/multiqc_plots/pdf/fastqc-1_overrepresented_sequences_plot.pdf",
                 "multiqc/multiqc_plots/pdf/fastqc-1_per_base_n_content_plot.pdf",
@@ -247,6 +248,7 @@
                 "multiqc/multiqc_plots/png/fastp-seq-quality-plot_Read_2_Before_filtering.png",
                 "multiqc/multiqc_plots/png/fastp_filtered_reads_plot-cnt.png",
                 "multiqc/multiqc_plots/png/fastp_filtered_reads_plot-pct.png",
+                "multiqc/multiqc_plots/png/fastqc-1-status-check-heatmap.png",
                 "multiqc/multiqc_plots/png/fastqc-1_adapter_content_plot.png",
                 "multiqc/multiqc_plots/png/fastqc-1_overrepresented_sequences_plot.png",
                 "multiqc/multiqc_plots/png/fastqc-1_per_base_n_content_plot.png",
@@ -275,6 +277,7 @@
                 "multiqc/multiqc_plots/svg/fastp-seq-quality-plot_Read_2_Before_filtering.svg",
                 "multiqc/multiqc_plots/svg/fastp_filtered_reads_plot-cnt.svg",
                 "multiqc/multiqc_plots/svg/fastp_filtered_reads_plot-pct.svg",
+                "multiqc/multiqc_plots/svg/fastqc-1-status-check-heatmap.svg",
                 "multiqc/multiqc_plots/svg/fastqc-1_adapter_content_plot.svg",
                 "multiqc/multiqc_plots/svg/fastqc-1_overrepresented_sequences_plot.svg",
                 "multiqc/multiqc_plots/svg/fastqc-1_per_base_n_content_plot.svg",
@@ -396,9 +399,9 @@
                 "all_reps_clone_command_log.txt:md5,e8a90a4cfb5f16eace6aa5daf6bafb6b",
                 "style.css:md5,d0833d790556369103776a429102fedf",
                 "multiqc_citations.txt:md5,d35df50e9903a96a2b3bce3c1fbc8ad2",
-                "multiqc_fastp.txt:md5,9d6525e64a97e5d420a3ef05cdfdaf85",
-                "multiqc_fastqc_fastqc-1.txt:md5,5a65617702acf58d648bca1fe97b7a11",
-                "multiqc_general_stats.txt:md5,511d32ad3efa0ef5f4f8840f5154dcf0",
+                "multiqc_fastp.txt:md5,b55eb66c03902a46a2fd092f01a7d704",
+                "multiqc_fastqc_fastqc-1.txt:md5,0639d223884f28dd3e3a3bd46c7e4c19",
+                "multiqc_general_stats.txt:md5,efb20078aaf47d7e12928a46f2f1cf19",
                 "Sample1_collapse_command_log.txt:md5,6d1b141658008b4d25555bfc3aa9eaff",
                 "style.css:md5,d0833d790556369103776a429102fedf",
                 "style.css:md5,d0833d790556369103776a429102fedf",
@@ -407,12 +410,12 @@
                 "Sample1_add-meta_command_log.txt:md5,375939c5827b70235b0c68ce79b3fe45"
             ],
             "Table_sequences_assembled.tsv:md5,ef32428733c1d28b17d031d92d21cf4c",
-            "Table_sequences_assembly.tsv:md5,a3c840988b32d00ebe6440a8c1b4c8c9"
+            "Table_sequences_assembly.tsv:md5,e076e4d094c581de9603dfa57e096c5e"
         ],
         "meta": {
             "nf-test": "0.9.3",
-            "nextflow": "25.10.2"
+            "nextflow": "26.04.1"
         },
-        "timestamp": "2026-05-12T11:28:44.731060101"
+        "timestamp": "2026-05-22T10:34:39.905465269"
     }
 }

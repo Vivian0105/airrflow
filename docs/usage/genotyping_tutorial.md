@@ -4,57 +4,115 @@ This tutorial provides an introduction on how to add novel allele detection and 
 
 ## Pre-requisites
 
-Novel allele detection and genotype inference are optional add-on steps in nf-core/airrflow pipeline. Before using these features, make sure you are familiar with the basic usage of the pipeline. If not, we recommend reviewing the bulk or single-cell tutorials before proceeding with this guide.
+You can run this tutorial using the Github Codespaces platform. Codespaces already has Nextflow and Singularity pre-installed, and it can automatically be used for every nf-core repository. To create a Codespace instance for nf-core/airrflow, first click on the button labelled `Code` at the top of [nf-core/airrflow repository](https://github.com/nf-core/airrflow).
+
+In the dropdown menu, go to the `Codespaces` tab. Click the `...` sign, then select `+ New with options...`.
+
+<p align="center">
+<img src="https://raw.githubusercontent.com/nf-core/airrflow/dev/docs/images/Create_codespaces.png" width="400" alt="Create Codespaces with options">
+</p>
+
+After that, you’ll be directed to the configuration page. Select "4-core" for `machine type`, which will give you 4 CPUs, 16GB RAM and 32GB space.
+
+<p align="center">
+<img src="https://raw.githubusercontent.com/nf-core/airrflow/dev/docs/images/Codespaces_4core.png" width="400" alt="Chose 4-core">
+</p>
+
+If you want to know more about Codespaces, check [the Codespaces overview](https://docs.github.com/en/codespaces/about-codespaces/what-are-codespaces) or the Codespaces section in nf-core documentation [the Dev Containers overview](https://nf-co.re/docs/tutorials/devcontainer/overview).
+
+When running this tutorial on your local machine, you'll first have to set up Nextflow and a container engine (Docker or Singularity).
+
+> [!NOTE]
+> If you want to run this tutorial on your local machine, please refer to [this page](https://nf-co.re/docs/usage/installation) on how to set up Nextflow and a container engine needed to run this pipeline. At the moment, nf-core/airrflow does NOT support using conda virtual environments for dependency management, only containers are supported. Make sure to [test your setup](https://nf-co.re/docs/usage/introduction#how-to-run-a-pipeline) before running the workflow on actual data. To install Docker, follow the [instructions](https://docs.docker.com/engine/install/). After installation Docker on Linux, don't forget to check the [post-installation steps](https://docs.docker.com/engine/install/linux-postinstall/).
 
 ## How to add novel allele detection and genotype inference in the pipeline
 
-To perform novel allele detection and genotype inference in nf-core/airrflow pipeline, simply add flag `--genotyping` in your command.
+Novel allele detection and genotype inference are optional add-on functions in nf-core/airrflow. To perform these two additional functions in the workflow, simply add flag `--genotyping` in your command.
 
-By default, with flag `--genotyping` on, the following steps will be executed before clonal inference:
+By default, with the flag `--genotyping` on, the following steps will be executed before clonal inference:
 
-1. Infer the presence of novel IGHV alleles not in the germline database.
-2. Assign novel alleles to samples.
-3. Infer clones and use one single representative sequence per clone for genotype inference.
+1. Infer the presence of novel IGHV alleles not in the germline database. You are able to turn this step off even with `--genotyping` on by setting the flag `--novel_allele_inference false` in the command.
+2. Assign novel alleles to samples. Of course if `--novel_allele_inference false` is set, this step is also skipped.
+3. Infer clones and use one single representative sequence per clone for genotype inference. This is a strongly recommended step to reduce the impact of clonal expansion on genotyping. However, if you want to reduce running time, you can turn if off by setting `--single_clone_representative false` in the command.
 4. Infer the personalized genotype of each subject.
 5. Correct the allele calls of sequences based on the genotypes of subjects.
 
 After these steps, we have more accurate allele calls for each subject for clonal inference and analysis.
 
-## Testing novel allele detection and genotype inference with built-in tests
+## Running the pipeline with novel allele detection and genotype inference functions on
 
-If you have set up Nextflow and Docker for your local machine, test nf-core/airrflow novel allele detection and genotype inference with the built-in test.
+In this tutorial, we will test the add-on function of novel allele detection and genotype inference by executing the pipeline on one bulkBCR sample with assembled mode and with the genotyping related flags on.
 
-```bash
-nextflow run nf-core/airrflow -r 5.1.0 -profile test_genotyping_small,docker --outdir test_genotyping_results
+### Preparing the samplesheet and configuration file
+
+To run the pipeline, a tab-separated samplesheet that provides the path to the AIRR rearrangement files must be prepared.
+The samplesheet collects experimental details that are important for the data analysis.
+
+Details on the required columns of a samplesheet are available [here](https://nf-co.re/airrflow/usage#assembled-input-samplesheet-bulk-or-single-cell-sequencing).
+
+The resource configuration file sets the compute infrastructure maximum available number of CPUs, RAM memory and running time. This will ensure that no pipeline process requests more resources than available in the compute infrastructure where the pipeline is running. The resource config should be provided with the `-c` option. In this example we set the maximum RAM memory to 15GB, we restrict the pipeline to use 4 CPUs and to run for a maximum of 24 hours.
+
+```json title="resource.config"
+process {
+    resourceLimits = [ memory: 15.GB, time: 24.h, cpus: 4 ]
+}
 ```
 
-Change the `docker` profile to `singularity` if you use Codespaces since Docker currently cannot be used in Codespaces. You can first set up a Singularity cache directory which will allow the reuse of Singularity container across all runs:
+We prepared the [samplesheet](https://github.com/nf-core/airrflow/blob/dev/docs/usage/genotyping_tutorial/sample_data_code/genotype_samplesheet.tsv) and the [configuration file](https://github.com/nf-core/airrflow/tree/dev/docs/usage/genotyping_tutorial/sample_data_code/resource.config) for this tutorial. If you want to run the pipeline locally, download both files to the directory where you intend to run nf-core/airrflow. If you are in Codespace, simply go to the directory (`/docs/usage/genotyping_tutorial/sample_data_code`) where the files stored and run the pipelines within that directory.
 
-```bash
-mkdir singularity_cache
-export NXF_SINGULARITY_CACHEDIR="/workspaces/airrflow/singularity_cache"
-```
-
-Then run nf-core/airrflow with the genotyping test data:
-
-```bash
-nextflow run nf-core/airrflow -r 5.1.0 -profile test_genotyping_small,singularity --outdir test_genotyping_results
-```
+> [!TIP]
+> Before setting memory and CPUs in the configuration file, we recommend verifying the available memory and CPUs on your system. Otherwise, exceeding the system's capacity may result in an error indicating that you requested more CPUs than available or run out of memory. You can also remove the "time" parameter from the configuration file to allow for unlimited runtime for large-size dataset.
 
 > [!NOTE]
-> The '-r' flag in the command specifies which nf-core/airrflow release to run. We recommend always [checking and using the latest release](https://nf-co.re/airrflow/releases_stats/).
+> When running nf-core/airrflow with your own data, provide the full path to your input files under the filename column.
 
-> [!NOTE]
-> Because Codespaces provides limited CPU and RAM resources, the test run may take 25 minutes. The process will be faster on systems with greater CPU and RAM capacity.
+### Running airrflow
 
-If the tests run through correctly, you should see this output in your command line:
+If you are running the pipeline on Codespace, within the directory where the prepared samplesheet and configuration file locate, run the command.
 
--[nf-core/airrflow] Pipeline completed successfully-
-Completed at: 01-May-2026 13:52:56
-Duration : 25m 23s
-CPU hours : 0.8 (0% cached)
-Succeeded : 21
-Cached : 2
+```bash
+nextflow run nf-core/airrflow -r 5.1.0 \
+-profile singularity \
+--mode assembled \
+--genotyping true \
+--single_clone_representative true \
+--skip_clonal_analysis true \
+--input genotype_samplesheet.tsv \
+--outdir test_genotype_results  \
+-c resource.config \
+-resume
+```
+
+Of course you can wrap all your code in a [bash file](https://github.com/nf-core/airrflow/tree/dev/docs/usage/genotyping_tutorial/sample_data_code/airrflow_genotyping_codespace.sh). With the bash file, it's easy to run the pipeline with a single-line command.
+
+```bash
+bash airrflow_genotyping_codespace.sh
+```
+
+The estimated running time is 15 minutes. We skipped single clone representative and clonal analysis here to save time because it's slow to run all the steps within Codespace due to the resource limitation.
+
+If you run the pipeline locally and have sufficient computing resources, there is no need to skip these steps. You can increase the resource requests in resource.config. Once all required files are prepared, start the pipeline using the following command.
+
+```bash
+nextflow run nf-core/airrflow -r 5.1.0 \
+-profile docker \
+--mode assembled \
+--genotyping true \
+--input genotype_samplesheet.tsv \
+--outdir test_genotype_results  \
+-c resource.config \
+-resume
+```
+
+Or to run the pipeline with the following single-line command.
+
+```bash
+bash airrflow_genotyping.sh
+```
+
+> [!TIP]
+> When launching a Nextflow pipeline with the `-resume` option, any processes that have already been run with the exact same code, settings and inputs will be cached and the pipeline will resume from the last step that changed or failed with an error. The benefit of using "resume" is to avoid duplicating previous work and save time when re-running a pipeline.
+> We include "resume" in our Nextflow command as a precaution in case anything goes wrong during execution. After fixing the issue, you can relaunch the pipeline with the same command, it will resume running from the point of failure, significantly reducing runtime and resource usage.
 
 ## Understanding the results
 
@@ -89,3 +147,9 @@ Plots of three evidence for novel allele IGHV1-24\*01_G9A:
 </p>
 
 2. Genotype inference plots can be found in html report in the folder 'novel_alleles_and_genotyping/02-genotype_inference/subject_id/subject_id_bayesian_genotype_inference_report/index.html'.
+
+Plots of genotype inference result on V gene:
+
+<p align="center">
+  <img src="../images/Genotyping_V_gene.png" style="width:70%;">
+</p>

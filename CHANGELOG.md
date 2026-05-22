@@ -7,9 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### `Added`
 
-- [#407](https://github.com/nf-core/airrflow/pull/407) Added genotyping subworkflow
-- [#424](https://github.com/nf-core/airrflow/issues/424) Added choices to use AIRR-C reference
-- [#459](https://github.com/nf-core/airrflow/issues/424) Added support for AIRR-C germline reference.
+- [#407](https://github.com/nf-core/airrflow/pull/407) Added genotyping sub-workflow.
+- [#424](https://github.com/nf-core/airrflow/issues/424) Added support for AIRR-C germline reference.
 
 ### `Fixed`
 
@@ -24,7 +23,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 | alakazam   | 1.3.1       | 1.4.3       |
 | r-shazam   | 1.2.0       | 1.3.2       |
 | scoper     | 1.3.0       | 1.5.0       |
-| tigger     |             | 1.1.3       |
+| enchantr   | 0.1.22      | 0.1.25      |
 | presto     | 0.7.6       | 0.7.8       |
 | changeo    | 1.3.0       | 1.3.4       |
 | dowser     | 2.4.0       | 2.4.1       |

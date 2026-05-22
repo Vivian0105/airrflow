@@ -128,7 +128,7 @@
                     "pandas": "1.1.5"
                 },
                 "Workflow": {
-                    "nf-core/airrflow": "v5.1.0dev"
+                    "nf-core/airrflow": "v5.1.0"
                 }
             },
             [
@@ -899,12 +899,12 @@
                 "Sample8_add-meta_command_log.txt:md5,eaaaa70f2f95d61750d77605798a75b9"
             ],
             "Table_sequences_assembled.tsv:md5,7330606135fab6f1bc7c33de4e455512",
-            "Table_sequences_assembly.tsv:md5,708c03c18168a00001ae2d590d63a9e9"
+            "Table_sequences_assembly.tsv:md5,76c0adc234453f28a1599710c4662eba"
         ],
-        "timestamp": "2026-05-20T22:28:15.255151816",
         "meta": {
-            "nf-test": "0.9.5",
+            "nf-test": "0.9.3",
             "nextflow": "26.04.1"
-        }
+        },
+        "timestamp": "2026-05-22T09:26:27.593428008"
     }
 }
