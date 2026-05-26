@@ -85,7 +85,7 @@ process {
 > [!NOTE]
 > When running nf-core/airrflow with your own data, provide the full path to your input files under the filename column.
 
-We prepared the [samplesheet](https://github.com/nf-core/airrflow/tree/dev/docs/usage/bulk_tutorial/bulk_sample_code/metadata_pcr_umi_airr_300.tsv) and the [configuration file](https://github.com/nf-core/airrflow/tree/dev/docs/usage/bulk_tutorial/bulk_sample_code/resource.config) for this tutorial. If you run the pipeline locally, download both files to the directory where you intend to run nf-core/airrflow.
+We prepared the [samplesheet](https://github.com/nf-core/airrflow/tree/dev/docs/usage/bulk_tutorial/sample_data_code/metadata_pcr_umi_airr_300.tsv) and the [configuration file](https://github.com/nf-core/airrflow/tree/dev/docs/usage/bulk_tutorial/sample_data_code/resource.config) for this tutorial. If you run the pipeline locally, download both files to the directory where you intend to run nf-core/airrflow.
 
 ## Choosing the right protocol profile
 
@@ -130,7 +130,7 @@ nextflow run nf-core/airrflow -r 5.1.0 \
 -resume
 ```
 
-Of course you can wrap all your code in a bash file. We prepared one for you and it's available [here](https://github.com/nf-core/airrflow/tree/dev/docs/usage/bulk_tutorial/bulk_sample_code/airrflow_bulk_b_fastq.sh).
+Of course you can wrap all your code in a bash file. We prepared one for you and it's available [here](https://github.com/nf-core/airrflow/tree/dev/docs/usage/bulk_tutorial/sample_data_code/airrflow_bulk_b_fastq.sh).
 With the bash file, it's easy to run the pipeline with a single-line command.
 
 ```bash
@@ -138,7 +138,7 @@ bash airrflow_bulk_b_fastq.sh
 ```
 
 > [!NOTE]
-> Due to the limited RAM and storage space on Codespace, please use the [subset of dataset](https://github.com/nf-core/airrflow/tree/dev/docs/usage/bulk_tutorial/bulk_sample_code/subset_metadata_pcr_umi_airr_300.tsv) to run the pipeline. Meanwhile, replace 'docker' profile with 'singularity' in the command. We have prepared a corresponding [bash file](https://github.com/nf-core/airrflow/tree/dev/docs/usage/bulk_tutorial/bulk_sample_code/airrflow_bulk_b_fastq_codespace.sh) for you. Run it within the folder where the bash file locates on Codespace with the single-line command below.
+> Due to the limited RAM and storage space on Codespace, please use the [subset of dataset](https://github.com/nf-core/airrflow/tree/dev/docs/usage/bulk_tutorial/sample_data_code/subset_metadata_pcr_umi_airr_300.tsv) to run the pipeline. Meanwhile, replace 'docker' profile with 'singularity' in the command. We have prepared a corresponding [bash file](https://github.com/nf-core/airrflow/tree/dev/docs/usage/bulk_tutorial/sample_data_code/airrflow_bulk_b_fastq_codespace.sh) for you. Run it within the folder where the bash file locates on Codespace with the single-line command below.
 
 ```bash
 bash airrflow_bulk_b_fastq_codespace.sh
