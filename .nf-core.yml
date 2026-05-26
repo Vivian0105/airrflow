@@ -1,20 +1,14 @@
 lint:
   files_exist:
     - conf/igenomes.config
-  multiqc_config:
-    - report_comment
   files_unchanged:
     - .gitignore
     - .github/PULL_REQUEST_TEMPLATE.md
-  nextflow_config:
-    - config_defaults:
-        - params.miairr
-        - params.report_rmd
-        - params.report_css
-        - params.report_logo
-        - params.report_logo_img
-        - params.config_profile_url
-nf_core_version: 3.5.1
+  multiqc_config:
+    - report_comment
+  nextflow_config: false # Ported to params block in main.nf
+  schema_params: false # Ported to params block in main.nf
+nf_core_version: 4.0.2
 repository_type: pipeline
 template:
   author: Gisela Gabernet, Susanna Marquez, Alexander Peltzer, Simon Heumos
@@ -24,4 +18,4 @@ template:
   name: airrflow
   org: nf-core
   outdir: .
-  version: "5.0.0"
+  version: 5.1.0

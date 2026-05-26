@@ -4,9 +4,6 @@ process ADD_META_TO_TAB {
     label 'process_single'
     label 'immcantation_container'
 
-    if (workflow.profile.tokenize(',').intersect(['conda', 'mamba']).size() >= 1) {
-        error "nf-core/airrflow currently does not support Conda. Please use a container profile instead."
-    }
     container "docker.io/immcantation/airrflow:5.1.0"
 
     cache 'deep' // Without 'deep' this process would run when using -resume
@@ -21,6 +18,10 @@ process ADD_META_TO_TAB {
     path "versions.yml", emit: versions
 
     script:
+    // Exit if running this module with -profile conda / -profile mamba
+    if (workflow.profile.tokenize(',').intersect(['conda', 'mamba']).size() >= 1) {
+        error "nf-core/airrflow currently does not support Conda. Please use a container profile instead."
+    }
     """
     reveal_add_metadata.R --repertoire ${tab} --metadata ${validated_input} --input_id ${meta.id} --outname ${meta.id} > ${meta.id}_add-meta_command_log.txt
 

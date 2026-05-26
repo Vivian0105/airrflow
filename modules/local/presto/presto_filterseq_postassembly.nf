@@ -10,6 +10,7 @@ process PRESTO_FILTERSEQ_POSTASSEMBLY {
 
     input:
     tuple val(meta), path(reads)
+    val filterseq_q
 
     output:
     tuple val(meta), path("*quality-pass.fastq") ,  emit: reads
@@ -19,7 +20,7 @@ process PRESTO_FILTERSEQ_POSTASSEMBLY {
 
     script:
     """
-    FilterSeq.py quality -s $reads -q ${params.filterseq_q} --outname ${meta.id} --log ${reads.baseName}.log --nproc ${task.cpus} > ${meta.id}_command_log.txt
+    FilterSeq.py quality -s $reads -q ${filterseq_q} --outname ${meta.id} --log ${reads.baseName}.log --nproc ${task.cpus} > ${meta.id}_command_log.txt
     ParseLog.py -l ${reads.baseName}.log -f ID QUALITY
 
     cat <<-END_VERSIONS > versions.yml

@@ -1,18 +1,10 @@
 def asString (args) {
-    def s = ""
-    def value = ""
-    if (args.size()>0) {
-        if (args[0] != 'none') {
-            for (param in args.keySet().sort()){
-                value = args[param].toString()
-                if (!value.isNumber()) {
-                    value = "'"+value+"'"
-                }
-                s = s + ",'"+param+"'="+value
-            }
-        }
-    }
-    return s
+    if (args.size() == 0 || args[0] == 'none') return ""
+    return args.keySet().sort().collect { param ->
+        def value = args[param].toString()
+        value = value.isNumber() ? value : "'${value}'"
+        ",'${param}'=${value}"
+    }.join('')
 }
 
 process CLONAL_ASSIGNMENT {
@@ -22,15 +14,14 @@ process CLONAL_ASSIGNMENT {
     label 'immcantation'
     label 'immcantation_container'
 
-    if (workflow.profile.tokenize(',').intersect(['conda', 'mamba']).size() >= 1) {
-        error "nf-core/airrflow currently does not support Conda. Please use a container profile instead."
-    }
     container "docker.io/immcantation/airrflow:5.1.0"
 
     input:
     tuple val(meta), path(tabs), path(reference_fasta) // meta, sequence tsv in AIRR format
     val threshold
     path repertoires_samplesheet
+    val cloneby
+    val singlecell
 
     output:
     tuple val(meta), path("*/*/*clone-pass.tsv"), emit: tab // sequence tsv in AIRR format
@@ -40,6 +31,10 @@ process CLONAL_ASSIGNMENT {
 
 
     script:
+    // Exit if running this module with -profile conda / -profile mamba
+    if (workflow.profile.tokenize(',').intersect(['conda', 'mamba']).size() >= 1) {
+        error "nf-core/airrflow currently does not support Conda. Please use a container profile instead."
+    }
     def args = task.ext.args ? asString(task.ext.args) : ''
     def thr = threshold.join("")
     def input = ""
@@ -53,11 +48,11 @@ process CLONAL_ASSIGNMENT {
                                         report_params=list('input'='${input}', \\
                                         'imgt_db'='${reference_fasta}', \\
                                         'species'='auto', \\
-                                        'cloneby'='${params.cloneby}', \\
-                                        'outputby'='${params.cloneby}', \\
+                                        'cloneby'='${cloneby}', \\
+                                        'outputby'='${cloneby}', \\
                                         'force'=FALSE, \\
                                         'threshold'=${thr}, \\
-                                        'singlecell'='${params.singlecell}', \\
+                                        'singlecell'='${singlecell}', \\
                                         'outdir'=getwd(), \\
                                         'nproc'=${task.cpus}, \\
                                         'log'='${meta.id}_clone_command_log' ${args}))"

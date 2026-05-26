@@ -1,18 +1,10 @@
 def asString (args) {
-    def s = ""
-    def value = ""
-    if (args.size()>0) {
-        if (args[0] != 'none') {
-            for (param in args.keySet().sort()){
-                value = args[param].toString()
-                if (!value.isNumber()) {
-                    value = "'"+value+"'"
-                }
-                s = s + ",'"+param+"'="+value
-            }
-        }
-    }
-    return s
+    if (args.size() == 0 || args[0] == 'none') return ""
+    return args.keySet().sort().collect { param ->
+        def value = args[param].toString()
+        value = value.isNumber() ? value : "'${value}'"
+        ",'${param}'=${value}"
+    }.join('')
 }
 
 process FIND_THRESHOLD {
@@ -22,9 +14,6 @@ process FIND_THRESHOLD {
     label 'immcantation'
     label 'immcantation_container'
 
-    if (workflow.profile.tokenize(',').intersect(['conda', 'mamba']).size() >= 1) {
-        error "nf-core/airrflow currently does not support Conda. Please use a container profile instead."
-    }
     container "docker.io/immcantation/airrflow:5.1.0"
 
 
@@ -32,6 +21,9 @@ process FIND_THRESHOLD {
     path tab // sequence tsv in AIRR format
     path logo
     path tabs_samplesheet
+    val cloneby
+    val crossby
+    val singlecell
 
     output:
     // tuple val(meta), path("*threshold-pass.tsv"), emit: tab // sequence tsv in AIRR format
@@ -42,13 +34,17 @@ process FIND_THRESHOLD {
     path "versions.yml", emit: versions
 
     script:
+        // Exit if running this module with -profile conda / -profile mamba
+    if (workflow.profile.tokenize(',').intersect(['conda', 'mamba']).size() >= 1) {
+        error "nf-core/airrflow currently does not support Conda. Please use a container profile instead."
+    }
     def args = task.ext.args ? asString(task.ext.args) : ''
     """
     Rscript -e "enchantr::enchantr_report('find_threshold', \\
         report_params=list('input'='${tabs_samplesheet}',\\
-            'cloneby'='${params.cloneby}',\\
-            'crossby'='${params.crossby}',\\
-            'singlecell'='${params.singlecell}',\\
+            'cloneby'='${cloneby}',\\
+            'crossby'='${crossby}',\\
+            'singlecell'='${singlecell}',\\
             'outdir'=getwd(),\\
             'nproc'=${task.cpus},\\
             'outname'='all_reps',\\

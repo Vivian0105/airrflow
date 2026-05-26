@@ -1,7 +1,7 @@
 include { NOVEL_ALLELE_INFERENCE } from '../../modules/local/enchantr/novel_allele_inference'
 include { BAYESIAN_GENOTYPE_INFERENCE  } from '../../modules/local/enchantr/bayesian_genotype_inference'
 include { REASSIGN_ALLELES as REASSIGN_ALLELES_NOVEL; REASSIGN_ALLELES as REASSIGN_ALLELES_GENOTYPE} from '../../modules/local/enchantr/reassign_alleles'
-include { CLONAL_ANALYSIS } from './clonal_analysis.nf'
+include { CLONAL_ANALYSIS } from './clonal_analysis'
 include { CLONAL_ASSIGNMENT as CLONAL_ASSIGNMENT_GENOTYPING } from '../../modules/local/enchantr/clonal_assignment'
 
 workflow NOVEL_ALLELES_AND_GENOTYPING {
@@ -10,10 +10,16 @@ workflow NOVEL_ALLELES_AND_GENOTYPING {
     ch_reference_fasta
     ch_validated_samplesheet
     ch_logo
+    genotypeby
+    novel_allele_inference
+    single_clone_representative
+    genotyping_clonal_threshold
+    cloneby
+    singlecell
 
     main:
-    ch_versions = Channel.empty()
-    ch_logs = Channel.empty()
+    ch_versions = channel.empty()
+    ch_logs = channel.empty()
 
     // merge all repertoires by genotypeby metadata field
     ch_repertoire
@@ -22,8 +28,8 @@ workflow NOVEL_ALLELES_AND_GENOTYPING {
                 def meta = it[0]
                 def rep = it[1]
                 def ref = it[2]
-                def genotypeby = params.genotypeby=="sample_id" ? "id" : params.genotypeby
-                [ meta."${genotypeby}",
+                def genotypeby_field = genotypeby=="sample_id" ? "id" : genotypeby
+                [ meta[genotypeby_field],
                                     meta.id,
                                     meta.sample_id,
                                     meta.subject_id,
@@ -37,7 +43,7 @@ workflow NOVEL_ALLELES_AND_GENOTYPING {
                     .set{ ch_grouped_repertoires }
 
     // infer novel alleles
-    if (params.novel_allele_inference) {
+    if (novel_allele_inference) {
         NOVEL_ALLELE_INFERENCE (
             ch_grouped_repertoires
         )
@@ -56,7 +62,7 @@ workflow NOVEL_ALLELES_AND_GENOTYPING {
         REASSIGN_ALLELES_NOVEL (
             ch_reassign_alleles,
             ["v"],
-            params.genotypeby //TODO: @ayeletperes check if this is correct
+            genotypeby //TODO: @ayeletperes check if this is correct
         )
 
         REASSIGN_ALLELES_NOVEL.out.tab.dump(tag: "reassign alleles novel")
@@ -69,14 +75,16 @@ workflow NOVEL_ALLELES_AND_GENOTYPING {
         ch_repertoire_reference = ch_grouped_repertoires
     }
 
-    if (params.single_clone_representative) {
+    if (single_clone_representative) {
         // TODO: Check if we need the cloneby parameter, or here it can be the same as genotypeby.
         // create separate channels for repertoire and reference based on the genotypeby metadata field
 
         CLONAL_ASSIGNMENT_GENOTYPING(
             ch_repertoire_reference,
-            [params.genotyping_clonal_threshold],
-            []
+            [genotyping_clonal_threshold],
+            [],
+            cloneby,
+            singlecell
         )
         CLONAL_ASSIGNMENT_GENOTYPING.out.tab
             .join(ch_repertoire_reference
@@ -88,7 +96,9 @@ workflow NOVEL_ALLELES_AND_GENOTYPING {
 
     // infer genotype
     BAYESIAN_GENOTYPE_INFERENCE (
-        ch_for_genotyping
+        ch_for_genotyping,
+        genotypeby,
+        single_clone_representative
     )
 
     ch_grouped_repertoires
@@ -103,7 +113,7 @@ workflow NOVEL_ALLELES_AND_GENOTYPING {
     REASSIGN_ALLELES_GENOTYPE (
         ch_for_reassign,
         ["auto"],
-        params.genotypeby
+        genotypeby
     )
 
     REASSIGN_ALLELES_GENOTYPE.out.tab.dump(tag: "reassign alleles genotype out tab")

@@ -8,14 +8,17 @@ workflow BULK_QC_AND_FILTER {
     take:
     ch_repertoire // tuple [meta, repertoire_tab]
     ch_reference_fasta
+    remove_chimeric
+    detect_contamination
+    collapseby
 
     main:
 
-    ch_versions = Channel.empty()
-    ch_logs = Channel.empty()
+    ch_versions = channel.empty()
+    ch_logs = channel.empty()
 
     // Remove chimeric sequences if requested
-    if (params.remove_chimeric) {
+    if (remove_chimeric) {
 
         // Create germlines (not --cloned)
         CHANGEO_CREATEGERMLINES(
@@ -44,7 +47,7 @@ workflow BULK_QC_AND_FILTER {
     // TODO: add a flag to specify remove suspicious sequences
     // and update file size log accordingly
 
-    if (params.detect_contamination) {
+    if (detect_contamination) {
         DETECT_CONTAMINATION(
             ch_bulk_chimeric_pass
             .map{ it -> [ it[1] ] }
@@ -55,7 +58,8 @@ workflow BULK_QC_AND_FILTER {
     }
 
     COLLAPSE_DUPLICATES(
-        ch_bulk_chimeric_pass
+        ch_bulk_chimeric_pass,
+        collapseby
     )
 
     ch_versions = ch_versions.mix(COLLAPSE_DUPLICATES.out.versions)

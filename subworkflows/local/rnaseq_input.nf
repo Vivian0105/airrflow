@@ -13,17 +13,34 @@ workflow RNASEQ_INPUT {
     take:
     ch_input
     ch_igblast_reference
+    vprimers
+    race_linker
+    cprimers
+    umi_length
+    reference_10x
+    trust4_barcode_whitelist
+    trust4_cell_barcode_read
+    trust4_umi_read
+    trust4_read_format
+    library_generation_method
+    collapseby
+    cloneby
+    index_file
 
     main:
 
-    ch_versions = Channel.empty()
-    ch_logs = Channel.empty()
+    ch_versions = channel.empty()
+    ch_logs = channel.empty()
 
     //
     // read in samplesheet, validate and stage input fies
     //
     FASTQ_INPUT_CHECK(
-        ch_input
+        ch_input,
+        library_generation_method,
+        collapseby,
+        cloneby,
+        index_file
     )
     ch_versions = ch_versions.mix(FASTQ_INPUT_CHECK.out.versions)
 
@@ -31,18 +48,18 @@ workflow RNASEQ_INPUT {
 
 
     // validate library generation method parameters
-    if (params.vprimers) {
+    if (vprimers) {
         error "The TRUST4 library generation method does not require V-region primers, please provide a reference file instead or select another library method option."
-    } else if (params.race_linker) {
+    } else if (race_linker) {
         error "The TRUST4 10X genomics library generation method does not require the --race_linker parameter, please provide a reference file instead or select another library method option."
     }
-    if (params.cprimers)  {
+    if (cprimers)  {
         error "The TRUST4 library generation method does not require C-region primers, please provide a reference file instead or select another library method option."
     }
-    if (params.umi_length > 0)  {
+    if (umi_length > 0)  {
         error "TRUST4 library generation method does not require to set the UMI length, please provide a reference file instead or select another library method option."
     }
-    if (params.reference_10x)  {
+    if (reference_10x)  {
         error "The TRUST4 library generation method does not require this reference, please provide a compliant reference file instead or select another library method option."
     }
 
@@ -79,10 +96,10 @@ workflow RNASEQ_INPUT {
         ch_reads_trust4,
         PREPARE_TRUST4_REFERENCE.out.trust4_reference.collect(),
         [],
-        params.trust4_barcode_whitelist ? params.trust4_barcode_whitelist : [],
-        params.trust4_cell_barcode_read ? params.trust4_cell_barcode_read : [],
-        params.trust4_umi_read ? params.trust4_umi_read : [],
-        params.trust4_read_format ? params.trust4_read_format : [],
+        trust4_barcode_whitelist ? trust4_barcode_whitelist : [],
+        trust4_cell_barcode_read ? trust4_cell_barcode_read : [],
+        trust4_umi_read ? trust4_umi_read : [],
+        trust4_read_format ? trust4_read_format : [],
     )
     ch_versions = ch_versions.mix(TRUST4.out.versions)
 

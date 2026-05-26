@@ -29,7 +29,7 @@ process PRESTO_MASKPRIMERS_SCORE {
     def args = task.ext.args?: ''
     def args2 = task.ext.args2?: ''
     def revpr = reverse_primers ? '--revpr' : ''
-    def barcode = barcode ? '--barcode' : ''
+    def barcode_param = barcode ? '--barcode' : ''
     """
     MaskPrimers.py score \\
     --nproc ${task.cpus} \\
@@ -38,7 +38,8 @@ process PRESTO_MASKPRIMERS_SCORE {
     --maxerror ${primer_maxerror} \\
     --mode ${primer_mask_mode} \\
     --start ${primer_start} \\
-    $barcode $revpr \\
+    $barcode_param \\
+    $revpr \\
     $args \\
     --outname ${meta.id}_${suffix} \\
     --log ${meta.id}_${suffix}.log > ${meta.id}_command_log_${suffix}.txt

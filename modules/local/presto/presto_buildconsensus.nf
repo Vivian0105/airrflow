@@ -10,6 +10,12 @@ process PRESTO_BUILDCONSENSUS {
 
     input:
     tuple val(meta), path(R1), path(R2)
+    val buildconsensus_maxerror
+    val buildconsensus_maxgap
+    val use_consensus_R1
+    val use_consensus_R2
+    val primer_consensus
+    val cluster_sets
 
     output:
     tuple val(meta), path("*_R1_consensus-pass.fastq"), path("*_R2_consensus-pass.fastq"), emit: reads
@@ -21,9 +27,27 @@ process PRESTO_BUILDCONSENSUS {
     def args = task.ext.args ?: ''
     def args2 = task.ext.args2 ?: ''
     def args3 = task.ext.args3 ?: ''
+    def cluster_sets_val = cluster_sets ? "--bf CLUSTER" : "--bf BARCODE"
+    def primer_consensus_R1 = use_consensus_R1 ? "--prcons $primer_consensus" : ""
+    def primer_consensus_R2 = use_consensus_R2 ? "--prcons $primer_consensus" : ""
     """
-    BuildConsensus.py -s $R1 --nproc ${task.cpus} ${args} --outname ${meta.id}_R1 --log ${meta.id}_R1.log > ${meta.id}_command_log.txt
-    BuildConsensus.py -s $R2 --nproc ${task.cpus} ${args2} --outname ${meta.id}_R2 --log ${meta.id}_R2.log >> ${meta.id}_command_log.txt
+    BuildConsensus.py -s $R1 \\
+    --nproc ${task.cpus} \\
+    --maxerror ${buildconsensus_maxerror} \\
+    --maxgap ${buildconsensus_maxgap} \\
+    ${primer_consensus_R1} \\
+    ${cluster_sets_val} \\
+    ${args} \\
+    --outname ${meta.id}_R1 \\
+    --log ${meta.id}_R1.log > ${meta.id}_command_log.txt
+    BuildConsensus.py -s $R2 --nproc ${task.cpus} \\
+    --maxerror ${buildconsensus_maxerror} \\
+    --maxgap ${buildconsensus_maxgap} \\
+    ${primer_consensus_R2} \\
+    ${cluster_sets_val} \\
+    ${args2} \\
+    --outname ${meta.id}_R2 \\
+    --log ${meta.id}_R2.log >> ${meta.id}_command_log.txt
     ParseLog.py -l ${meta.id}_R1.log ${meta.id}_R2.log ${args3}
 
     cat <<-END_VERSIONS > versions.yml

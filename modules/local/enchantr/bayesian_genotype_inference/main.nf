@@ -1,18 +1,10 @@
 def asString (args) {
-    def s = ""
-    def value = ""
-    if (args.size()>0) {
-        if (args[0] != 'none') {
-            for (param in args.keySet().sort()){
-                value = args[param].toString()
-                if (!value.isNumber()) {
-                    value = "'"+value+"'"
-                }
-                s = s + ",'"+param+"'="+value
-            }
-        }
-    }
-    return s
+    if (args.size() == 0 || args[0] == 'none') return ""
+    return args.keySet().sort().collect { param ->
+        def value = args[param].toString()
+        value = value.isNumber() ? value : "'${value}'"
+        ",'${param}'=${value}"
+    }.join('')
 }
 
 process BAYESIAN_GENOTYPE_INFERENCE {
@@ -21,13 +13,12 @@ process BAYESIAN_GENOTYPE_INFERENCE {
     label 'process_long_parallelized'
     label 'immcantation'
 
-    if (workflow.profile.tokenize(',').intersect(['conda', 'mamba']).size() >= 1) {
-        error "nf-core/airrflow currently does not support Conda. Please use a container profile instead."
-    }
     container "docker.io/immcantation/airrflow:5.1.0"
 
     input:
     tuple val(meta), path(tabs), path(reference_fasta) // meta, sequence tsv in AIRR format
+    val genotypeby
+    val single_clone_representative
 
     output:
     tuple val(meta), path("*_report/references/*/db_genotype"), emit: reference // reference folder
@@ -37,14 +28,18 @@ process BAYESIAN_GENOTYPE_INFERENCE {
 
 
     script:
+    // Exit if running this module with -profile conda / -profile mamba
+    if (workflow.profile.tokenize(',').intersect(['conda', 'mamba']).size() >= 1) {
+        error "nf-core/airrflow currently does not support Conda. Please use a container profile instead."
+    }
     def args = task.ext.args ? asString(task.ext.args) : ''
     def input = tabs.join(',')
     """
     Rscript -e "enchantr::enchantr_report('tigger_bayesian_genotype', \\
                                         report_params=list('input'='${input}', \\
                                         'imgt_db'='${reference_fasta}', \\
-                                        'genotypeby'='${params.genotypeby}', \\
-                                        'single_clone_representative'='${params.single_clone_representative}', \\
+                                        'genotypeby'='${genotypeby}', \\
+                                        'single_clone_representative'='${single_clone_representative}', \\
                                         'outdir'=getwd(), \\
                                         'log'='${meta.id}_bayesian_genotype_inference_command_log' ${args}))"
 

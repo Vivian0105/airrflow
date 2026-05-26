@@ -4,9 +4,6 @@ process FILTER_JUNCTION_MOD3 {
     label 'process_single'
     label 'immcantation_container'
 
-    if (workflow.profile.tokenize(',').intersect(['conda', 'mamba']).size() >= 1) {
-        error "nf-core/airrflow currently does not support Conda. Please use a container profile instead."
-    }
     container "docker.io/immcantation/airrflow:5.1.0"
 
     input:
@@ -18,6 +15,10 @@ process FILTER_JUNCTION_MOD3 {
     path "versions.yml", emit: versions
 
     script:
+    // Exit if running this module with -profile conda / -profile mamba
+    if (workflow.profile.tokenize(',').intersect(['conda', 'mamba']).size() >= 1) {
+        error "nf-core/airrflow currently does not support Conda. Please use a container profile instead."
+    }
     """
     reveal_mod_3_junction.R --repertoire $tab --outname ${meta.id} > ${meta.id}_jmod3_command_log.txt
 

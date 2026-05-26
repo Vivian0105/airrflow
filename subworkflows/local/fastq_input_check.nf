@@ -9,6 +9,10 @@ include { CAT_FASTQ } from '../../modules/nf-core/cat/fastq/main'
 workflow FASTQ_INPUT_CHECK {
     take:
     samplesheet // file: /path/to/samplesheet.tsv
+    library_generation_method
+    collapseby
+    cloneby
+    index_file
 
     main:
 
@@ -17,7 +21,7 @@ workflow FASTQ_INPUT_CHECK {
     SAMPLESHEET_CHECK ( samplesheet )
         .tsv
         .splitCsv ( header:true, sep:'\t' )
-        .map { create_fastq_channels(it) }
+        .map { create_fastq_channels(it, collapseby, cloneby, index_file) }
         .groupTuple(by: [0])
         .branch {
             meta, fastqs ->
@@ -31,7 +35,7 @@ workflow FASTQ_INPUT_CHECK {
     ch_versions = ch_versions.mix( SAMPLESHEET_CHECK.out.versions )
 
     // Merge multi-lane sample fastq for protocols except for 10x genomics, trust4 (cellranger handles multi-fastq per sample)
-    if (params.library_generation_method == 'sc_10x_genomics' || params.library_generation_method == 'trust4')  {
+    if (library_generation_method == 'sc_10x_genomics' || library_generation_method == 'trust4')  {
 
         ch_merged_reads = ch_reads.single.mix( ch_reads.multiple )
 
@@ -56,7 +60,7 @@ workflow FASTQ_INPUT_CHECK {
 }
 
 // Function to map
-def create_fastq_channels(LinkedHashMap col) {
+def create_fastq_channels(LinkedHashMap col, collapseby, cloneby, index_file) {
 
     def meta = [:]
 
@@ -64,8 +68,8 @@ def create_fastq_channels(LinkedHashMap col) {
     meta.sample_id          = col.sample_id
     meta.subject_id         = col.subject_id
     meta.species            = col.species
-    meta.collapseby_group   = col."${params.collapseby}"
-    meta.cloneby_group      = col."${params.cloneby}"
+    meta.collapseby_group   = col[collapseby]
+    meta.cloneby_group      = col[cloneby]
     meta.filetype           = "fastq"
     meta.single_cell        = col.single_cell.toLowerCase()
     meta.locus              = col.pcr_target_locus
@@ -79,7 +83,7 @@ def create_fastq_channels(LinkedHashMap col) {
         error "ERROR: Please check input samplesheet -> Read 2 FastQ file does not exist!\n${col.filename_R2}"
     }
     if (col.filename_I1) {
-        if (!params.index_file){
+        if (!index_file){
             error "ERROR: --index_file was not provided but the index file path is specified in the samplesheet!"
         }
         if (!file(col.filename_I1).exists()) {
@@ -88,7 +92,7 @@ def create_fastq_channels(LinkedHashMap col) {
         array = [ meta, [ file(col.filename_R1), file(col.filename_R2), file(col.filename_I1) ] ]
     } else {
         array = [ meta, [ file(col.filename_R1), file(col.filename_R2) ] ]
-        if (params.index_file) {
+        if (index_file) {
             error "ERROR: Index file path was provided but the index file path is not specified in the samplesheet!"
         }
     }

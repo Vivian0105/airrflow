@@ -444,12 +444,12 @@
                     "default": "https://raw.githubusercontent.com/nf-core/test-datasets/airrflow/database-cache/igblast_base.zip"
                 },
                 "fetch_germlines": {
-                    "type": ["boolean", "string"],
+                    "type": ["string"],
                     "description": "Fetch the selected germline reference bundle at runtime instead of using cached reference inputs.",
-                    "help_text": "This parameter accepts two values. airrc-imgt: the latest version of the human and mouse AIRR-C germline reference will be downloaded from https://ogrdb.airr-community.org/ for all the supported loci and from IMGT for the remaining loci. IMGT: the latest version of human and mouse germline reference will be downloaded from IMGT.",
+                    "help_text": "This parameter accepts three values. no: use the cached reference inputs. airrc-imgt: the latest version of the human and mouse AIRR-C germline reference will be downloaded from https://ogrdb.airr-community.org/ for all the supported loci and from IMGT for the remaining loci. imgt: the latest version of human and mouse germline reference will be downloaded from IMGT.",
                     "fa_icon": "fas fa-cloud-download-alt",
-                    "enum": [false, "imgt", "airrc-imgt"],
-                    "default": false
+                    "enum": ["none", "imgt", "airrc-imgt"],
+                    "default": "none"
                 }
             },
             "fa_icon": "fas fa-edit"
@@ -679,7 +679,6 @@
                 },
                 "igenomes_base": {
                     "type": "string",
-                    "format": "directory-path",
                     "description": "The base path to the igenomes reference files",
                     "fa_icon": "fas fa-ban",
                     "hidden": true,
@@ -789,13 +788,6 @@
                     "type": "boolean",
                     "description": "Do not use coloured log outputs.",
                     "fa_icon": "fas fa-palette",
-                    "hidden": true
-                },
-                "hook_url": {
-                    "type": "string",
-                    "description": "Incoming hook URL for messaging service",
-                    "fa_icon": "fas fa-people-group",
-                    "help_text": "Incoming hook URL for messaging service. Currently, MS Teams and Slack are supported.",
                     "hidden": true
                 },
                 "multiqc_config": {

@@ -1,18 +1,10 @@
 def asString (args) {
-    def s = ""
-    def value = ""
-    if (args.size()>0) {
-        if (args[0] != 'none') {
-            for (param in args.keySet().sort()){
-                value = args[param].toString()
-                if (!value.isNumber()) {
-                    value = "'"+value+"'"
-                }
-                s = s + ",'"+param+"'="+value
-            }
-        }
-    }
-    return s
+    if (args.size() == 0 || args[0] == 'none') return ""
+    return args.keySet().sort().collect { param ->
+        def value = args[param].toString()
+        value = value.isNumber() ? value : "'${value}'"
+        ",'${param}'=${value}"
+    }.join('')
 }
 
 process REPERTOIRE_ANALYSIS {
@@ -22,14 +14,12 @@ process REPERTOIRE_ANALYSIS {
     label 'immcantation'
     label 'immcantation_container'
 
-    if (workflow.profile.tokenize(',').intersect(['conda', 'mamba']).size() >= 1) {
-        error "nf-core/airrflow currently does not support Conda. Please use a container profile instead."
-    }
     container "docker.io/immcantation/airrflow:5.1.0"
 
     input:
     tuple val(meta), path(tabs) // meta, sequence tsv in AIRR format
     path repertoires_samplesheet
+    val cloneby
 
     output:
     tuple val(meta), path("*/*/*repertoire-pass.tsv"), emit: tab // sequence tsv in AIRR format
@@ -39,6 +29,10 @@ process REPERTOIRE_ANALYSIS {
 
 
     script:
+    // Exit if running this module with -profile conda / -profile mamba
+    if (workflow.profile.tokenize(',').intersect(['conda', 'mamba']).size() >= 1) {
+        error "nf-core/airrflow currently does not support Conda. Please use a container profile instead."
+    }
     def args = task.ext.args ? asString(task.ext.args) : ''
     def input = ""
     if (repertoires_samplesheet) {
@@ -49,8 +43,8 @@ process REPERTOIRE_ANALYSIS {
     """
     Rscript -e "enchantr::enchantr_report('repertoire_analysis', \\
                                         report_params=list('input'='${input}', \\
-                                        'cloneby'='${params.cloneby}', \\
-                                        'outputby'='${params.cloneby}', \\
+                                        'cloneby'='${cloneby}', \\
+                                        'outputby'='${cloneby}', \\
                                         'outdir'=getwd(), \\
                                         'nproc'=${task.cpus}, \\
                                         'log'='${meta.id}_clone_command_log' ${args}))"

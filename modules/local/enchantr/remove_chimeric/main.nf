@@ -5,10 +5,6 @@ process REMOVE_CHIMERIC {
     label 'immcantation'
     label 'immcantation_container'
 
-
-    if (workflow.profile.tokenize(',').intersect(['conda', 'mamba']).size() >= 1) {
-        error "nf-core/airrflow currently does not support Conda. Please use a container profile instead."
-    }
     container "docker.io/immcantation/airrflow:5.1.0"
 
 
@@ -23,6 +19,10 @@ process REMOVE_CHIMERIC {
     path "versions.yml" , emit: versions
 
     script:
+    // Exit if running this module with -profile conda / -profile mamba
+    if (workflow.profile.tokenize(',').intersect(['conda', 'mamba']).size() >= 1) {
+        error "nf-core/airrflow currently does not support Conda. Please use a container profile instead."
+    }
     """
     Rscript -e "enchantr:::enchantr_report('chimera_analysis', \\
         report_params=list('input'='${tab}',\\

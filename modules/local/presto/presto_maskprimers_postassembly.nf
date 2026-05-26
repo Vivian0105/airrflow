@@ -12,6 +12,14 @@ process PRESTO_MASKPRIMERS_POSTASSEMBLY {
     tuple val(meta), path(reads)
     path(cprimers)
     path(vprimers)
+    val primer_revpr
+    val cprimer_position
+    val cprimer_start
+    val primer_r1_maxerror
+    val primer_r1_mask_mode
+    val vprimer_start
+    val primer_r2_maxerror
+    val primer_r2_mask_mode
 
     output:
     tuple val(meta), path("*REV_primers-pass.fastq") , emit: reads
@@ -20,14 +28,14 @@ process PRESTO_MASKPRIMERS_POSTASSEMBLY {
     path "versions.yml" , emit: versions
 
     script:
-    def revpr = params.primer_revpr ? '--revpr' : ''
-    if (params.cprimer_position == "R1") {
+    def revpr = primer_revpr ? '--revpr' : ''
+    if (cprimer_position == "R1") {
         """
-        MaskPrimers.py score --nproc ${task.cpus} -s $reads -p ${cprimers} --start ${params.cprimer_start} --maxerror ${params.primer_r1_maxerror} \
-            --mode ${params.primer_r1_mask_mode} --outname ${meta.id}-FWD \
+        MaskPrimers.py score --nproc ${task.cpus} -s $reads -p ${cprimers} --start ${cprimer_start} --maxerror ${primer_r1_maxerror} \
+            --mode ${primer_r1_mask_mode} --outname ${meta.id}-FWD \
             --log ${meta.id}-FWD.log > ${meta.id}_command_log.txt
-        MaskPrimers.py score --nproc ${task.cpus} -s ${meta.id}-FWD_primers-pass.fastq -p ${vprimers} --start ${params.vprimer_start} --maxerror ${params.primer_r2_maxerror} \
-            --mode ${params.primer_r2_mask_mode} --outname ${meta.id}-REV $revpr \
+        MaskPrimers.py score --nproc ${task.cpus} -s ${meta.id}-FWD_primers-pass.fastq -p ${vprimers} --start ${vprimer_start} --maxerror ${primer_r2_maxerror} \
+            --mode ${primer_r2_mask_mode} --outname ${meta.id}-REV $revpr \
             --log ${meta.id}-REV.log >> ${meta.id}_command_log.txt
         ParseLog.py -l ${meta.id}-FWD.log ${meta.id}-REV.log -f ID PRIMER ERROR
 
@@ -36,13 +44,13 @@ process PRESTO_MASKPRIMERS_POSTASSEMBLY {
             presto: \$( MaskPrimers.py --version | awk -F' '  '{print \$2}' )
         END_VERSIONS
         """
-    } else if (params.cprimer_position == "R2") {
+    } else if (cprimer_position == "R2") {
         """
-        MaskPrimers.py score --nproc ${task.cpus} -s $reads -p ${vprimers} --start ${params.vprimer_start} --maxerror ${params.primer_r1_maxerror} \
-            --mode ${params.primer_r1_mask_mode} --outname ${meta.id}-FWD \
+        MaskPrimers.py score --nproc ${task.cpus} -s $reads -p ${vprimers} --start ${vprimer_start} --maxerror ${primer_r1_maxerror} \
+            --mode ${primer_r1_mask_mode} --outname ${meta.id}-FWD \
             --log ${meta.id}-FWD.log > ${meta.id}_command_log.txt
-        MaskPrimers.py score --nproc ${task.cpus} -s ${meta.id}-FWD_primers-pass.fastq -p ${cprimers} --start ${params.cprimer_start} --maxerror ${params.primer_r2_maxerror} \
-            --mode ${params.primer_r2_mask_mode} --outname ${meta.id}-REV $revpr \
+        MaskPrimers.py score --nproc ${task.cpus} -s ${meta.id}-FWD_primers-pass.fastq -p ${cprimers} --start ${cprimer_start} --maxerror ${primer_r2_maxerror} \
+            --mode ${primer_r2_mask_mode} --outname ${meta.id}-REV $revpr \
             --log ${meta.id}-REV.log >> ${meta.id}_command_log.txt
         ParseLog.py -l ${meta.id}-FWD.log ${meta.id}-REV.log -f ID PRIMER ERROR
 

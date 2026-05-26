@@ -5,8 +5,8 @@ workflow SINGLE_CELL_QC_AND_FILTERING {
     repertoires // tuple [meta, repertoire_tab]
 
     main:
-    ch_versions = Channel.empty()
-    ch_logs = Channel.empty()
+    ch_versions = channel.empty()
+    ch_logs = channel.empty()
 
     repertoires
             .map{ it -> [   it[0].id,

@@ -1,7 +1,7 @@
 {
     "-profile test_reassign_false": {
         "content": [
-            25,
+            26,
             {
                 "ADD_META_TO_TAB": {
                     "dplyr": "1.2.1",
@@ -64,7 +64,7 @@
                     "enchantr": "0.1.25"
                 },
                 "Workflow": {
-                    "nf-core/airrflow": "v5.0.0"
+                    "nf-core/airrflow": "v5.1.0"
                 }
             },
             [
@@ -272,8 +272,8 @@
         ],
         "meta": {
             "nf-test": "0.9.3",
-            "nextflow": "25.10.2"
+            "nextflow": "26.04.1"
         },
-        "timestamp": "2026-05-12T11:35:35.895370229"
+        "timestamp": "2026-05-22T10:41:44.316174342"
     }
 }

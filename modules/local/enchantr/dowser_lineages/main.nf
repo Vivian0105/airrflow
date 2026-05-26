@@ -1,18 +1,10 @@
 def asString (args) {
-    def s = ""
-    def value = ""
-    if (args.size()>0) {
-        if (args[0] != 'none') {
-            for (param in args.keySet().sort()){
-                value = args[param].toString()
-                if (!value.isNumber()) {
-                    value = "'"+value+"'"
-                }
-                s = s + ",'"+param+"'="+value
-            }
-        }
-    }
-    return s
+    if (args.size() == 0 || args[0] == 'none') return ""
+    return args.keySet().sort().collect { param ->
+        def value = args[param].toString()
+        value = value.isNumber() ? value : "'${value}'"
+        ",'${param}'=${value}"
+    }.join('')
 }
 
 process DOWSER_LINEAGES {
@@ -22,13 +14,12 @@ process DOWSER_LINEAGES {
     label 'immcantation'
     label 'immcantation_container'
 
-    if (workflow.profile.tokenize(',').intersect(['conda', 'mamba']).size() >= 1) {
-        error "nf-core/airrflow currently does not support Conda. Please use a container profile instead."
-    }
     container "docker.io/immcantation/airrflow:5.1.0"
 
     input:
     tuple val(meta), path(tabs)
+    val lineage_tree_builder
+    val lineage_tree_exec
 
     output:
     path("*_command_log.txt"), emit: logs //process logs
@@ -36,14 +27,18 @@ process DOWSER_LINEAGES {
     path "versions.yml", emit: versions
 
     script:
+    // Exit if running this module with -profile conda / -profile mamba
+    if (workflow.profile.tokenize(',').intersect(['conda', 'mamba']).size() >= 1) {
+        error "nf-core/airrflow currently does not support Conda. Please use a container profile instead."
+    }
     def args = task.ext.args ? asString(task.ext.args) : ''
     def id_name = "$tabs".replaceFirst('__.*','')
     // TODO use nice outname, not tabs
     """
     Rscript -e "enchantr::enchantr_report('dowser_lineage', \\
                                         report_params=list('input'='${tabs}', \\
-                                        'build'='${params.lineage_tree_builder}', \\
-                                        'exec'='${params.lineage_tree_exec}', \\
+                                        'build'='${lineage_tree_builder}', \\
+                                        'exec'='${lineage_tree_exec}', \\
                                         'outdir'=getwd(), \\
                                         'nproc'=${task.cpus},\\
                                         'log'='${id_name}_dowser_command_log' ${args}))"

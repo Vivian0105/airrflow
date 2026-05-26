@@ -7,9 +7,6 @@ process VALIDATE_INPUT {
     label 'process_single'
     label 'immcantation_container'
 
-    if (workflow.profile.tokenize(',').intersect(['conda', 'mamba']).size() >= 1) {
-        error "nf-core/airrflow currently does not support Conda. Please use a container profile instead."
-    }
     container "docker.io/immcantation/airrflow:5.1.0"
 
     input:
@@ -17,6 +14,7 @@ process VALIDATE_INPUT {
     path miairr
     val collapseby
     val cloneby
+    val reassign
 
     output:
     path "*/validated_input.tsv", emit: validated_input
@@ -24,8 +22,12 @@ process VALIDATE_INPUT {
     path "versions.yml", emit: versions
 
     script:
+    // Exit if running this module with -profile conda / -profile mamba
+    if (workflow.profile.tokenize(',').intersect(['conda', 'mamba']).size() >= 1) {
+        error "nf-core/airrflow currently does not support Conda. Please use a container profile instead."
+    }
     """
-    Rscript -e "enchantr:::enchantr_report('validate_input', report_params=list('input'='${samplesheet}','collapseby'='${collapseby}','cloneby'='${cloneby}','reassign'='${params.reassign}','miairr'='${miairr}','outdir'=getwd()))"
+    Rscript -e "enchantr:::enchantr_report('validate_input', report_params=list('input'='${samplesheet}','collapseby'='${collapseby}','cloneby'='${cloneby}','reassign'='${reassign}','miairr'='${miairr}','outdir'=getwd()))"
 
     cp -r enchantr validate_input_report && rm -rf enchantr
 

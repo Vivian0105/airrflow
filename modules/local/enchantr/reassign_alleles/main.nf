@@ -1,18 +1,10 @@
 def asString (args) {
-    def s = ""
-    def value = ""
-    if (args.size()>0) {
-        if (args[0] != 'none') {
-            for (param in args.keySet().sort()){
-                value = args[param].toString()
-                if (!value.isNumber()) {
-                    value = "'"+value+"'"
-                }
-                s = s + ",'"+param+"'="+value
-            }
-        }
-    }
-    return s
+    if (args.size() == 0 || args[0] == 'none') return ""
+    return args.keySet().sort().collect { param ->
+        def value = args[param].toString()
+        value = value.isNumber() ? value : "'${value}'"
+        ",'${param}'=${value}"
+    }.join('')
 }
 
 process REASSIGN_ALLELES {
@@ -21,18 +13,13 @@ process REASSIGN_ALLELES {
     label 'process_long_parallelized'
     label 'immcantation'
 
-    if (workflow.profile.tokenize(',').intersect(['conda', 'mamba']).size() >= 1) {
-        error "nf-core/airrflow currently does not support Conda. Please use a container profile instead."
-    }
     container "docker.io/immcantation/airrflow:5.1.0"
 
     input:
     tuple val(meta), path(tabs), path(reference_fasta) // meta, sequence tsv in AIRR format, reference fasta
     val segments // which segments to reassign alleles to
     val outputby // which field to use for output
-    //TODO: did we want to handle all segments at once? Then this val channel would not be needed.
-    // *After novel alleles we just need to change the V, it's a time waste to go over all segments.
-    //TODO: Check if we need the outputby parameter. Right now this is the same as the genotypeby parameter.
+
     output:
     tuple val(meta), path("*/*/*reassign-pass.tsv"), emit: tab // reassigned repertoire
     path("*/*_command_log.txt"), emit: logs //process logs
@@ -41,6 +28,10 @@ process REASSIGN_ALLELES {
 
 
     script:
+    // Exit if running this module with -profile conda / -profile mamba
+    if (workflow.profile.tokenize(',').intersect(['conda', 'mamba']).size() >= 1) {
+        error "nf-core/airrflow currently does not support Conda. Please use a container profile instead."
+    }
     def args = task.ext.args ? asString(task.ext.args) : ''
     def segs = segments.join(",")
     def input = tabs.join(',')

@@ -1,0 +1,10 @@
+#! usr/bin/bash
+
+nextflow run nf-core/airrflow -r 5.1.0 \
+-profile docker \
+--mode assembled \
+--genotyping true \
+--input genotype_samplesheet.tsv \
+--outdir test_genotype_results  \
+-c resource.config \
+-resume
