@@ -465,7 +465,7 @@ workflow AIRRFLOW {
             )
             ch_versions = ch_versions.mix( REPERTOIRE_ANALYSIS_REPORTING.out.versions )
         }
-        
+
 
     //
     // Collate and save software versions
