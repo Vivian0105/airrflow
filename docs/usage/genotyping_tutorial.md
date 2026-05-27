@@ -156,7 +156,7 @@ Example plot summarizing the evidence for novel allele IGHV1-24\*01_G9A:
 
 2. Genotype inference plots can be found in html report in the folder 'novel_alleles_and_genotyping/02-genotype_inference/subject_id/subject_id_bayesian_genotype_inference_report/index.html'.
 
-Example plot for a genotype inference result on for the V gene:
+Example plot for a genotype inference result for the V gene:
 
 <p align="center">
   <img src="../images/Genotyping_V_gene.png" style="width:70%;">
