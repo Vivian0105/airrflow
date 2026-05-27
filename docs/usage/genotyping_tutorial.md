@@ -1,6 +1,6 @@
 # nf-core/airrflow: novel allele detection and genotype inference tutorial
 
-This tutorial provides an introduction on how to add novel allele detection and genotype inference to an nf-core/airrflow pipeline run. These optional steps are performed with [TIgGER](https://tigger.readthedocs.io/en/stable/) and are only applicable to BCR sequences.
+This tutorial provides an introduction on how to perform novel allele detection and genotype inference with nf-core/airrflow. The workflow currently supports novel allele inference and genotype inference for BCR sequences only, which are performed using [TIgGER](https://tigger.readthedocs.io/en/stable/). We plan to add TCR genotyping and novel allele detection in future releases.
 
 ## Pre-requisites
 
@@ -25,23 +25,29 @@ When running this tutorial on your local machine, you'll first have to set up Ne
 > [!NOTE]
 > If you want to run this tutorial on your local machine, please refer to [this page](https://nf-co.re/docs/usage/installation) on how to set up Nextflow and a container engine needed to run this pipeline. At the moment, nf-core/airrflow does NOT support using conda virtual environments for dependency management, only containers are supported. Make sure to [test your setup](https://nf-co.re/docs/usage/introduction#how-to-run-a-pipeline) before running the workflow on actual data. To install Docker, follow the [instructions](https://docs.docker.com/engine/install/). After installation Docker on Linux, don't forget to check the [post-installation steps](https://docs.docker.com/engine/install/linux-postinstall/).
 
-## How to add novel allele detection and genotype inference in the pipeline
+## Why are novel allele detection and genotyping important?
 
-Novel allele detection and genotype inference are optional add-on functions in nf-core/airrflow. To perform these two additional functions in the workflow, simply add flag `--genotyping` in your command.
+Many steps for analyzing BCR sequences rely on inferring the germline V, D and J genes and alleles for each sequence by searching against a germline reference of known germline V(D)J alleles, such as clonal analysis or somatic hypermutation (SHM) quantification. However, analyzed individuals can have alleles not present in the germline reference (novel alleles), which if undetected can inflate the SHM rates. Additionally, genotyping, which consists on identifying the set of alleles an individual carries for each gene, can help resolve ambiguous V(D)J assignments or wrong V(D)J assignments that due to sequencing errors or SHM by chance align to other alleles.
 
-By default, with the flag `--genotyping` on, the following steps will be executed before clonal inference:
+## How to perform novel allele detection and genotyping using nf-core/airrflow
 
-1. Infer the presence of novel IGHV alleles not in the germline database. You are able to turn this step off even with `--genotyping` on by setting the flag `--novel_allele_inference false` in the command.
+nf-core/airrflow has functionality to infer IG loci novel alleles and perform genotyping. To perform these two additional functions in the workflow, simply add flag `--genotyping` in your command.
+
+With the flag `--genotyping` on, the following steps will be executed before clonal inference by default:
+
+1. Infer the presence of novel IGHV alleles not in the germline database. You are able to turn this step off by adding the flag `--novel_allele_inference false` in the command.
 2. Assign novel alleles to samples. Of course if `--novel_allele_inference false` is set, this step is also skipped.
 3. Infer clones and use one single representative sequence per clone for genotype inference. This is a strongly recommended step to reduce the impact of clonal expansion on genotyping. However, if you want to reduce running time, you can turn if off by setting `--single_clone_representative false` in the command.
 4. Infer the personalized genotype of each subject.
-5. Correct the allele calls of sequences based on the genotypes of subjects.
+5. Correct the allele calls of sequences based on the subject genotype.
 
-After these steps, we have more accurate allele calls for each subject for clonal inference and analysis.
+By default, genotyping is performed by the annotations in the `subject_id` column in the provided samplesheet. This can be altered with the parameter `--genotypeby`, and it is possible to provide an alternative column in the samplesheet to indicated which samples should be pulled together for genotyping.
 
-## Running the pipeline with novel allele detection and genotype inference functions on
+After these steps, the allele calls have been corrected for each subject for clonal inference and the remaining downstream analysis steps.
 
-In this tutorial, we will test the add-on function of novel allele detection and genotype inference by executing the pipeline on one bulkBCR sample with assembled mode and with the genotyping related flags on.
+## Running the nf-core/airrflow with genotyping
+
+In this tutorial, we will showcase how to perform novel allele detection and genotype inference by executing the pipeline on one human bulk BCR sample.
 
 ### Preparing the samplesheet and configuration file
 
@@ -68,15 +74,15 @@ We prepared the [samplesheet](https://github.com/nf-core/airrflow/blob/dev/docs/
 
 ### Running airrflow
 
-If you are running the pipeline on Codespace, within the directory where the prepared samplesheet and configuration file locate, run the command.
+If you are running the pipeline on Codespace, within the directory where the prepared samplesheet and configuration file are located, you can run the following command:
 
 ```bash
 nextflow run nf-core/airrflow -r 5.1.0 \
 -profile singularity \
 --mode assembled \
 --genotyping true \
---single_clone_representative true \
---skip_clonal_analysis true \
+--single_clone_representative false \ #skipped for time reasons
+--skip_clonal_analysis true \ #skipped for time reasons
 --input genotype_samplesheet.tsv \
 --outdir test_genotype_results  \
 -c resource.config \
@@ -89,9 +95,12 @@ Of course you can wrap all your code in a [bash file](https://github.com/nf-core
 bash airrflow_genotyping_codespace.sh
 ```
 
-The estimated running time is 15 minutes. We skipped single clone representative and clonal analysis here to save time because it's slow to run all the steps within Codespace due to the resource limitation.
+The estimated running time is 15 minutes.
 
-If you run the pipeline locally and have sufficient computing resources, there is no need to skip these steps. You can increase the resource requests in resource.config. Once all required files are prepared, start the pipeline using the following command.
+> [!NOTE]
+> We skipped single clone representative and clonal analysis here to save time because it's slow to run all the steps within Codespace due to the limited resources, but we recommend not skipping these steps in real life analyses.
+
+If you run the pipeline locally. Download the samplesheet and start the pipeline using the following command.
 
 ```bash
 nextflow run nf-core/airrflow -r 5.1.0 \
@@ -100,7 +109,6 @@ nextflow run nf-core/airrflow -r 5.1.0 \
 --genotyping true \
 --input genotype_samplesheet.tsv \
 --outdir test_genotype_results  \
--c resource.config \
 -resume
 ```
 
@@ -133,14 +141,9 @@ Airrflow_report.html
 
 The results of novel allele detection and genotype inference are stored in the `novel_alleles_and_genotyping` subfolder. Within this directory, `01-novel_allele_inference` contains the novel allele detection results, and `02-genotype_inference` contains the genotype inference results.
 
-1. Three types of evidence are used as criteria for detecting a novel allele. Plots of these evidences for each novel allele can be inspected in the html report in the folder 'novel_alleles_and_genotyping/01-novel_allele_inference/subject_id/subject_id_novel_allele_inference_report/index.html'.
-   - The first piece of evidence involves taking all sequences which align to a particular Germline allele and regressing the mutation frequency at each position against the sequence-wide mutation count. While mutational hot-spots and cold-spots are both expected to have a y-intercept around zero, polymorphic positions will have a y-intercept larger than zero. The theory behind the evidence is that non-polymorphic positions would accumulate mutations at a frequency proportional to sequence-wide mutation counts, whereas polymorphic positions exhibits a high mutation frequency that is independent of the sequence-wide mutation count.
+1. Three types of evidence are used as criteria by `TigGER` to detect a novel allele. You are able to learn more about these evidences from the [TigGER tutorial](https://tigger.readthedocs.io/en/stable/vignettes/Tigger-Vignette). plots of these evidences for each novel allele can be inspected in the html report in the folder `novel_alleles_and_genotyping/01-novel_allele_inference/subject_id/subject_id_novel_allele_inference_report/index.html`.
 
-   - The second piece of evidence supporting novel allele calls is the nucleotide usage at the polymorphic positions as a function of sequence-wide mutation count. We expect the polymorphic allele to be prevalent at all mutation counts, and we expect the mutation count equal to the number of polymorphisms in the novel sequence to be the most prevalent.
-
-   - Finally, to avoid cases where a clonal expansion might lead to a false positive, combinations of J gene and junction length are examined among sequences which perfectly match the proposed Germline allele. A true novel allele is expected to utilize a wide range of J genes, and to exist in sequences with different junction length.
-
-Plots of three evidence for novel allele IGHV1-24\*01_G9A:
+Example plot summarizing the evidence for novel allele IGHV1-24\*01_G9A:
 
 <p align="center">
   <img src="../images/novel_evidence.png" style="width:70%;">
@@ -148,7 +151,7 @@ Plots of three evidence for novel allele IGHV1-24\*01_G9A:
 
 2. Genotype inference plots can be found in html report in the folder 'novel_alleles_and_genotyping/02-genotype_inference/subject_id/subject_id_bayesian_genotype_inference_report/index.html'.
 
-Plots of genotype inference result on V gene:
+Example plot for a genotype inference result for the V gene:
 
 <p align="center">
   <img src="../images/Genotyping_V_gene.png" style="width:70%;">
