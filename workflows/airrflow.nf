@@ -463,8 +463,9 @@ workflow AIRRFLOW {
                 umi_length,
                 cluster_sets
             )
+            ch_versions = ch_versions.mix( REPERTOIRE_ANALYSIS_REPORTING.out.versions )
         }
-        ch_versions = ch_versions.mix( REPERTOIRE_ANALYSIS_REPORTING.out.versions )
+        
 
     //
     // Collate and save software versions
