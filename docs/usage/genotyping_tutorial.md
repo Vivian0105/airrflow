@@ -141,12 +141,7 @@ Airrflow_report.html
 
 The results of novel allele detection and genotype inference are stored in the `novel_alleles_and_genotyping` subfolder. Within this directory, `01-novel_allele_inference` contains the novel allele detection results, and `02-genotype_inference` contains the genotype inference results.
 
-1. Three types of evidence are used as criteria by `TigGER` to detect a novel allele. Plots of these evidences for each novel allele can be inspected in the html report in the folder `novel_alleles_and_genotyping/01-novel_allele_inference/subject_id/subject_id_novel_allele_inference_report/index.html`.
-   - The first piece of evidence involves taking all sequences which align to a particular germline allele and regressing the mutation frequency at each position against the sequence-wide mutation count. While mutations due to SHM are expected to have a y-intercept around zero, observed mutations due to novel alleles (polymorphisms) will have a y-intercept larger than zero. The theory behind the evidence is that non-polymorphic positions would accumulate mutations at a frequency proportional to sequence-wide mutation counts, whereas polymorphic positions exhibits a high mutation frequency that is independent of the sequence-wide mutation count.
-
-   - The second piece of evidence supporting novel allele calls is the nucleotide usage at the polymorphic positions as a function of sequence-wide mutation count. We expect the polymorphic allele to be prevalent at all mutation counts, and we expect the mutation count to be equal to the number of novel alleles in the novel sequence to be the most prevalent.
-
-   - Finally, to identify cases where a clonal expansion might lead to a false positive, combinations of J gene and junction length are examined among sequences which perfectly match the proposed Germline allele. A true novel allele is expected to utilize a wide range of J genes, and to exist in sequences with different junction length.
+1. Three types of evidence are used as criteria by `TigGER` to detect a novel allele. You are able to learn more about these evidences from the [TigGER tutorial](https://tigger.readthedocs.io/en/stable/vignettes/Tigger-Vignette). plots of these evidences for each novel allele can be inspected in the html report in the folder `novel_alleles_and_genotyping/01-novel_allele_inference/subject_id/subject_id_novel_allele_inference_report/index.html`.
 
 Example plot summarizing the evidence for novel allele IGHV1-24\*01_G9A:
 
