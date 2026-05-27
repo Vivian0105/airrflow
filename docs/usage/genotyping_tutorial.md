@@ -100,7 +100,7 @@ The estimated running time is 15 minutes.
 > [!NOTE]
 > We skipped single clone representative and clonal analysis here to save time because it's slow to run all the steps within Codespace due to the limited resources, but we recommend not skipping these steps in real life analyses.
 
-Once all required files are prepared, start the pipeline using the following command.
+If you run the pipeline locally. Download the samplesheet and start the pipeline using the following command.
 
 ```bash
 nextflow run nf-core/airrflow -r 5.1.0 \
