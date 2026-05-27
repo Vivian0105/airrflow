@@ -25,13 +25,15 @@ When running this tutorial on your local machine, you'll first have to set up Ne
 > [!NOTE]
 > If you want to run this tutorial on your local machine, please refer to [this page](https://nf-co.re/docs/usage/installation) on how to set up Nextflow and a container engine needed to run this pipeline. At the moment, nf-core/airrflow does NOT support using conda virtual environments for dependency management, only containers are supported. Make sure to [test your setup](https://nf-co.re/docs/usage/introduction#how-to-run-a-pipeline) before running the workflow on actual data. To install Docker, follow the [instructions](https://docs.docker.com/engine/install/). After installation Docker on Linux, don't forget to check the [post-installation steps](https://docs.docker.com/engine/install/linux-postinstall/).
 
-## How to add novel allele detection and genotype inference in the pipeline
+## Add novel allele detection and genotype inference in the pipeline
 
-Novel allele detection and genotype inference are optional add-on functions in nf-core/airrflow. To perform these two additional functions in the workflow, simply add flag `--genotyping` in your command.
+Analyzing BCR sequences involves assigning the germline V, D and J gene alleles to each sequence by matching against a germline reference of known germline V(D)J alleles. However, analyzed individuals can have alleles not present in the reference (novel alleles), which if undetected can inflate the SHM rates. Ambiguous V(D)J assignment is another common issue caused by V(D)J gene similarity, SHM and poor sequence quality. 
 
-By default, with the flag `--genotyping` on, the following steps will be executed before clonal inference:
+nf-core/airrflow has add-on functions on IG loci novel allele detection and genotype inference that is identifying the set of alleles an individual carries for each gene to correct ambiguous V(D)J assignments for individual. To perform these two additional functions in the workflow, simply add flag `--genotyping` in your command.
 
-1. Infer the presence of novel IGHV alleles not in the germline database. You are able to turn this step off even with `--genotyping` on by setting the flag `--novel_allele_inference false` in the command.
+With the flag `--genotyping` on, the following steps will be executed before clonal inference by default:
+
+1. Infer the presence of novel IGHV alleles not in the germline database. You are able to turn this step off by adding the flag `--novel_allele_inference false` in the command.
 2. Assign novel alleles to samples. Of course if `--novel_allele_inference false` is set, this step is also skipped.
 3. Infer clones and use one single representative sequence per clone for genotype inference. This is a strongly recommended step to reduce the impact of clonal expansion on genotyping. However, if you want to reduce running time, you can turn if off by setting `--single_clone_representative false` in the command.
 4. Infer the personalized genotype of each subject.
@@ -39,7 +41,7 @@ By default, with the flag `--genotyping` on, the following steps will be execute
 
 After these steps, we have more accurate allele calls for each subject for clonal inference and analysis.
 
-## Running the pipeline with novel allele detection and genotype inference functions on
+## Running the pipeline with genotyping
 
 In this tutorial, we will test the add-on function of novel allele detection and genotype inference by executing the pipeline on one bulkBCR sample with assembled mode and with the genotyping related flags on.
 
@@ -75,7 +77,7 @@ nextflow run nf-core/airrflow -r 5.1.0 \
 -profile singularity \
 --mode assembled \
 --genotyping true \
---single_clone_representative true \
+--single_clone_representative false \
 --skip_clonal_analysis true \
 --input genotype_samplesheet.tsv \
 --outdir test_genotype_results  \
@@ -91,7 +93,7 @@ bash airrflow_genotyping_codespace.sh
 
 The estimated running time is 15 minutes. We skipped single clone representative and clonal analysis here to save time because it's slow to run all the steps within Codespace due to the resource limitation.
 
-If you run the pipeline locally and have sufficient computing resources, there is no need to skip these steps. You can increase the resource requests in resource.config. Once all required files are prepared, start the pipeline using the following command.
+If you run the pipeline locally and have sufficient computing resources, there is no need to skip these steps. Once all required files are prepared, start the pipeline using the following command.
 
 ```bash
 nextflow run nf-core/airrflow -r 5.1.0 \
@@ -100,7 +102,6 @@ nextflow run nf-core/airrflow -r 5.1.0 \
 --genotyping true \
 --input genotype_samplesheet.tsv \
 --outdir test_genotype_results  \
--c resource.config \
 -resume
 ```
 
