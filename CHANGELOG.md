@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [#420](https://github.com/nf-core/airrflow/pull/420) Fixed a bug in the Alakazam collapseDuplicates function.
 - [#411](https://github.com/nf-core/airrflow/pull/411) Fixed a bug in Enchantr dowser_lineage project.
 - [#453](https://github.com/nf-core/airrflow/pull/453) Fix publishDir collisions in `PRESTO_PARSE_CLUSTER` and `PRESTO_PAIRSEQ_CLUSTERSETS`.
+- [#469](https://github.com/nf-core/airrflow/pull/469) Fixed bug with param `--skip_report`.
 
 ### `Dependencies`
 
