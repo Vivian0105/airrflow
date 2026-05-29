@@ -14,7 +14,12 @@ process AIRRFLOW_REPORT {
     path(logo)
 
     output:
-    path "versions.yml" , emit: versions
+    tuple val("${task.process}"), val('alakazam'), eval("Rscript -e \"library(alakazam); cat(as.character(packageVersion('alakazam')))\""), emit: versions_alakazam, topic: versions
+    tuple val("${task.process}"), val('shazam'), eval("Rscript -e \"library(shazam); cat(as.character(packageVersion('shazam')))\""), emit: versions_shazam, topic: versions
+    tuple val("${task.process}"), val('stringr'), eval("Rscript -e \"library(stringr); cat(as.character(packageVersion('stringr')))\""), emit: versions_stringr, topic: versions
+    tuple val("${task.process}"), val('dplyr'), eval("Rscript -e \"library(dplyr); cat(as.character(packageVersion('dplyr')))\""), emit: versions_dplyr, topic: versions
+    tuple val("${task.process}"), val('knitr'), eval("Rscript -e \"library(knitr); cat(as.character(packageVersion('knitr')))\""), emit: versions_knitr, topic: versions
+    tuple val("${task.process}"), val('R'), eval("Rscript -e \"cat(as.character(getRversion()))\""), emit: versions_r, topic: versions
     path("repertoire_comparison"), emit: results_folder
     path("*.html"), emit: report_html
 
@@ -26,14 +31,5 @@ process AIRRFLOW_REPORT {
     """
     execute_report.R --report_file ${repertoire_report}
 
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        alakazam: \$(Rscript -e "library(alakazam); cat(paste(packageVersion('alakazam'), collapse='.'))")
-        shazam: \$(Rscript -e "library(shazam); cat(paste(packageVersion('shazam'), collapse='.'))")
-        stringr: \$(Rscript -e "library(stringr); cat(paste(packageVersion('stringr'), collapse='.'))")
-        dplyr: \$(Rscript -e "library(dplyr); cat(paste(packageVersion('dplyr'), collapse='.'))")
-        knitr: \$(Rscript -e "library(knitr); cat(paste(packageVersion('knitr'), collapse='.'))")
-        R: \$(echo \$(R --version 2>&1) | awk -F' '  '{print \$3}')
-    END_VERSIONS
     """
 }

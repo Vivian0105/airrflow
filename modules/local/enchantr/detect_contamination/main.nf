@@ -23,7 +23,7 @@ process DETECT_CONTAMINATION {
     path("*cont-flag.tsv"), emit: tab // sequence tsv in AIRR format
     path("*_command_log.txt"), emit: logs //process logs
     path "*_report"
-    path "versions.yml" , emit: versions
+    tuple val("${task.process}"), val('enchantr'), eval('Rscript -e "library(enchantr); cat(as.character(packageVersion(\'enchantr\')))"'), emit: versions_enchantr, topic: versions
 
     script:
     // Exit if running this module with -profile conda / -profile mamba
@@ -41,7 +41,5 @@ process DETECT_CONTAMINATION {
 
     cp -r enchantr all_reps_cont_report && rm -rf enchantr
 
-    echo "${task.process}": > versions.yml
-    Rscript -e "cat(paste0('  enchantr: ',packageVersion('enchantr'),'\n'))" >> versions.yml
     """
 }

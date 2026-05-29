@@ -18,7 +18,7 @@ process FASTP {
     tuple val(meta), path('*.json')           , emit: json
     tuple val(meta), path('*.html')           , emit: html
     tuple val(meta), path('*.log')            , emit: log
-    path "versions.yml"                       , emit: versions
+    tuple val("${task.process}"), val('fastp'), eval('fastp --version 2>&1 | sed -e "s/fastp //g"'), emit: versions_fastp, topic: versions
     tuple val(meta), path('*.fail.fastq.gz')  , optional:true, emit: reads_fail
     tuple val(meta), path('*.merged.fastq.gz'), optional:true, emit: reads_merged
 
@@ -48,10 +48,6 @@ process FASTP {
             2> >(tee ${prefix}.fastp.log >&2) \\
         | gzip -c > ${prefix}.fastp.fastq.gz
 
-        cat <<-END_VERSIONS > versions.yml
-        "${task.process}":
-            fastp: \$(fastp --version 2>&1 | sed -e "s/fastp //g")
-        END_VERSIONS
         """
     } else if (meta.single_end) {
         """
@@ -68,10 +64,6 @@ process FASTP {
             $args \\
             2> >(tee ${prefix}.fastp.log >&2)
 
-        cat <<-END_VERSIONS > versions.yml
-        "${task.process}":
-            fastp: \$(fastp --version 2>&1 | sed -e "s/fastp //g")
-        END_VERSIONS
         """
     } else {
         def merge_fastq = save_merged ? "-m --merged_out ${prefix}.merged.fastq.gz" : ''
@@ -93,10 +85,6 @@ process FASTP {
             $args \\
             2> >(tee ${prefix}.fastp.log >&2)
 
-        cat <<-END_VERSIONS > versions.yml
-        "${task.process}":
-            fastp: \$(fastp --version 2>&1 | sed -e "s/fastp //g")
-        END_VERSIONS
         """
     }
 
@@ -112,9 +100,5 @@ process FASTP {
     touch "${prefix}.fastp.log"
     $touch_merged
 
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        fastp: \$(fastp --version 2>&1 | sed -e "s/fastp //g")
-    END_VERSIONS
     """
 }

@@ -12,7 +12,8 @@ process SAMPLESHEET_CHECK {
 
     output:
     path '*.tsv', emit: tsv
-    path "versions.yml", emit: versions
+    tuple val("${task.process}"), val('python'), eval('python --version 2>&1 | grep -o "[0-9\\. ]\\+"'), emit: versions_python, topic: versions
+    tuple val("${task.process}"), val('pandas'), eval('python -c "import pkg_resources; print(pkg_resources.get_distribution(\'pandas\').version)"'), emit: versions_pandas, topic: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -23,10 +24,5 @@ process SAMPLESHEET_CHECK {
     check_samplesheet.py $samplesheet $args
     cp $samplesheet samplesheet.valid.tsv
 
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        python: \$( echo \$(python --version | grep -o "[0-9\\. ]\\+") )
-        pandas: \$(echo \$(python -c "import pkg_resources; print(pkg_resources.get_distribution('pandas').version)"))
-    END_VERSIONS
     """
 }

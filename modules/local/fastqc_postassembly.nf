@@ -14,7 +14,7 @@ process FASTQC_POSTASSEMBLY {
     output:
     tuple val(meta), path("*.html"), emit: html
     tuple val(meta), path("*.zip") , emit: zip
-    path  "versions.yml"          , emit: versions
+    tuple val("${task.process}"), val('fastqc'), eval('fastqc --version | sed -e "s/FastQC v//g"'), emit: versions_fastqc, topic: versions
 
     script:
     def args = task.ext.args ?: ''
@@ -23,9 +23,5 @@ process FASTQC_POSTASSEMBLY {
     [ ! -f  ${prefix}.fastq ] && ln -s $reads ${prefix}_ASSEMBLED.fastq
     fastqc $args --threads $task.cpus ${prefix}_ASSEMBLED.fastq
 
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        fastqc: \$( fastqc --version | sed -e "s/FastQC v//g" )
-    END_VERSIONS
     """
 }

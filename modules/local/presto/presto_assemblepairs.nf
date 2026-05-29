@@ -15,7 +15,7 @@ process PRESTO_ASSEMBLEPAIRS {
     tuple val(meta), path("*_assemble-pass.fastq"), emit: reads
     path("*_command_log.txt"), emit: logs
     path("*_table.tab")
-    path "versions.yml" , emit: versions
+    tuple val("${task.process}"), val('presto'), eval('AssemblePairs.py --version | grep -o "[0-9][0-9.]*" | head -n 1'), emit: versions_presto, topic: versions
 
     script:
     def args = task.ext.args ?: ''
@@ -26,9 +26,5 @@ process PRESTO_ASSEMBLEPAIRS {
         --outname ${meta.id} --log ${meta.id}.log > ${meta.id}_command_log.txt
     ParseLog.py -l ${meta.id}.log $args2
 
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        presto: \$( AssemblePairs.py --version | awk -F' '  '{print \$2}' )
-    END_VERSIONS
     """
 }

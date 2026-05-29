@@ -15,7 +15,7 @@ process PRESTO_FILTERSEQ {
     output:
     tuple val(meta), path("*R1_quality-pass.fastq"), path("*R2_quality-pass.fastq") ,  emit: reads
     path "*_command_log_R?.txt" , emit: logs
-    path "versions.yml" , emit: versions
+    tuple val("${task.process}"), val('presto'), eval('FilterSeq.py --version | grep -o "[0-9][0-9.]*" | head -n 1'), emit: versions_presto, topic: versions
     path "*.tab" , emit: log_tab
 
     script:
@@ -24,9 +24,5 @@ process PRESTO_FILTERSEQ {
     FilterSeq.py quality -s $R2 -q ${filterseq_q} --outname ${meta.id}_R2 --log ${R2.baseName}_R2.log --nproc ${task.cpus} >> ${meta.id}_command_log_R2.txt
     ParseLog.py -l ${R1.baseName}_R1.log ${R2.baseName}_R2.log -f ID QUALITY
 
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        presto: \$( FilterSeq.py --version | awk -F' '  '{print \$2}' )
-    END_VERSIONS
     """
 }

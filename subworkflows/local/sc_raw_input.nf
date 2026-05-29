@@ -20,8 +20,6 @@ workflow SC_RAW_INPUT {
     index_file
 
     main:
-
-    ch_versions = channel.empty()
     ch_logs = channel.empty()
 
     //
@@ -34,7 +32,6 @@ workflow SC_RAW_INPUT {
         cloneby,
         index_file
     )
-    ch_versions = ch_versions.mix(FASTQ_INPUT_CHECK.out.versions)
 
     ch_reads = FASTQ_INPUT_CHECK.out.reads
 
@@ -56,7 +53,6 @@ workflow SC_RAW_INPUT {
             UNZIP_CELLRANGERDB(
                 reference_10x
             )
-            ch_versions = ch_versions.mix(UNZIP_CELLRANGERDB.out.versions)
             UNZIP_CELLRANGERDB.out.unzipped.set { ch_sc_reference }
         } else {
             ch_sc_reference = channel.fromPath(reference_10x, checkIfExists: true)
@@ -70,7 +66,6 @@ workflow SC_RAW_INPUT {
         ch_reads,
         ch_sc_reference.collect()
     )
-    ch_versions = ch_versions.mix(CELLRANGER_VDJ.out.versions)
 
     ch_cellranger_out = CELLRANGER_VDJ.out.outs
 
@@ -94,7 +89,6 @@ workflow SC_RAW_INPUT {
                 RENAME_FILE_TSV.out.file
             )
 
-    ch_versions = ch_versions.mix(CHANGEO_CONVERTDB_FASTA_FROM_AIRR.out.versions)
 
     ch_fasta = CHANGEO_CONVERTDB_FASTA_FROM_AIRR.out.fasta
 
@@ -102,7 +96,6 @@ workflow SC_RAW_INPUT {
 
 
     emit:
-    versions = ch_versions
     // complete cellranger output
     outs = ch_cellranger_out
     // cellranger output in airr format

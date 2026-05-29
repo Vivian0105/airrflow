@@ -20,7 +20,6 @@ workflow CLONAL_ANALYSIS {
     lineage_tree_exec
 
     main:
-    ch_versions = channel.empty()
     ch_logs = channel.empty()
 
     if (clonal_threshold == 'auto') {
@@ -41,7 +40,6 @@ workflow CLONAL_ANALYSIS {
             singlecell
         )
         def ch_threshold = FIND_CLONAL_THRESHOLD.out.mean_threshold
-        ch_versions = ch_versions.mix(FIND_CLONAL_THRESHOLD.out.versions)
 
         // Collect raw threshold values into a single list so we can distinguish
         // between (A) no values at all (likely upstream failure), and
@@ -89,7 +87,6 @@ workflow CLONAL_ANALYSIS {
                 crossby,
                 singlecell
             )
-            ch_versions = ch_versions.mix(REPORT_THRESHOLD.out.versions)
         }
     }
 
@@ -117,7 +114,6 @@ workflow CLONAL_ANALYSIS {
         singlecell
     )
 
-    ch_versions = ch_versions.mix(CLONAL_ASSIGNMENT.out.versions)
 
     // prepare ch for define clones all samples report
     CLONAL_ASSIGNMENT.out.tab
@@ -139,7 +135,6 @@ workflow CLONAL_ANALYSIS {
             ch_all_repertoires_cloned_samplesheet,
             cloneby
         )
-        ch_versions = ch_versions.mix(REPERTOIRE_ANALYSIS.out.versions)
     }
 
     if (lineage_trees){
@@ -148,12 +143,10 @@ workflow CLONAL_ANALYSIS {
             lineage_tree_builder,
             lineage_tree_exec
         )
-        ch_versions = ch_versions.mix(DOWSER_LINEAGES.out.versions)
     }
 
     emit:
     repertoire = REPERTOIRE_ANALYSIS.out.tab
-    versions = ch_versions
     logs = ch_logs
 }
 

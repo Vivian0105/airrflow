@@ -199,7 +199,6 @@ workflow SEQUENCE_ASSEMBLY {
     //
     // SUBWORKFLOW: Read in samplesheet, validate and stage input files
     //
-    ch_versions = channel.empty()
 
     FASTQ_INPUT_CHECK(
         ch_input,
@@ -208,7 +207,6 @@ workflow SEQUENCE_ASSEMBLY {
         cloneby,
         index_file
     )
-    ch_versions = ch_versions.mix(FASTQ_INPUT_CHECK.out.versions)
 
     ch_reads = FASTQ_INPUT_CHECK.out.reads
 
@@ -235,7 +233,6 @@ workflow SEQUENCE_ASSEMBLY {
             filterseq_q
         )
         ch_presto_fasta = PRESTO_SANS_UMI.out.fasta
-        ch_presto_software = PRESTO_SANS_UMI.out.versions
         ch_fastp_reads_html = PRESTO_SANS_UMI.out.fastp_reads_html
         ch_fastp_reads_json = PRESTO_SANS_UMI.out.fastp_reads_json
         ch_fastqc_postassembly = PRESTO_SANS_UMI.out.fastqc_postassembly_gz
@@ -291,7 +288,6 @@ workflow SEQUENCE_ASSEMBLY {
             primer_consensus
         )
         ch_presto_fasta = PRESTO_UMI.out.fasta
-        ch_presto_software = PRESTO_UMI.out.versions
         ch_fastp_reads_html = PRESTO_UMI.out.fastp_reads_html
         ch_fastp_reads_json = PRESTO_UMI.out.fastp_reads_json
         ch_fastqc_postassembly = PRESTO_UMI.out.fastqc_postassembly_gz
@@ -306,10 +302,8 @@ workflow SEQUENCE_ASSEMBLY {
         ch_presto_splitseq_logs = PRESTO_UMI.out.presto_splitseq_logs
     }
 
-    ch_versions = ch_versions.mix(ch_presto_software)
 
     emit:
-    versions = ch_versions
     // assembled sequences in fasta format
     fasta = ch_presto_fasta
     // validated metadata

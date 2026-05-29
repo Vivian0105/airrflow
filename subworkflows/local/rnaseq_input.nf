@@ -28,8 +28,6 @@ workflow RNASEQ_INPUT {
     index_file
 
     main:
-
-    ch_versions = channel.empty()
     ch_logs = channel.empty()
 
     //
@@ -42,7 +40,6 @@ workflow RNASEQ_INPUT {
         cloneby,
         index_file
     )
-    ch_versions = ch_versions.mix(FASTQ_INPUT_CHECK.out.versions)
 
     ch_reads = FASTQ_INPUT_CHECK.out.reads
 
@@ -71,7 +68,6 @@ workflow RNASEQ_INPUT {
         [],
         save_merged
     )
-    ch_versions = ch_versions.mix(FASTP.out.versions)
 
     ch_rename_fastq = FASTP.out.reads.map { meta, reads -> [meta, reads[0], reads[1]] }
 
@@ -86,7 +82,6 @@ workflow RNASEQ_INPUT {
         ch_reads_fastp_filtered.first(),
         ch_igblast_reference
     )
-    ch_versions = ch_versions.mix(PREPARE_TRUST4_REFERENCE.out.versions)
 
     // create trust4 input
     ch_reads_trust4 = ch_reads_fastp_filtered.map{ meta, read_1, read_2  -> [ meta, [], [read_1, read_2] ] }
@@ -101,7 +96,6 @@ workflow RNASEQ_INPUT {
         trust4_umi_read ? trust4_umi_read : [],
         trust4_read_format ? trust4_read_format : [],
     )
-    ch_versions = ch_versions.mix(TRUST4.out.versions)
 
     ch_trust4_out = TRUST4.out.outs
 
@@ -133,7 +127,6 @@ workflow RNASEQ_INPUT {
 
 
     emit:
-    versions = ch_versions
     // fastp
     fastp_reads_json = FASTP.out.json.collect{ meta,json -> json }
     fastp_reads_html = FASTP.out.html.collect{ meta,html -> html }

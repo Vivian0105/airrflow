@@ -12,7 +12,6 @@ workflow TRANSLATE_EMBED {
     embedding_chain
 
     main:
-    ch_versions = channel.empty()
 
     AMULETY_TRANSLATE(
         ch_repertoire,
@@ -51,7 +50,4 @@ workflow TRANSLATE_EMBED {
         )
     }
 
-
-    emit:
-    versions = ch_versions
 }

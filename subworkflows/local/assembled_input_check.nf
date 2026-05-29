@@ -48,7 +48,6 @@ workflow ASSEMBLED_INPUT_CHECK {
     ch_fasta = ch_unique_fasta
     ch_tsv = ch_unique_tsv
     validated_input = ch_validated_input
-    versions = VALIDATE_INPUT.out.versions
     logs = ch_logs
 }
 

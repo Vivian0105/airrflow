@@ -16,7 +16,8 @@ process CHANGEO_CREATEGERMLINES {
     output:
     tuple val(meta), path("*germ-pass.tsv"), emit: tab
     path("*_command_log.txt"), emit: logs
-    path "versions.yml" , emit: versions
+    tuple val("${task.process}"), val('igblastn'), eval('igblastn -version | grep -o "igblast[0-9\\. ]\\+" | grep -o "[0-9\\. ]\\+"'), emit: versions_igblastn, topic: versions
+    tuple val("${task.process}"), val('changeo'), eval('CreateGermlines.py --version | grep -o "[0-9][0-9.]*" | head -n 1'), emit: versions_changeo, topic: versions
 
     script:
     def args = task.ext.args ?: ''
@@ -27,10 +28,5 @@ process CHANGEO_CREATEGERMLINES {
     --log ${meta.id}.log --outname ${meta.id} $args > ${meta.id}_create-germlines_command_log.txt
     ParseLog.py -l ${meta.id}.log -f ID V_CALL D_CALL J_CALL
 
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        igblastn: \$( igblastn -version | grep -o "igblast[0-9\\. ]\\+" | grep -o "[0-9\\. ]\\+" )
-        changeo: \$( CreateGermlines.py --version | awk -F' '  '{print \$2}' )
-    END_VERSIONS
     """
 }

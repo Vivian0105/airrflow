@@ -15,7 +15,8 @@ process MERGE_UMI {
 
     output:
     tuple val(meta), path('*_R1.fastq.gz'), path('*_R2.fastq.gz')   , emit: reads
-    path "versions.yml" , emit: versions
+    tuple val("${task.process}"), val('python'), eval('python --version 2>&1 | grep -o "[0-9\\. ]\\+"'), emit: versions_python, topic: versions
+    tuple val("${task.process}"), val('biopython'), eval('python -c "import pkg_resources; print(pkg_resources.get_distribution(\'biopython\').version)"'), emit: versions_biopython, topic: versions
 
     script:
     """
@@ -23,10 +24,5 @@ process MERGE_UMI {
     mv "UMI_R1.fastq.gz" "${meta.id}_UMI_R1.fastq.gz"
     mv "${R2}" "${meta.id}_R2.fastq.gz"
 
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        python: \$( echo \$(python --version | grep -o "[0-9\\. ]\\+") )
-        biopython: \$(echo \$(python -c "import pkg_resources; print(pkg_resources.get_distribution('biopython').version)"))
-    END_VERSIONS
     """
 }

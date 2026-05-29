@@ -25,7 +25,7 @@ process PRESTO_MASKPRIMERS_POSTASSEMBLY {
     tuple val(meta), path("*REV_primers-pass.fastq") , emit: reads
     path "*command_log.txt", emit: logs
     path "*.tab", emit: log_tab
-    path "versions.yml" , emit: versions
+    tuple val("${task.process}"), val('presto'), eval('MaskPrimers.py --version | grep -o "[0-9][0-9.]*" | head -n 1'), emit: versions_presto, topic: versions
 
     script:
     def revpr = primer_revpr ? '--revpr' : ''
@@ -39,10 +39,6 @@ process PRESTO_MASKPRIMERS_POSTASSEMBLY {
             --log ${meta.id}-REV.log >> ${meta.id}_command_log.txt
         ParseLog.py -l ${meta.id}-FWD.log ${meta.id}-REV.log -f ID PRIMER ERROR
 
-        cat <<-END_VERSIONS > versions.yml
-        "${task.process}":
-            presto: \$( MaskPrimers.py --version | awk -F' '  '{print \$2}' )
-        END_VERSIONS
         """
     } else if (cprimer_position == "R2") {
         """
@@ -54,10 +50,6 @@ process PRESTO_MASKPRIMERS_POSTASSEMBLY {
             --log ${meta.id}-REV.log >> ${meta.id}_command_log.txt
         ParseLog.py -l ${meta.id}-FWD.log ${meta.id}-REV.log -f ID PRIMER ERROR
 
-        cat <<-END_VERSIONS > versions.yml
-        "${task.process}":
-            presto: \$( MaskPrimers.py --version | awk -F' '  '{print \$2}' )
-        END_VERSIONS
         """
     } else {
         error "Error in determining cprimer positon."
