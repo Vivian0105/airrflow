@@ -135,7 +135,7 @@ Or run this [bash file](https://github.com/nf-core/airrflow/tree/dev/docs/usage/
 bash airrflow_sc_from_assembled_codespace.sh
 ```
 
-We have also provided the [results on Zenodo](https://zenodo.org/records/20450588) in case you do not have enough time to run the pipeline yourself.
+We have also uploaded the tutorial [results on Zenodo](https://zenodo.org/records/20450588).
 
 > [!TIP]
 > When launching a Nextflow pipeline with the `-resume` option, any processes that have already been run with the exact same code, settings and inputs will be cached and the pipeline will resume from the last step that changed or failed with an error. The benefit of using "resume" is to avoid duplicating previous work and save time when re-running a pipeline.
