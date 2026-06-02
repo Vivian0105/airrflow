@@ -99,7 +99,7 @@ workflow RNASEQ_INPUT {
         trust4_umi_read ? trust4_umi_read : [],
         trust4_read_format ? trust4_read_format : [],
     )
-
+    ch_versions = ch_versions.mix(TRUST4.out.versions)
     ch_trust4_out = TRUST4.out.outs
 
     // check whether input is sc or bulk and extract respective airr file for downstream processing
