@@ -67,7 +67,8 @@ workflow SC_RAW_INPUT {
         ch_reads,
         ch_sc_reference.collect()
     )
-
+    ch_versions = ch_versions.mix(CELLRANGER_VDJ.out.versions)
+    
     ch_cellranger_out = CELLRANGER_VDJ.out.outs
 
     ch_cellranger_out
