@@ -12,7 +12,13 @@ process FILTER_QUALITY {
     output:
     tuple val(meta), path("*quality-pass.tsv"), emit: tab // sequence tsv in AIRR format
     path("*_command_log.txt"), emit: logs //process logs
-    path "versions.yml", emit: versions
+    tuple val("${task.process}"), val('alakazam'), eval('Rscript -e "library(alakazam); cat(paste(packageVersion(\'alakazam\'), collapse=\'.\'))"'), emit: versions_alakazam, topic: versions
+    tuple val("${task.process}"), val('optparse'), eval('Rscript -e "library(optparse); cat(paste(packageVersion(\'optparse\'), collapse=\'.\'))"'), emit: versions_optparse, topic: versions
+    tuple val("${task.process}"), val('stringi'), eval('Rscript -e "library(stringi); cat(paste(packageVersion(\'stringi\'), collapse=\'.\'))"'), emit: versions_stringi, topic: versions
+    tuple val("${task.process}"), val('dplyr'), eval('Rscript -e "library(dplyr); cat(paste(packageVersion(\'dplyr\'), collapse=\'.\'))"'), emit: versions_dplyr, topic: versions
+    tuple val("${task.process}"), val('airr'), eval('Rscript -e "library(airr); cat(paste(packageVersion(\'airr\'), collapse=\'.\'))"'), emit: versions_airr, topic: versions
+    tuple val("${task.process}"), val('DT'), eval('Rscript -e "library(DT); cat(paste(packageVersion(\'DT\'), collapse=\'.\'))"'), emit: versions_dt, topic: versions
+    tuple val("${task.process}"), val('R'), eval('Rscript -e "cat(as.character(getRversion()))"'), emit: versions_r, topic: versions
 
     script:
     // Exit if running this module with -profile conda / -profile mamba
@@ -23,15 +29,5 @@ process FILTER_QUALITY {
     """
     reveal_filter_quality.R --repertoire $tab --outname ${meta.id} > ${meta.id}_fq_command_log.txt
 
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        alakazam: \$(Rscript -e "library(alakazam); cat(paste(packageVersion('alakazam'), collapse='.'))")
-        optparse: \$(Rscript -e "library(optparse); cat(paste(packageVersion('optparse'), collapse='.'))")
-        stringi: \$(Rscript -e "library(stringi); cat(paste(packageVersion('stringi'), collapse='.'))")
-        dplyr: \$(Rscript -e "library(dplyr); cat(paste(packageVersion('dplyr'), collapse='.'))")
-        airr: \$(Rscript -e "library(airr); cat(paste(packageVersion('airr'), collapse='.'))")
-        DT: \$(Rscript -e "library(DT); cat(paste(packageVersion('DT'), collapse='.'))")
-        R: \$(echo \$(R --version 2>&1) | awk -F' '  '{print \$3}')
-    END_VERSIONS
     """
 }

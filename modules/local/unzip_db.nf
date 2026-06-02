@@ -12,16 +12,12 @@ process UNZIP_DB {
 
     output:
     path("$unzipped")   , emit: unzipped
-    path "versions.yml", emit: versions
+    tuple val("${task.process}"), val('unzip'), eval('unzip -v 2>&1 | head -n 1 | sed \'s/^.*UnZip //; s/ of.*$//\''), emit: versions_unzip, topic: versions
 
     script:
     unzipped = archive.toString() - '.zip'
     """
     unzip $archive
 
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        unzip: \$(echo \$(unzip -help 2>&1) | sed 's/^.*UnZip //; s/ of.*\$//')
-    END_VERSIONS
     """
 }

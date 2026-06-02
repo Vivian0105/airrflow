@@ -16,7 +16,7 @@ process REPORT_FILE_SIZE {
 
     output:
     path "*_report", emit: file_size
-    path "versions.yml", emit: versions
+    tuple val("${task.process}"), val('enchantr'), eval('Rscript -e "library(enchantr); cat(as.character(packageVersion(\'enchantr\')))"'), emit: versions_enchantr, topic: versions
     path "file_size_report/tables/log_data.tsv", emit: table
 
     script:
@@ -31,8 +31,6 @@ process REPORT_FILE_SIZE {
 
     cp -r enchantr file_size_report && rm -rf enchantr
 
-    echo "\"${task.process}\":" > versions.yml
-    Rscript -e "cat(paste0('  enchantr: ',packageVersion('enchantr'),'\n'))" >> versions.yml
 
     """
 }

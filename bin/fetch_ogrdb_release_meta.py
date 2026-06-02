@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Written by Ayelet Peres and released under the MIT license.
 import html
 import http.cookiejar
 import json

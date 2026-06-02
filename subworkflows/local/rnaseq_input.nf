@@ -72,7 +72,6 @@ workflow RNASEQ_INPUT {
         save_merged
     )
     ch_versions = ch_versions.mix(FASTP.out.versions)
-
     ch_rename_fastq = FASTP.out.reads.map { meta, reads -> [meta, reads[0], reads[1]] }
 
     // rename fastp output
@@ -86,7 +85,6 @@ workflow RNASEQ_INPUT {
         ch_reads_fastp_filtered.first(),
         ch_igblast_reference
     )
-    ch_versions = ch_versions.mix(PREPARE_TRUST4_REFERENCE.out.versions)
 
     // create trust4 input
     ch_reads_trust4 = ch_reads_fastp_filtered.map{ meta, read_1, read_2  -> [ meta, [], [read_1, read_2] ] }
@@ -102,7 +100,6 @@ workflow RNASEQ_INPUT {
         trust4_read_format ? trust4_read_format : [],
     )
     ch_versions = ch_versions.mix(TRUST4.out.versions)
-
     ch_trust4_out = TRUST4.out.outs
 
     // check whether input is sc or bulk and extract respective airr file for downstream processing
@@ -133,7 +130,6 @@ workflow RNASEQ_INPUT {
 
 
     emit:
-    versions = ch_versions
     // fastp
     fastp_reads_json = FASTP.out.json.collect{ meta,json -> json }
     fastp_reads_html = FASTP.out.html.collect{ meta,html -> html }
@@ -144,5 +140,6 @@ workflow RNASEQ_INPUT {
     // trust4 output converted to FASTA format
     fasta = ch_fasta
     samplesheet = FASTQ_INPUT_CHECK.out.samplesheet
+    versions = ch_versions
 
 }

@@ -27,7 +27,8 @@ process CLONAL_ASSIGNMENT {
     tuple val(meta), path("*/*/*clone-pass.tsv"), emit: tab // sequence tsv in AIRR format
     path("*/*_command_log.txt"), emit: logs //process logs
     path "*_report"
-    path "versions.yml", emit: versions
+    tuple val("${task.process}"), val('enchantr'), eval('Rscript -e "library(enchantr); cat(as.character(packageVersion(\'enchantr\')))"'), emit: versions_enchantr, topic: versions
+    tuple val("${task.process}"), val('scoper'), eval("Rscript -e \"library(scoper); cat(as.character(packageVersion('scoper')))\""), emit: versions_scoper, topic: versions
 
 
     script:
@@ -59,7 +60,5 @@ process CLONAL_ASSIGNMENT {
 
     cp -r enchantr ${meta.id}_clone_report && rm -rf enchantr
 
-    echo "${task.process}": > versions.yml
-    Rscript -e "cat(paste0('  enchantr: ',packageVersion('enchantr'),'\n'))" >> versions.yml
     """
 }

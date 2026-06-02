@@ -22,7 +22,7 @@ process PRESTO_MASKPRIMERS_SCORE {
     tuple val(meta), path("*_primers-pass.fastq"), emit: reads
     path "*.txt", emit: logs
     path "*.tab", emit: log_tab
-    path "versions.yml" , emit: versions
+    tuple val("${task.process}"), val('presto'), eval('MaskPrimers.py --version | grep -o "[0-9][0-9.]*" | head -n 1'), emit: versions_presto, topic: versions
 
 
     script:
@@ -45,9 +45,5 @@ process PRESTO_MASKPRIMERS_SCORE {
     --log ${meta.id}_${suffix}.log > ${meta.id}_command_log_${suffix}.txt
     ParseLog.py -l *.log $args2
 
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        presto: \$( MaskPrimers.py --version | awk -F' '  '{print \$2}' )
-    END_VERSIONS
     """
 }

@@ -18,7 +18,6 @@ workflow NOVEL_ALLELES_AND_GENOTYPING {
     singlecell
 
     main:
-    ch_versions = channel.empty()
     ch_logs = channel.empty()
 
     // merge all repertoires by genotypeby metadata field
@@ -124,7 +123,6 @@ workflow NOVEL_ALLELES_AND_GENOTYPING {
 
     emit:
     repertoire_reference = ch_repertoire_reference
-    versions = ch_versions
     logs = ch_logs
 }
 

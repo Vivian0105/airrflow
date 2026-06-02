@@ -22,8 +22,8 @@ process NOVEL_ALLELE_INFERENCE {
     tuple val(meta), path("*_report/db_novel"), emit: reference // reference folder
     path("*/*_command_log.txt"), emit: logs //process logs
     path "*_report", optional: true, emit: report
-    path "versions.yml", emit: versions
-
+    tuple val("${task.process}"), val('enchantr'), eval('Rscript -e "library(enchantr); cat(as.character(packageVersion(\'enchantr\')))"'), emit: versions_enchantr, topic: versions
+    tuple val("${task.process}"), val('tigger'), eval("Rscript -e \"library(tigger); cat(as.character(packageVersion('tigger')))\""), emit: versions_tigger, topic: versions
 
     script:
     // Exit if running this module with -profile conda / -profile mamba
@@ -42,7 +42,5 @@ process NOVEL_ALLELE_INFERENCE {
 
     cp -r enchantr ${meta.id}_novel_allele_inference_report && rm -rf enchantr
 
-    echo "${task.process}": > versions.yml
-    Rscript -e "cat(paste0('  enchantr: ',packageVersion('enchantr'),'\n'))" >> versions.yml
     """
 }

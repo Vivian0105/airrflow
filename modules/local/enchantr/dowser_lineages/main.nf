@@ -24,7 +24,8 @@ process DOWSER_LINEAGES {
     output:
     path("*_command_log.txt"), emit: logs //process logs
     path "*_report"
-    path "versions.yml", emit: versions
+    tuple val("${task.process}"), val('enchantr'), eval('Rscript -e "library(enchantr); cat(as.character(packageVersion(\'enchantr\')))"'), emit: versions_enchantr, topic: versions
+    tuple val("${task.process}"), val('dowser'), eval("Rscript -e \"library(dowser); cat(as.character(packageVersion('dowser')))\""), emit: versions_dowser, topic: versions
 
     script:
     // Exit if running this module with -profile conda / -profile mamba
@@ -45,7 +46,5 @@ process DOWSER_LINEAGES {
 
     cp -r enchantr ${id_name}_dowser_report && rm -rf enchantr
 
-    echo "${task.process}": > versions.yml
-    Rscript -e "cat(paste0('  enchantr: ',packageVersion('enchantr'),'\n'))" >> versions.yml
     """
 }

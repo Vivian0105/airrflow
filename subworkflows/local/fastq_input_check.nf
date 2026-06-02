@@ -32,7 +32,6 @@ workflow FASTQ_INPUT_CHECK {
         }
         .set { ch_reads }
 
-    ch_versions = ch_versions.mix( SAMPLESHEET_CHECK.out.versions )
 
     // Merge multi-lane sample fastq for protocols except for 10x genomics, trust4 (cellranger handles multi-fastq per sample)
     if (library_generation_method == 'sc_10x_genomics' || library_generation_method == 'trust4')  {
@@ -50,7 +49,6 @@ workflow FASTQ_INPUT_CHECK {
         .set { ch_merged_reads }
 
         ch_versions = ch_versions.mix( CAT_FASTQ.out.versions )
-
     }
 
     emit:

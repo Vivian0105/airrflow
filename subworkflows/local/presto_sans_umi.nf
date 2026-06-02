@@ -37,7 +37,6 @@ workflow PRESTO_SANS_UMI {
     filterseq_q
 
     main:
-
     ch_versions = channel.empty()
 
     // Fastp
@@ -49,25 +48,21 @@ workflow PRESTO_SANS_UMI {
         save_merged
     )
     ch_versions = ch_versions.mix(FASTP.out.versions)
-
     ch_gunzip = FASTP.out.reads.map{ meta,reads -> [meta, reads[0], reads[1]] }
 
     // gunzip fastq.gz to fastq
     GUNZIP_SANS_UMI ( ch_gunzip )
-    ch_versions = ch_versions.mix(GUNZIP_SANS_UMI.out.versions)
 
     // Assemble read pairs
     PRESTO_ASSEMBLEPAIRS_SANS_UMI (
         GUNZIP_SANS_UMI.out.reads
     )
-    ch_versions = ch_versions.mix(PRESTO_ASSEMBLEPAIRS_SANS_UMI.out.versions)
 
     // Filter sequences by quality score
     PRESTO_FILTERSEQ_POSTASSEMBLY_SANS_UMI (
         PRESTO_ASSEMBLEPAIRS_SANS_UMI.out.reads,
         filterseq_q
     )
-    ch_versions = ch_versions.mix(PRESTO_FILTERSEQ_POSTASSEMBLY_SANS_UMI.out.versions)
 
     // Mask primers
     def suffix_FWD = "R1"
@@ -122,8 +117,6 @@ workflow PRESTO_SANS_UMI {
             error "Error in determining cprimer position. Please choose R1 or R2."
         }
 
-        ch_versions = ch_versions.mix(PRESTO_MASKPRIMERS_ALIGN_SANSUMI_FWD.out.versions)
-        ch_versions = ch_versions.mix(PRESTO_MASKPRIMERS_ALIGN_SANSUMI_REV.out.versions)
 
         ch_maskprimers_logs = PRESTO_MASKPRIMERS_ALIGN_SANSUMI_FWD.out.logs
         ch_maskprimers_logs = ch_maskprimers_logs.mix(PRESTO_MASKPRIMERS_ALIGN_SANSUMI_REV.out.logs)
@@ -183,7 +176,6 @@ workflow PRESTO_SANS_UMI {
             error "Error in determining cprimer position. Please choose R1 or R2."
         }
 
-        ch_versions = ch_versions.mix(PRESTO_MASKPRIMERS_SCORE_SANSUMI_FWD.out.versions)
 
         ch_maskprimers_logs = PRESTO_MASKPRIMERS_SCORE_SANSUMI_FWD.out.logs
         ch_maskprimers_logs = ch_maskprimers_logs.mix(PRESTO_MASKPRIMERS_SCORE_SANSUMI_REV.out.logs)
@@ -196,32 +188,27 @@ workflow PRESTO_SANS_UMI {
     FASTQC_POSTASSEMBLY_SANS_UMI (
         ch_masked_reads
     )
-    ch_versions = ch_versions.mix(FASTQC_POSTASSEMBLY_SANS_UMI.out.versions)
 
     // Annotate primers in C_PRIMER and V_PRIMER field
     PRESTO_PARSEHEADERS_PRIMERS_SANS_UMI (
         ch_masked_reads,
         cprimer_position
     )
-    ch_versions = ch_versions.mix(PRESTO_PARSEHEADERS_PRIMERS_SANS_UMI.out.versions)
 
     // Annotate metadata on primer headers
     PRESTO_PARSEHEADERS_METADATA_SANS_UMI (
         PRESTO_PARSEHEADERS_PRIMERS_SANS_UMI.out.reads
     )
-    ch_versions = ch_versions.mix(PRESTO_PARSEHEADERS_METADATA_SANS_UMI.out.versions)
 
     // Mark and count duplicate sequences (DUPCOUNT)
     PRESTO_COLLAPSESEQ_SANS_UMI (
         PRESTO_PARSEHEADERS_METADATA_SANS_UMI.out.reads
     )
-    ch_versions = ch_versions.mix(PRESTO_COLLAPSESEQ_SANS_UMI.out.versions)
 
     // Filter out sequences with less than 2 representative duplicates
     PRESTO_SPLITSEQ_SANS_UMI (
         PRESTO_COLLAPSESEQ_SANS_UMI.out.reads
     )
-    ch_versions = ch_versions.mix(PRESTO_SPLITSEQ_SANS_UMI.out.versions)
 
     emit:
     fasta = PRESTO_SPLITSEQ_SANS_UMI.out.fasta

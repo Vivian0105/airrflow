@@ -14,7 +14,7 @@ process PRESTO_PARSE_CLUSTER {
     output:
     tuple val(meta), path("*R1_cluster-pass_reheader.fastq"), path("*R2_cluster-pass_reheader.fastq"), emit: reads
     path("*_log.txt"), emit: logs
-    path "versions.yml" , emit: versions
+    tuple val("${task.process}"), val('presto'), eval('ParseHeaders.py --version | grep -o "[0-9][0-9.]*" | head -n 1'), emit: versions_presto, topic: versions
 
 
     script:
@@ -22,9 +22,5 @@ process PRESTO_PARSE_CLUSTER {
     ParseHeaders.py copy -s $R1 -f BARCODE -k CLUSTER --act cat > ${meta.id}_command_log.txt
     ParseHeaders.py copy -s $R2 -f BARCODE -k CLUSTER --act cat >> ${meta.id}_command_log.txt
 
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        presto: \$( ParseHeaders.py --version | awk -F' '  '{print \$2}' )
-    END_VERSIONS
     """
 }

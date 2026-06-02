@@ -17,7 +17,8 @@ process CHANGEO_MAKEDB {
     output:
     tuple val(meta), path("*db-pass.tsv"), emit: tab //sequence table in AIRR format
     path("*_command_log.txt"), emit: logs //process logs
-    path "versions.yml" , emit: versions
+    tuple val("${task.process}"), val('igblastn'), eval('igblastn -version | grep -o "igblast[0-9\\. ]\\+" | grep -o "[0-9\\. ]\\+"'), emit: versions_igblastn, topic: versions
+    tuple val("${task.process}"), val('changeo'), eval('MakeDb.py --version | grep -o "[0-9][0-9.]*" | head -n 1'), emit: versions_changeo, topic: versions
 
     script:
     def args = task.ext.args ?: ''
@@ -29,10 +30,5 @@ process CHANGEO_MAKEDB {
     $args $partial \\
     --outname ${meta.id} > ${meta.id}_makedb_command_log.txt
 
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        igblastn: \$( igblastn -version | grep -o "igblast[0-9\\. ]\\+" | grep -o "[0-9\\. ]\\+" )
-        changeo: \$( MakeDb.py --version | awk -F' '  '{print \$2}' )
-    END_VERSIONS
     """
 }

@@ -15,7 +15,8 @@ process PRESTO_CLUSTERSETS {
     tuple val(meta), path("*_R1_cluster-pass.fastq"), path("*_R2_cluster-pass.fastq"), emit: reads
     path "*_command_log.txt", emit: logs
     path "*.tab", emit: log_tab
-    path("versions.yml"), emit: versions
+    tuple val("${task.process}"), val('presto'), eval('ClusterSets.py --version | grep -o "[0-9][0-9.]*" | head -n 1'), emit: versions_presto, topic: versions
+    tuple val("${task.process}"), val('vsearch'), eval('vsearch --version &> vsearch.txt; cat vsearch.txt | head -n 1 | grep -o \'v[0-9\\.]\\+\''), emit: versions_vsearch, topic: versions
 
     script:
     def args = task.ext.args ?: ''
@@ -25,10 +26,5 @@ process PRESTO_CLUSTERSETS {
     ClusterSets.py set --nproc ${task.cpus} -s $R2 --outname ${meta.id}_R2 $args --log ${meta.id}_R2.log >> ${meta.id}_command_log.txt
     ParseLog.py -l ${meta.id}_R1.log ${meta.id}_R2.log $args2
 
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        presto: \$( ClusterSets.py --version | awk -F' '  '{print \$2}' )
-        vsearch: \$( vsearch --version &> vsearch.txt; cat vsearch.txt | head -n 1 | grep -o 'v[0-9\\.]\\+' )
-    END_VERSIONS
     """
 }

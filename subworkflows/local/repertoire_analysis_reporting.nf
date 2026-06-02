@@ -32,7 +32,6 @@ workflow REPERTOIRE_ANALYSIS_REPORTING {
     cluster_sets
 
     main:
-    ch_versions = channel.empty()
 
     if (mode == "fastq" && library_generation_method != "sc_10x_genomics" && library_generation_method != "trust4" ) {
         PARSE_LOGS(
@@ -50,7 +49,6 @@ workflow REPERTOIRE_ANALYSIS_REPORTING {
             umi_length,
             cluster_sets
         )
-        ch_versions = ch_versions.mix(PARSE_LOGS.out.versions)
         ch_parsed_logs = PARSE_LOGS.out.logs
 
     } else {
@@ -72,7 +70,6 @@ workflow REPERTOIRE_ANALYSIS_REPORTING {
         ch_metadata,
         ch_logs_tabs
     )
-    ch_versions = ch_versions.mix(REPORT_FILE_SIZE.out.versions)
 
     AIRRFLOW_REPORT(
         ch_repertoires,
@@ -82,8 +79,4 @@ workflow REPERTOIRE_ANALYSIS_REPORTING {
         ch_report_css,
         ch_report_logo
     )
-    ch_versions = ch_versions.mix(AIRRFLOW_REPORT.out.versions)
-
-    emit:
-    versions = ch_versions
 }

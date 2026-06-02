@@ -15,7 +15,8 @@ process CHANGEO_ASSIGNGENES {
     output:
     path("*igblast.fmt7"), emit: blast
     tuple val(meta), path("$reads"), emit: fasta
-    path "versions.yml" , emit: versions
+    tuple val("${task.process}"), val('igblastn'), eval('igblastn -version | grep -o "igblast[0-9\\. ]\\+" | grep -o "[0-9\\. ]\\+"'), emit: versions_igblastn, topic: versions
+    tuple val("${task.process}"), val('changeo'), eval('AssignGenes.py --version | grep -o "[0-9][0-9.]*" | head -n 1'), emit: versions_changeo, topic: versions
     path("*_command_log.txt"), emit: logs //process logs
 
     script:
@@ -36,10 +37,5 @@ process CHANGEO_ASSIGNGENES {
         --nproc $task.cpus \\
         --outname $meta.id > ${meta.id}_changeo_assigngenes_command_log.txt
 
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        igblastn: \$( igblastn -version | grep -o "igblast[0-9\\. ]\\+" | grep -o "[0-9\\. ]\\+" )
-        changeo: \$( AssignGenes.py --version | awk -F' '  '{print \$2}' )
-    END_VERSIONS
     """
 }

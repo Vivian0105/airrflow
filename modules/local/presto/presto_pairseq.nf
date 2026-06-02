@@ -15,7 +15,7 @@ process PRESTO_PAIRSEQ {
     output:
     tuple val(meta), path("*R1_pair-pass.fastq"), path("*R2_pair-pass.fastq") , emit: reads
     path "*_command_log.txt", emit: logs
-    path "versions.yml" , emit: versions
+    tuple val("${task.process}"), val('presto'), eval('PairSeq.py --version | grep -o "[0-9][0-9.]*" | head -n 1'), emit: versions_presto, topic: versions
 
     script:
     def copyfield = (barcode_position == 'R1')? '--1f BARCODE' : (barcode_position == 'R2')? '--2f BARCODE' : (barcode_position == 'R1R2')? '--1f BARCODE --2f BARCODE' : (barcode_position == 'clustersets')? '--1f CLUSTER --2f CLUSTER' : ''
@@ -23,9 +23,5 @@ process PRESTO_PAIRSEQ {
     """
     PairSeq.py -1 ${meta.id}_R1.fastq -2 ${meta.id}_R2.fastq $copyfield $args > ${meta.id}_command_log.txt
 
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        presto: \$( PairSeq.py --version | awk -F' '  '{print \$2}' )
-    END_VERSIONS
     """
 }

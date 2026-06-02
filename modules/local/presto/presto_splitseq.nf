@@ -14,7 +14,7 @@ process PRESTO_SPLITSEQ {
     output:
     tuple val(meta), path("${meta.id}_atleast-*.fasta"), emit: fasta
     path("*_command_log.txt"), emit: logs
-    path "versions.yml" , emit: versions
+    tuple val("${task.process}"), val('presto'), eval('SplitSeq.py --version | grep -o "[0-9][0-9.]*" | head -n 1'), emit: versions_presto, topic: versions
 
     script:
     def args = task.ext.args ?: ''
@@ -24,9 +24,5 @@ process PRESTO_SPLITSEQ {
     --outname ${meta.id} \\
     --fasta > ${meta.id}_command_log.txt
 
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        presto: \$( SplitSeq.py --version | awk -F' '  '{print \$2}' )
-    END_VERSIONS
     """
 }

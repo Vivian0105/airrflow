@@ -9,21 +9,16 @@ process VALIDATE_IGBLAST_DB {
         'biocontainers/mulled-v2-7d8e418eb73acc6a80daea8e111c94cf19a4ecfd:a9ee25632c9b10bbb012da76e6eb539acca8f9cd-1' }"
 
     input:
-    path(igblast_dir)
+    path(igblast_dir, stageAs: "input_igblast_base")
     path(reference_fasta_dir)
 
     output:
     path("igblast_base"), emit: igblast
-    path "versions.yml", emit: versions
+    tuple val("${task.process}"), val('bash'), eval('bash --version | head -n 1 | sed \'s/^GNU bash, version //; s/(.*$//\''), emit: versions_bash, topic: versions
 
     script:
     """
-    mv "${igblast_dir}" input_igblast_base
     validate_igblast_db.sh -i input_igblast_base -r "${reference_fasta_dir}" -o igblast_base
 
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        bash: \$(echo \$(bash --version | head -n 1) | sed 's/^GNU bash, version //; s/(.*\$//')
-    END_VERSIONS
     """
 }

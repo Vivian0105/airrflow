@@ -95,7 +95,7 @@ Of course you can wrap all your code in a [bash file](https://github.com/nf-core
 bash airrflow_genotyping_codespace.sh
 ```
 
-The estimated running time is 15 minutes.
+The estimated running time is 15 minutes. We also uploaded the tutorial [results on Zenodo](https://zenodo.org/records/20450474).
 
 > [!NOTE]
 > We skipped single clone representative and clonal analysis here to save time because it's slow to run all the steps within Codespace due to the limited resources, but we recommend not skipping these steps in real life analyses.

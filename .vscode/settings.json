@@ -15,5 +15,6 @@
         "Nextflow",
         "PBMC",
         "samplesheet"
-    ]
+    ],
+    "nextflow.telemetry.enabled": false
 }

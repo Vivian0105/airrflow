@@ -15,7 +15,9 @@ process ADD_META_TO_TAB {
     output:
     tuple val(meta), path("*meta-pass.tsv"), emit: tab // sequence tsv in AIRR format
     path("*_command_log.txt"), emit: logs //process logs
-    path "versions.yml", emit: versions
+    tuple val("${task.process}"), val('dplyr'), eval('Rscript -e "library(dplyr); cat(paste(packageVersion(\'dplyr\'), collapse=\'.\'))"'), emit: versions_dplyr, topic: versions
+    tuple val("${task.process}"), val('optparse'), eval('Rscript -e "library(optparse); cat(paste(packageVersion(\'optparse\'), collapse=\'.\'))"'), emit: versions_optparse, topic: versions
+    tuple val("${task.process}"), val('R'), eval('Rscript -e "cat(as.character(getRversion()))"'), emit: versions_r, topic: versions
 
     script:
     // Exit if running this module with -profile conda / -profile mamba
@@ -25,11 +27,5 @@ process ADD_META_TO_TAB {
     """
     reveal_add_metadata.R --repertoire ${tab} --metadata ${validated_input} --input_id ${meta.id} --outname ${meta.id} > ${meta.id}_add-meta_command_log.txt
 
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        dplyr: \$(Rscript -e "library(dplyr); cat(paste(packageVersion('dplyr'), collapse='.'))")
-        optparse: \$(Rscript -e "library(optparse); cat(paste(packageVersion('optparse'), collapse='.'))")
-        R: \$(echo \$(R --version 2>&1) | awk -F' '  '{print \$3}')
-    END_VERSIONS
     """
 }

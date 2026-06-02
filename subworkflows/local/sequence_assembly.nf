@@ -235,7 +235,6 @@ workflow SEQUENCE_ASSEMBLY {
             filterseq_q
         )
         ch_presto_fasta = PRESTO_SANS_UMI.out.fasta
-        ch_presto_software = PRESTO_SANS_UMI.out.versions
         ch_fastp_reads_html = PRESTO_SANS_UMI.out.fastp_reads_html
         ch_fastp_reads_json = PRESTO_SANS_UMI.out.fastp_reads_json
         ch_fastqc_postassembly = PRESTO_SANS_UMI.out.fastqc_postassembly_gz
@@ -291,7 +290,6 @@ workflow SEQUENCE_ASSEMBLY {
             primer_consensus
         )
         ch_presto_fasta = PRESTO_UMI.out.fasta
-        ch_presto_software = PRESTO_UMI.out.versions
         ch_fastp_reads_html = PRESTO_UMI.out.fastp_reads_html
         ch_fastp_reads_json = PRESTO_UMI.out.fastp_reads_json
         ch_fastqc_postassembly = PRESTO_UMI.out.fastqc_postassembly_gz
@@ -306,10 +304,8 @@ workflow SEQUENCE_ASSEMBLY {
         ch_presto_splitseq_logs = PRESTO_UMI.out.presto_splitseq_logs
     }
 
-    ch_versions = ch_versions.mix(ch_presto_software)
 
     emit:
-    versions = ch_versions
     // assembled sequences in fasta format
     fasta = ch_presto_fasta
     // validated metadata
@@ -329,4 +325,5 @@ workflow SEQUENCE_ASSEMBLY {
     presto_assemblepairs_logs = ch_presto_assemblepairs_logs
     presto_collapseseq_logs = ch_presto_collapseseq_logs
     presto_splitseq_logs = ch_presto_splitseq_logs
+    versions = ch_versions
 }

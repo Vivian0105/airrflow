@@ -14,7 +14,8 @@ process FETCH_DATABASES {
     output:
     path("igblast_base"), emit: igblast
     path("reference_base"), emit: reference_fasta
-    path "versions.yml", emit: versions
+    tuple val("${task.process}"), val('igblastn'), eval('igblastn -version | grep -o "igblast[0-9\\. ]\\+" | grep -o "[0-9\\. ]\\+"'), emit: versions_igblastn, topic: versions
+    tuple val("${task.process}"), val('changeo'), eval('AssignGenes.py --version | grep -o "[0-9][0-9.]*" | head -n 1'), emit: versions_changeo, topic: versions
     path("igblast_base/database/human_ig_v.ndb"), emit: igblast_human_ig_v
     path("igblast_base/database/human_ig_d.ndb"), emit: igblast_human_ig_d
     path("igblast_base/database/human_ig_j.ndb"), emit: igblast_human_ig_j
@@ -26,11 +27,5 @@ process FETCH_DATABASES {
     """
     fetch_databases.sh -d ${database_type}
 
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        Reference download date: \$( echo \$(date "+%F") )
-        igblastn: \$( igblastn -version | grep -o "igblast[0-9\\. ]\\+" | grep -o "[0-9\\. ]\\+" )
-        changeo: \$( AssignGenes.py --version | awk -F' '  '{print \$2}' )
-    END_VERSIONS
     """
 }

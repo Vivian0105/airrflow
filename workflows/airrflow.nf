@@ -170,9 +170,7 @@ workflow AIRRFLOW {
                 ch_versions                             = ch_versions.mix(SC_RAW_INPUT.out.versions)
                 ch_cellranger_airr                      = SC_RAW_INPUT.out.airr
                 ch_cellranger_out                       = SC_RAW_INPUT.out.outs
-
                 ch_validated_samplesheet                = SC_RAW_INPUT.out.samplesheet.collect()
-
                 ch_presto_filterseq_logs                = channel.empty()
                 ch_presto_maskprimers_logs              = channel.empty()
                 ch_presto_pairseq_logs                  = channel.empty()
@@ -210,7 +208,6 @@ workflow AIRRFLOW {
 
                 ch_fasta                                = RNASEQ_INPUT.out.fasta
                 ch_versions                             = ch_versions.mix(RNASEQ_INPUT.out.versions)
-
                 ch_validated_samplesheet                = RNASEQ_INPUT.out.samplesheet.collect()
 
                 ch_presto_filterseq_logs                = channel.empty()
@@ -297,7 +294,6 @@ workflow AIRRFLOW {
                 cloneby,
                 reassign
             )
-            ch_versions = ch_versions.mix( ASSEMBLED_INPUT_CHECK.out.versions )
             ch_input_check_logs = ASSEMBLED_INPUT_CHECK.out.logs
 
             if (reassign) {
@@ -305,7 +301,6 @@ workflow AIRRFLOW {
                     ASSEMBLED_INPUT_CHECK.out.ch_tsv
                 )
                 ch_fasta_from_tsv = CHANGEO_CONVERTDB_FASTA_FROM_AIRR.out.fasta
-                ch_versions = ch_versions.mix(CHANGEO_CONVERTDB_FASTA_FROM_AIRR.out.versions)
                 ch_reassign_logs = ch_reassign_logs.mix(CHANGEO_CONVERTDB_FASTA_FROM_AIRR.out.logs)
                 ch_tsv_files = channel.empty()
             } else {
@@ -343,7 +338,6 @@ workflow AIRRFLOW {
             skip_alignment_filter,
             productive_only
         )
-        ch_versions = ch_versions.mix( VDJ_ANNOTATION.out.versions )
 
         // Split bulk and single cell repertoires
         ch_repertoire_by_processing = VDJ_ANNOTATION.out.repertoire
@@ -362,7 +356,6 @@ workflow AIRRFLOW {
             detect_contamination,
             collapseby
         )
-        ch_versions = ch_versions.mix( BULK_QC_AND_FILTER.out.versions )
 
         ch_bulk_filtered = BULK_QC_AND_FILTER.out.repertoires
 
@@ -372,7 +365,6 @@ workflow AIRRFLOW {
         SINGLE_CELL_QC_AND_FILTERING(
             ch_repertoire_by_processing.single
         )
-        ch_versions = ch_versions.mix( SINGLE_CELL_QC_AND_FILTERING.out.versions )
 
         // Mixing bulk and single cell channels after filtering
         ch_repertoires_after_qc = ch_bulk_filtered
@@ -392,7 +384,6 @@ workflow AIRRFLOW {
                 cloneby,
                 singlecell
             )
-            ch_versions = ch_versions.mix( NOVEL_ALLELES_AND_GENOTYPING.out.versions )
             ch_repertoire_reference = NOVEL_ALLELES_AND_GENOTYPING.out.repertoire_reference
 
         } else {
@@ -416,7 +407,6 @@ workflow AIRRFLOW {
                 lineage_tree_builder,
                 lineage_tree_exec
             )
-            ch_versions = ch_versions.mix( CLONAL_ANALYSIS.out.versions)
         }
 
         // Translation and embedding
@@ -427,7 +417,6 @@ workflow AIRRFLOW {
                 embeddings,
                 embedding_chain
             )
-            ch_versions = ch_versions.mix( TRANSLATE_EMBED.out.versions )
         }
 
         if (!skip_report){
@@ -463,7 +452,6 @@ workflow AIRRFLOW {
                 umi_length,
                 cluster_sets
             )
-            ch_versions = ch_versions.mix( REPERTOIRE_ANALYSIS_REPORTING.out.versions )
         }
 
 
@@ -479,7 +467,8 @@ workflow AIRRFLOW {
 
     def topic_versions_string = topic_versions.versions_tuple
         .map { process, tool, version ->
-            [ process[process.lastIndexOf(':')+1..-1], "  ${tool}: ${version}" ]
+            def escaped_version = version.toString().replace('\\', '\\\\').replace('"', '\\"')
+            [ process[process.lastIndexOf(':')+1..-1], "  ${tool}: \"${escaped_version}\"" ]
         }
         .groupTuple(by:0)
         .map { process, tool_versions ->
@@ -546,7 +535,6 @@ workflow AIRRFLOW {
         }
     emit:
         multiqc_report = multiqc_report // channel: /path/to/multiqc_report.html
-        versions       = ch_versions                 // channel: [ path(versions.yml) ]
 }
 
 /*

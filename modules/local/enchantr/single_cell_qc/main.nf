@@ -22,7 +22,7 @@ process SINGLE_CELL_QC {
     path("*/*/*scqc-pass.tsv"), emit: tab // sequence tsv in AIRR format
     path("*_command_log.txt"), emit: logs //process logs
     path("*_report"), emit: report
-    path("versions.yml"), emit: versions
+    tuple val("${task.process}"), val('enchantr'), eval('Rscript -e "library(enchantr); cat(as.character(packageVersion(\'enchantr\')))"'), emit: versions_enchantr, topic: versions
 
     script:
     // Exit if running this module with -profile conda / -profile mamba
@@ -39,7 +39,5 @@ process SINGLE_CELL_QC {
 
     cp -r enchantr all_reps_scqc_report && rm -rf enchantr
 
-    echo "${task.process}": > versions.yml
-    Rscript -e "cat(paste0('  enchantr: ',packageVersion('enchantr'),'\n'))" >> versions.yml
     """
 }
