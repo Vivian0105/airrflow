@@ -11,7 +11,7 @@ process CELLRANGER_MKVDJREF {
 
     output:
     path "${reference_name}", emit: reference
-    tuple val("${task.process}"), val('cellranger'), eval('cellranger --version 2>&1 | sed \'s/^.*[^0-9]\\([0-9]*\\.[0-9]*\\.[0-9]*\\).*$/\\1/\''), emit: versions_cellranger, topic: versions
+    path "versions.yml"     , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -30,5 +30,9 @@ process CELLRANGER_MKVDJREF {
         --genes=$gtf \\
         $args
 
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        cellranger: \$(echo \$( cellranger --version 2>&1) | sed 's/^.*[^0-9]\\([0-9]*\\.[0-9]*\\.[0-9]*\\).*\$/\\1/' )
+    END_VERSIONS
     """
 }
