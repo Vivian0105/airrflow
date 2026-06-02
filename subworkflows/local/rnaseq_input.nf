@@ -71,7 +71,7 @@ workflow RNASEQ_INPUT {
         [],
         save_merged
     )
-
+    ch_versions = ch_versions.mix(FASTP.out.versions)
     ch_rename_fastq = FASTP.out.reads.map { meta, reads -> [meta, reads[0], reads[1]] }
 
     // rename fastp output

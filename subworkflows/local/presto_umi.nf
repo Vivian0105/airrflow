@@ -79,6 +79,7 @@ workflow PRESTO_UMI {
     primer_consensus
 
     main:
+    ch_versions = channel.empty()
 
     // Validate params
     if (maskprimers_align_race & umi_position == 'R1') {error "The maskprimers align race option is only supported with UMI barcodes in the R2 reads (reads containing V region)."}
@@ -100,7 +101,7 @@ workflow PRESTO_UMI {
             save_trimmed,
             save_merged
         )
-
+        ch_versions = ch_versions.mix(FASTP.out.versions)
         //ch for merge umi
         ch_meta_R1_R2 = FASTP.out.reads
                                         .map{ meta, reads -> [meta.id, meta, reads[0], reads[1]] }
@@ -127,7 +128,7 @@ workflow PRESTO_UMI {
             save_trimmed,
             save_merged
         )
-
+        ch_versions = ch_versions.mix(FASTP.out.versions)
         ch_rename_fastq_umi = FASTP.out.reads.map{ meta,reads -> [meta, reads[0], reads[1]] }
 
         RENAME_FASTQ_UMI ( ch_rename_fastq_umi )
@@ -598,6 +599,7 @@ workflow PRESTO_UMI {
 
     emit:
     fasta = PRESTO_SPLITSEQ_UMI.out.fasta
+    versions = ch_versions
     fastp_reads_json = FASTP.out.json.collect{ meta,json -> json }
     fastp_reads_html = FASTP.out.html.collect{ meta,html -> html }
     fastqc_postassembly_gz = FASTQC_POSTASSEMBLY_UMI.out.zip

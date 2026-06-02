@@ -37,6 +37,7 @@ workflow PRESTO_SANS_UMI {
     filterseq_q
 
     main:
+    ch_versions = channel.empty()
 
     // Fastp
     save_merged = false
@@ -46,7 +47,7 @@ workflow PRESTO_SANS_UMI {
         save_trimmed,
         save_merged
     )
-
+    ch_versions = ch_versions.mix(FASTP.out.versions)
     ch_gunzip = FASTP.out.reads.map{ meta,reads -> [meta, reads[0], reads[1]] }
 
     // gunzip fastq.gz to fastq
@@ -211,6 +212,7 @@ workflow PRESTO_SANS_UMI {
 
     emit:
     fasta = PRESTO_SPLITSEQ_SANS_UMI.out.fasta
+    versions = ch_versions
     fastp_reads_json = FASTP.out.json.collect{ meta,json -> json }
     fastp_reads_html = FASTP.out.html.collect{ meta,html -> html }
     fastqc_postassembly_gz = FASTQC_POSTASSEMBLY_SANS_UMI.out.zip
