@@ -199,6 +199,7 @@ workflow SEQUENCE_ASSEMBLY {
     //
     // SUBWORKFLOW: Read in samplesheet, validate and stage input files
     //
+    ch_versions = channel.empty()
 
     FASTQ_INPUT_CHECK(
         ch_input,
@@ -207,6 +208,7 @@ workflow SEQUENCE_ASSEMBLY {
         cloneby,
         index_file
     )
+    ch_versions = ch_versions.mix(FASTQ_INPUT_CHECK.out.versions)
 
     ch_reads = FASTQ_INPUT_CHECK.out.reads
 
@@ -323,4 +325,5 @@ workflow SEQUENCE_ASSEMBLY {
     presto_assemblepairs_logs = ch_presto_assemblepairs_logs
     presto_collapseseq_logs = ch_presto_collapseseq_logs
     presto_splitseq_logs = ch_presto_splitseq_logs
+    versions = ch_versions
 }

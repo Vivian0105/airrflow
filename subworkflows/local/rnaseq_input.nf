@@ -28,6 +28,8 @@ workflow RNASEQ_INPUT {
     index_file
 
     main:
+
+    ch_versions = channel.empty()
     ch_logs = channel.empty()
 
     //
@@ -40,6 +42,7 @@ workflow RNASEQ_INPUT {
         cloneby,
         index_file
     )
+    ch_versions = ch_versions.mix(FASTQ_INPUT_CHECK.out.versions)
 
     ch_reads = FASTQ_INPUT_CHECK.out.reads
 
@@ -137,5 +140,6 @@ workflow RNASEQ_INPUT {
     // trust4 output converted to FASTA format
     fasta = ch_fasta
     samplesheet = FASTQ_INPUT_CHECK.out.samplesheet
+    versions = ch_versions
 
 }

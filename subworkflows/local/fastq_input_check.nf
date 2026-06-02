@@ -16,6 +16,8 @@ workflow FASTQ_INPUT_CHECK {
 
     main:
 
+    ch_versions = Channel.empty()
+
     SAMPLESHEET_CHECK ( samplesheet )
         .tsv
         .splitCsv ( header:true, sep:'\t' )
@@ -46,11 +48,12 @@ workflow FASTQ_INPUT_CHECK {
         .dump (tag: 'fastq_channel_after_merge_samples')
         .set { ch_merged_reads }
 
-
+        ch_versions = ch_versions.mix( CAT_FASTQ.out.versions )
     }
 
     emit:
     reads = ch_merged_reads // channel: [ val(meta), [ reads ] ]
+    versions = ch_versions // channel: [ versions.yml ]
     samplesheet = SAMPLESHEET_CHECK.out.tsv // tsv metadata file
 }
 

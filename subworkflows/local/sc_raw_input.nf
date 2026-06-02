@@ -20,6 +20,7 @@ workflow SC_RAW_INPUT {
     index_file
 
     main:
+    ch_versions = channel.empty()
     ch_logs = channel.empty()
 
     //
@@ -32,7 +33,7 @@ workflow SC_RAW_INPUT {
         cloneby,
         index_file
     )
-
+    ch_versions = ch_versions.mix(FASTQ_INPUT_CHECK.out.versions)
     ch_reads = FASTQ_INPUT_CHECK.out.reads
 
     // validate library generation method parameter
@@ -103,4 +104,5 @@ workflow SC_RAW_INPUT {
     // cellranger output converted to FASTA format
     fasta = ch_fasta
     samplesheet = FASTQ_INPUT_CHECK.out.samplesheet
+    versions = ch_versions
 }

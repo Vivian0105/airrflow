@@ -137,6 +137,7 @@ workflow AIRRFLOW {
 
     main:
 
+        ch_versions = channel.empty()
         ch_reassign_logs = channel.empty()
         ch_input_check_logs = channel.empty()
 
@@ -166,11 +167,10 @@ workflow AIRRFLOW {
                 )
 
                 ch_fasta                                = SC_RAW_INPUT.out.fasta
+                ch_versions                             = ch_versions.mix(SC_RAW_INPUT.out.versions)
                 ch_cellranger_airr                      = SC_RAW_INPUT.out.airr
                 ch_cellranger_out                       = SC_RAW_INPUT.out.outs
-
                 ch_validated_samplesheet                = SC_RAW_INPUT.out.samplesheet.collect()
-
                 ch_presto_filterseq_logs                = channel.empty()
                 ch_presto_maskprimers_logs              = channel.empty()
                 ch_presto_pairseq_logs                  = channel.empty()
@@ -207,7 +207,7 @@ workflow AIRRFLOW {
                 )
 
                 ch_fasta                                = RNASEQ_INPUT.out.fasta
-
+                ch_versions                             = ch_versions.mix(RNASEQ_INPUT.out.versions)
                 ch_validated_samplesheet                = RNASEQ_INPUT.out.samplesheet.collect()
 
                 ch_presto_filterseq_logs                = channel.empty()
@@ -268,6 +268,7 @@ workflow AIRRFLOW {
                 )
 
                 ch_fasta                                = SEQUENCE_ASSEMBLY.out.fasta
+                ch_versions                             = ch_versions.mix(SEQUENCE_ASSEMBLY.out.versions)
                 ch_fastp_html                           = SEQUENCE_ASSEMBLY.out.fastp_reads_html
                 ch_fastp_json                           = SEQUENCE_ASSEMBLY.out.fastp_reads_json
                 ch_fastqc_postassembly_mqc              = SEQUENCE_ASSEMBLY.out.fastqc_postassembly
@@ -475,7 +476,7 @@ workflow AIRRFLOW {
             "${process}:\n${tool_versions.join('\n')}"
         }
 
-    def ch_collated_versions = softwareVersionsToYAML(channel.empty().mix(topic_versions.versions_file))
+    def ch_collated_versions = softwareVersionsToYAML(ch_versions.mix(topic_versions.versions_file))
         .mix(topic_versions_string)
         .collectFile(
             storeDir: "${outdir}/pipeline_info",
