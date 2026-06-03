@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Written by Ayelet Peres and released under the MIT license.
 
 set -euo pipefail
 

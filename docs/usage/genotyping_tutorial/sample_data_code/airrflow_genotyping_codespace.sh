@@ -3,10 +3,10 @@
 nextflow run nf-core/airrflow -r 5.1.0 \
 -profile singularity \
 --mode assembled \
---genotyping true \
+--genotyping \
 --single_clone_representative false \
---skip_clonal_analysis true \
+--skip_clonal_analysis \
 --input genotype_samplesheet.tsv \
---outdir test_genotype_results  \
+--outdir test_genotype_results \
 -c resource.config \
 -resume

@@ -99,6 +99,13 @@ If you want to detect novel alleles and infer genotype of each individual, add t
 - Custom repertoire analysis pipeline report (`Alakazam`).
 - Aggregate QC reports (`MultiQC`).
 
+7. BCR/TCR embedding
+
+- Translate BCR / TCR sequences with IgBLAST.
+- Embed sequences with pre-trained models using `AMULETY`.
+
+See the [usage documentation](https://nf-co.re/airrflow/usage) and the [parameter documentation](https://nf-co.re/airrflow/parameters) for more details on how to use the pipeline and all the available parameters.
+
 ## Usage
 
 > [!NOTE]
@@ -167,13 +174,6 @@ nextflow run nf-core/airrflow \
 --mode assembled \
 --outdir results
 ```
-
-7. BCR/TCR embedding
-
-- Translate BCR / TCR sequences with IgBLAST.
-- Embed sequences with pre-trained models using `AMULETY`.
-
-See the [usage documentation](https://nf-co.re/airrflow/usage) and the [parameter documentation](https://nf-co.re/airrflow/parameters) for more details on how to use the pipeline and all the available parameters.
 
 :::warning
 Please provide pipeline parameters via the CLI or Nextflow `-params-file` option. Custom config files including those
