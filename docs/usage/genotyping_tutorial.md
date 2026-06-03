@@ -27,7 +27,7 @@ When running this tutorial on your local machine, you'll first have to set up Ne
 
 ## Why are novel allele detection and genotyping important?
 
-Many steps for analyzing BCR sequences rely on inferring the germline V, D and J genes and alleles for each sequence by searching against a germline reference of known germline V(D)J alleles, such as clonal analysis or somatic hypermutation (SHM) quantification. However, analyzed individuals can have alleles not present in the germline reference (novel alleles), which if undetected can inflate the SHM rates. Additionally, genotyping, which consists on identifying the set of alleles an individual carries for each gene, can help resolve ambiguous V(D)J assignments or wrong V(D)J assignments that due to sequencing errors or SHM by chance align to other alleles.
+Many steps for analyzing BCR sequences rely on inferring the germline V, D and J genes and alleles for each sequence by matching against a germline reference, such as clonal analysis or somatic hypermutation (SHM) quantification. However, analyzed individuals can have alleles not present in the germline reference (novel alleles), which if undetected can inflate the SHM rates. Ambiguous V(D)J assignment is another common issue caused by V(D)J gene similarity, SHM of sequence and sequence quality. To solve these issues, we added to nf-core/airrflow novel allele detection and genotyping which is to infer the genotypes an individual carry. These two steps can effectively correct and V(D)j assignment and reduce the ambiguous call.
 
 ## How to perform novel allele detection and genotyping using nf-core/airrflow
 
@@ -80,11 +80,11 @@ If you are running the pipeline on Codespace, within the directory where the pre
 nextflow run nf-core/airrflow -r 5.1.0 \
 -profile singularity \
 --mode assembled \
---genotyping true \
+--genotyping \
 --single_clone_representative false \ #skipped for time reasons
---skip_clonal_analysis true \ #skipped for time reasons
+--skip_clonal_analysis \ #skipped for time reasons
 --input genotype_samplesheet.tsv \
---outdir test_genotype_results  \
+--outdir test_genotype_results \
 -c resource.config \
 -resume
 ```
@@ -106,9 +106,9 @@ If you run the pipeline locally. Download the samplesheet and start the pipeline
 nextflow run nf-core/airrflow -r 5.1.0 \
 -profile docker \
 --mode assembled \
---genotyping true \
+--genotyping \
 --input genotype_samplesheet.tsv \
---outdir test_genotype_results  \
+--outdir test_genotype_results \
 -resume
 ```
 

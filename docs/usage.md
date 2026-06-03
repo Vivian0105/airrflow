@@ -12,6 +12,7 @@ In addition to this page, you can find additional information on how to use the 
 
 - [bulk_tutorial](usage/bulk_tutorial.md): a step by step tutorial on how to run nf-core/airrflow for bulk data.
 - [single_cell_tutorial](usage/single_cell_tutorial.md): a step by step tutorial on how to run nf-core/airrflow for single-cell data.
+- [genotyping_tutorial](usage/genotyping_tutorial.md): a tutorial on how to perform novel allele detection and genotype inference with nf-core/airrflow.
 
 ## Running the pipeline
 
