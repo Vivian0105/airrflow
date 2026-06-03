@@ -75,7 +75,6 @@ workflow NOVEL_ALLELES_AND_GENOTYPING {
     }
 
     if (single_clone_representative) {
-        // TODO: Check if we need the cloneby parameter, or here it can be the same as genotypeby.
         // create separate channels for repertoire and reference based on the genotypeby metadata field
 
         CLONAL_ASSIGNMENT_GENOTYPING(
