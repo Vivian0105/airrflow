@@ -13,17 +13,12 @@ process PREPARE_TRUST4_REFERENCE {
 
     output:
     path("trust4_reference.fa") , emit: trust4_reference
-    path "versions.yml"         , emit: versions
+    tuple val("${task.process}"), val('cat'), eval('cat --version 2>&1 | head -n 1 | sed \'s/^.*coreutils) //; s/ .*$//\''), emit: versions_cat, topic: versions
 
     script:
     """
-    cat ${reference_igblast}/fasta/imgt_${meta.species.toLowerCase()}_*.fasta \\
-    ${reference_igblast}/fasta/imgt_${meta.species.toLowerCase()}_*.fasta >> trust4_reference.fa
+    cat ${reference_igblast}/fasta/${meta.species.toLowerCase()}_*.fasta >> trust4_reference.fa
 
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        cat: \$(echo \$(cat --version 2>&1) | sed 's/^.*coreutils) //; s/ .*\$//')
-    END_VERSIONS
     """
 
 

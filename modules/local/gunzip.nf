@@ -12,16 +12,12 @@ process GUNZIP {
 
     output:
     tuple val(meta), path("${R1.simpleName}*"), path("${R2.simpleName}*")   , emit: reads
-    path "versions.yml", emit: versions
+    tuple val("${task.process}"), val('gunzip'), eval('gunzip --version 2>&1 | head -n 1 | sed \'s/^.*(gzip) //; s/ Copyright.*$//\''), emit: versions_gunzip, topic: versions
 
     script:
     """
     gunzip -f "${R1}"
     gunzip -f "${R2}"
 
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        gunzip: \$(echo \$(gunzip --version 2>&1) | sed 's/^.*(gzip) //; s/ Copyright.*\$//')
-    END_VERSIONS
     """
 }

@@ -18,7 +18,7 @@ After that, you’ll be directed to the configuration page. Select "4-core" for 
 <img src="https://raw.githubusercontent.com/nf-core/airrflow/dev/docs/images/Codespaces_4core.png" width="400" alt="Chose 4-core">
 </p>
 
-If you want to know more about Codespaces, check [the Codespaces overview](https://docs.github.com/en/codespaces/about-codespaces/what-are-codespaces) or the Codespaces section in nf-core documentation [the Devcontainers overview](https://nf-co.re/docs/tutorials/devcontainer/overview).
+If you want to know more about Codespaces, check [the Codespaces overview](https://docs.github.com/en/codespaces/about-codespaces/what-are-codespaces) or the Codespaces section in nf-core documentation [the Dev Containers overview](https://nf-co.re/docs/tutorials/devcontainer/overview).
 
 When running this tutorial on your local machine, you'll first have to set up Nextflow and a container engine (Docker or Singularity).
 
@@ -30,7 +30,7 @@ When running this tutorial on your local machine, you'll first have to set up Ne
 Once you have set up Nextflow and container (Docker or Singularity) for your local machine or Codespace environment, test nf-core/airrflow with the built-in test data.
 
 ```bash
-nextflow run nf-core/airrflow -r 5.0.0 -profile test,docker --outdir test_results
+nextflow run nf-core/airrflow -r 5.1.0 -profile test,docker --outdir test_results
 ```
 
 Change the `docker` profile to `singularity` if you use Codespaces since Docker currently cannot be used in Codespaces. You can first set up a Singularity cache directory which will allow the reuse of Singularity container across all runs:
@@ -43,7 +43,7 @@ export NXF_SINGULARITY_CACHEDIR="/workspaces/airrflow/singularity_cache"
 Then run nf-core/airrflow with the test data:
 
 ```bash
-nextflow run nf-core/airrflow -r 5.0.0 -profile test,singularity --outdir test_results
+nextflow run nf-core/airrflow -r 5.1.0 -profile test,singularity --outdir test_results
 ```
 
 > [!NOTE]
@@ -85,7 +85,7 @@ process {
 > [!NOTE]
 > When running nf-core/airrflow with your own data, provide the full path to your input files under the filename column.
 
-We prepared the [samplesheet](https://github.com/nf-core/airrflow/tree/dev/docs/usage/bulk_tutorial/bulk_sample_code/metadata_pcr_umi_airr_300.tsv) and the [configuration file](https://github.com/nf-core/airrflow/tree/dev/docs/usage/bulk_tutorial/bulk_sample_code/resource.config) for this tutorial. If you run the pipeline locally, download both files to the directory where you intend to run nf-core/airrflow.
+We prepared the [samplesheet](https://github.com/nf-core/airrflow/tree/dev/docs/usage/bulk_tutorial/sample_data_code/metadata_pcr_umi_airr_300.tsv) and the [configuration file](https://github.com/nf-core/airrflow/tree/dev/docs/usage/bulk_tutorial/sample_data_code/resource.config) for this tutorial. If you run the pipeline locally, download both files to the directory where you intend to run nf-core/airrflow.
 
 ## Choosing the right protocol profile
 
@@ -94,7 +94,7 @@ Bulk BCR and TCR targeted sequencing can be performed with a wide variety of pro
 You can provide a protocol profile with the `-profile` parameter, followed by other profiles, such as the container engine profile in a comma separated fashion. You will then usually only need to provide the input samplesheet, resource config file and output directory path. However, if you want to override any option or add additional parameters, you can provide them to the airrflow launching command as the parameters in the launch command will override the parameters in the profile.
 
 ```bash
-nextflow run nf-core/airrflow -r 5.0.0 \
+nextflow run nf-core/airrflow -r 5.1.0 \
 -profile <protocol-profile-name>,docker \
 --input samplesheet.tsv \
 -c resource.config \
@@ -114,7 +114,7 @@ The BCRseq dataset used in this tutorial was obtained with a multiplexed PCR pro
 To run the pipeline locally, use the following command to launch nf-core/airrflow for the dataset in this tutorial:
 
 ```bash
-nextflow run nf-core/airrflow -r 5.0.0 \
+nextflow run nf-core/airrflow -r 5.1.0 \
 -profile docker \
 --mode fastq \
 --input metadata_pcr_umi_airr_300.tsv \
@@ -130,7 +130,7 @@ nextflow run nf-core/airrflow -r 5.0.0 \
 -resume
 ```
 
-Of course you can wrap all your code in a bash file. We prepared one for you and it's available [here](https://github.com/nf-core/airrflow/tree/dev/docs/usage/bulk_tutorial/bulk_sample_code/airrflow_bulk_b_fastq.sh).
+Of course you can wrap all your code in a bash file. We prepared one for you and it's available [here](https://github.com/nf-core/airrflow/tree/dev/docs/usage/bulk_tutorial/sample_data_code/airrflow_bulk_b_fastq.sh).
 With the bash file, it's easy to run the pipeline with a single-line command.
 
 ```bash
@@ -138,7 +138,7 @@ bash airrflow_bulk_b_fastq.sh
 ```
 
 > [!NOTE]
-> Due to the limited RAM and storage space on Codespace, please use the [subset of dataset](https://github.com/nf-core/airrflow/tree/dev/docs/usage/bulk_tutorial/bulk_sample_code/subset_metadata_pcr_umi_airr_300.tsv) to run the pipeline. Meanwhile, replace 'docker' profile with 'singularity' in the command. We have prepared a corresponding [bash file](https://github.com/nf-core/airrflow/tree/dev/docs/usage/bulk_tutorial/bulk_sample_code/airrflow_bulk_b_fastq_codespace.sh) for you. Run it within the folder where the bash file locates on Codespace with the single-line command below.
+> Due to the limited RAM and storage space on Codespace, please use the [subset of dataset](https://github.com/nf-core/airrflow/tree/dev/docs/usage/bulk_tutorial/sample_data_code/subset_metadata_pcr_umi_airr_300.tsv) to run the pipeline. Meanwhile, replace 'docker' profile with 'singularity' in the command. We have prepared a corresponding [bash file](https://github.com/nf-core/airrflow/tree/dev/docs/usage/bulk_tutorial/sample_data_code/airrflow_bulk_b_fastq_codespace.sh) for you. Run it within the folder where the bash file locates on Codespace with the single-line command below.
 
 ```bash
 bash airrflow_bulk_b_fastq_codespace.sh
@@ -160,7 +160,7 @@ After launching the pipeline the following will be printed to the console output
  N E X T F L O W   ~  version 24.10.5
 
 WARN: It appears you have never run this project before -- Option `-resume` is ignored
-Launching `https://github.com/nf-core/airrflow` [fabulous_cantor] DSL2 - revision: d91dd840f4 [5.0.0]
+Launching `https://github.com/nf-core/airrflow` [fabulous_cantor] DSL2 - revision: d91dd840f4 [5.1.0]
 
 
 ------------------------------------------------------
@@ -169,7 +169,7 @@ Launching `https://github.com/nf-core/airrflow` [fabulous_cantor] DSL2 - revisio
   |\ | |__  __ /  ` /  \ |__) |__         }  {
   | \| |       \__, \__/ |  \ |___     \`-._,-`-,
                                         `._,._,'
-  nf-core/airrflow 5.0.0
+  nf-core/airrflow 5.1.0
 ------------------------------------------------------
 ```
 

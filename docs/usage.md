@@ -12,6 +12,7 @@ In addition to this page, you can find additional information on how to use the 
 
 - [bulk_tutorial](usage/bulk_tutorial.md): a step by step tutorial on how to run nf-core/airrflow for bulk data.
 - [single_cell_tutorial](usage/single_cell_tutorial.md): a step by step tutorial on how to run nf-core/airrflow for single-cell data.
+- [genotyping_tutorial](usage/genotyping_tutorial.md): a tutorial on how to perform novel allele detection and genotype inference with nf-core/airrflow.
 
 ## Running the pipeline
 
@@ -75,7 +76,7 @@ nextflow run nf-core/airrflow \
 It is also possible to reconstruct BCR and TCR sequences from untargeted bulk and single-cell sequencing data. A typical command to run the pipeline from **single-cell RNA-seq fastq files** is shown below. For more information, check the section on [supported untargeted RNA-seq based methods](#supported-untargeted-rna-seq-based-methods) below.
 
 ```bash
-nextflow run nf-core/airrfow \
+nextflow run nf-core/airrflow \
 -profile <docker/singularity/podman/shifter/charliecloud/conda/institute> \
 --mode fastq \
 --input input_samplesheet.tsv \
@@ -85,6 +86,8 @@ nextflow run nf-core/airrfow \
 --read_format bc:0:15,um:16:27 \
 --outdir results
 ```
+
+If you want to detect novel alleles and infer genotype of each individual, add the `--genotyping` flag in your command. Novel alleles detection and genotype inference currently work only for BCR sequences.
 
 Check the section [Input samplesheet](#input-samplesheet) below for instructions on how to create the samplesheet, and the [Supported library generation protocols](#supported-bulk-library-generation-methods-protocols) section below for examples on how to run the pipeline for the different bulk and single-cell sequencing protocols.
 For more detailed information about all the available parameters, please refer to the [parameters documentation](https://nf-co.re/airrflow/parameters).
@@ -104,7 +107,7 @@ If you wish to repeatedly use the same parameters for multiple runs, rather than
 Pipeline settings can be provided in a `yaml` or `json` file via `-params-file <file>`.
 
 > [!WARNING]
-> Do not use `-c <file>` to specify parameters as this will result in errors. Custom config files specified with `-c` must only be used for [tuning process resource specifications](https://nf-co.re/docs/usage/configuration#tuning-workflow-resources), other infrastructural tweaks (such as output directories), or module arguments (args).
+> Do not use `-c <file>` to specify parameters as this will result in errors. Custom config files specified with `-c` must only be used for [tuning process resource specifications](https://nf-co.re/docs/running/run-pipelines#configuring-pipelines), other infrastructural tweaks (such as output directories), or module arguments (args).
 
 The above pipeline run specified with a params file in yaml format:
 
@@ -301,7 +304,7 @@ nextflow run nf-core/airrflow -r <release> \
 This profile executes the sequence assembly commands based on the pRESTO pre-set pipeline [presto-clontech-umi.sh](https://raw.githubusercontent.com/immcantation/immcantation/refs/heads/master/pipelines/presto-clontech-umi.sh). A summary of the performed steps is:
 
 - Filter sequences by base quality.
-- Align and annotate the universal C region seqeunces in the R1 reads. Defaults are taken from the [Immcantation repository](https://raw.githubusercontent.com/immcantation/immcantation/refs/heads/master/protocols/Universal/).
+- Align and annotate the universal C region sequences in the R1 reads. Defaults are taken from the [Immcantation repository](https://raw.githubusercontent.com/immcantation/immcantation/refs/heads/master/protocols/Universal/).
 - Identify the primers sequences and UMI (12 nt length) in the R2 reads.
 - Pair sequences, build UMI consensus sequence.
 - Assemble read pairs with the pRESTO `AssemblePairs sequential` option.
@@ -347,7 +350,7 @@ nextflow run nf-core/airrflow -r <release> \
 This profile executes the sequence assembly commands based on the pRESTO pre-set pipeline [presto-clontech-umi.sh](https://raw.githubusercontent.com/immcantation/immcantation/refs/heads/master/pipelines/presto-clontech-umi.sh). A summary of the performed steps is:
 
 - Filter sequences by base quality.
-- Align and annotate the universal C region seqeunces in the R1 reads. Defaults are taken from the [Immcantation repository](https://raw.githubusercontent.com/immcantation/immcantation/refs/heads/master/protocols/Universal/).
+- Align and annotate the universal C region sequences in the R1 reads. Defaults are taken from the [Immcantation repository](https://raw.githubusercontent.com/immcantation/immcantation/refs/heads/master/protocols/Universal/).
 - Identify the primers sequences and UMI (12 nt length) in the R2 reads.
 - Pair sequences, build UMI consensus sequence.
 - Assemble read pairs with the pRESTO `AssemblePairs sequential` option.
@@ -562,7 +565,7 @@ To use untargeted RNA-seq based input, specify `--library_generation_method trus
 A typical command to run the pipeline from **bulk RNA-seq fastq files** is:
 
 ```bash
-nextflow run nf-core/airrfow \
+nextflow run nf-core/airrflow \
 -profile <docker/singularity/podman/shifter/charliecloud/conda/institute> \
 --mode fastq \
 --input input_samplesheet.tsv \
@@ -575,7 +578,7 @@ nextflow run nf-core/airrfow \
 A typical command to run the pipeline from **single-cell RNA-seq fastq files** is:
 
 ```bash
-nextflow run nf-core/airrfow \
+nextflow run nf-core/airrflow \
 -profile <docker/singularity/podman/shifter/charliecloud/conda/institute> \
 --mode fastq \
 --input input_samplesheet.tsv \
@@ -588,6 +591,21 @@ nextflow run nf-core/airrfow \
 
 - If UMI's are present, the read containing them must be specified using the `--umi_read` parameter.
 - The `--read_format` parameter can be used to specify the Cell Barcode and UMI position within the reads (see TRUST4 [docs](https://github.com/liulab-dfci/TRUST4?tab=readme-ov-file#10x-genomics-data-and-barcode-based-single-cell-data)). For scRNA-seq with 10X Genomics the R1 read usually contains both the cell barcode (barcode) and UMI. So we specify "R1" for both `--umi_read` and `--cell_barcode_read`, and the positions of both the cell barcode and UMI with the `--read_format` parameter as in the example ("bc:0:15,um:16:27"). Then specify the R1 read in the filename_R1 column of the samplesheet, and the read containing the actual sequence (usually R2) in the filename_R2 column of the samplesheet.
+
+## Important considerations for novel allele detection and genotyping
+
+A key step in analyzing BCR sequences involves assigning the germline V, D and J gene alleles to each sequence by matching against a database of known germline V(D)J alleles. However, analyzed individuals can have alleles not present in the databases (novel alleles), which if undetected can inflate the SHM rates. Additionally, genotyping, i.e. identifying the set of alleles that an individual carries for each gene, can help correct ambiguous V(D)J assignments for individual sequences.
+
+nf-core/airrflow includes optional steps to do IG loci novel allele detection, genotype inference and V(D)J allele assignments correction using TIgGER.
+
+These steps only support targeted BCR sequences for now. In addition, due to the large read coverage needed for the algorithm, it does not work well on single-cell BCRs which usually not have enough read coverage.
+
+### Genotyping related flags in nf-core/airrflow pipeline
+
+1. `--genotyping`: Perform TIgGER novel allele detection and genotype inference if it is set to be `true`. It is `false` by default.
+2. `--single_clone_representative`: If it is set to be `true`, Keep only one representative sequence per clone for future genotype infernece to reduce the impact of clonal expansion and somatic hypermutation. If `--genotyping` is `true`, `single_clone_representative` is `true` by default.
+3. `--genotyping_clonal_threshold`: Threshold for determining if two sequences come from the same clone or not while inferring clones to find single clone representative. Default value is 0.2.
+4. `--novel_allele_inference`: whether to perform TIgGER novel allele inference. If `--genotyping` is `true`, `--single_clone_representative` is `true` by default.
 
 ## Important considerations for clonal analysis
 
@@ -676,19 +694,19 @@ Specify the path to a specific config file (this is a core Nextflow command). Se
 
 Whilst the default requirements set within the pipeline will hopefully work for most people and with most input data, you may find that you want to customise the compute resources that the pipeline requests. Each step in the pipeline has a default set of requirements for number of CPUs, memory and time. For most of the pipeline steps, if the job exits with any of the error codes specified [here](https://github.com/nf-core/airrflow/blob/132ab3d129c0df3f2de0ede7a7afaf549277c512/conf/base.config#L17) it will automatically be resubmitted with higher resources request (2 x original, then 3 x original). If it still fails after the third attempt then the pipeline execution is stopped.
 
-To change the resource requests, please see the [max resources](https://nf-co.re/docs/usage/configuration#max-resources) and [tuning workflow resources](https://nf-co.re/docs/usage/configuration#tuning-workflow-resources) section of the nf-core website.
+To change the resource requests, please see the [max resources](https://nf-co.re/docs/running/configuration/nextflow-for-your-system#set-max-resources) and [customise process resources](https://nf-co.re/docs/running/configuration/nextflow-for-your-system#customize-process-resources) section of the nf-core website.
 
 ### Custom Containers
 
 In some cases, you may wish to change the container or conda environment used by a pipeline steps for a particular tool. By default, nf-core pipelines use containers and software from the [biocontainers](https://biocontainers.pro/) or [bioconda](https://bioconda.github.io/) projects. However, in some cases the pipeline specified version maybe out of date.
 
-To use a different container from the default container or conda environment specified in a pipeline, please see the [updating tool versions](https://nf-co.re/docs/usage/configuration#updating-tool-versions) section of the nf-core website.
+To use a different container from the default container or conda environment specified in a pipeline, please see the [updating tool versions](https://nf-co.re/docs/running/configuration/nextflow-for-your-system#update-tool-versions) section of the nf-core website.
 
 ### Custom Tool Arguments
 
 A pipeline might not always support every possible argument or option of a particular tool used in pipeline. Fortunately, nf-core pipelines provide some freedom to users to insert additional parameters that the pipeline does not include by default.
 
-To learn how to provide additional arguments to a particular tool of the pipeline, please see the [customising tool arguments](https://nf-co.re/docs/usage/configuration#customising-tool-arguments) section of the nf-core website.
+To learn how to provide additional arguments to a particular tool of the pipeline, please see the [customising tool arguments](https://nf-co.re/docs/running/configuration/nextflow-for-your-system#modifying-tool-arguments) section of the nf-core website.
 
 ### nf-core/configs
 

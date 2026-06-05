@@ -13,12 +13,19 @@ workflow ASSEMBLED_INPUT_CHECK {
     miairr
     collapseby
     cloneby
+    reassign
 
     main:
-    ch_logs = Channel.empty()
+    ch_logs = channel.empty()
 
     SAMPLESHEET_CHECK_ASSEMBLED ( samplesheet )
-    VALIDATE_INPUT ( samplesheet, miairr, collapseby, cloneby ) //removed reassign
+    VALIDATE_INPUT (
+        samplesheet,
+        miairr,
+        collapseby,
+        cloneby,
+        reassign
+    )
     ch_validated_input = VALIDATE_INPUT.out.validated_input
     ch_validated_input
         .splitCsv(header: true, sep:'\t')
@@ -41,7 +48,6 @@ workflow ASSEMBLED_INPUT_CHECK {
     ch_fasta = ch_unique_fasta
     ch_tsv = ch_unique_tsv
     validated_input = ch_validated_input
-    versions = VALIDATE_INPUT.out.versions
     logs = ch_logs
 }
 
@@ -52,6 +58,7 @@ def get_meta (LinkedHashMap col) {
 
     meta.id     = col.sample_id
     meta.filename     = col.filename
+    meta.sample_id = col.sample_id
     meta.subject_id   = col.subject_id
     meta.species     = col.species
     meta.collapseby_group = col.collapseby_group

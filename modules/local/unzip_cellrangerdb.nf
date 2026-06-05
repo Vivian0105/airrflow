@@ -12,7 +12,7 @@ process UNZIP_CELLRANGERDB {
 
     output:
     path("$unzipped")   , emit: unzipped
-    path "versions.yml", emit: versions
+    tuple val("${task.process}"), val('unzip_cellrangerdb'), eval('tar --version 2>&1 | head -n 1 | sed \'s/^.*(GNU tar) //; s/ Copyright.*$//\''), emit: versions_unzip_cellrangerdb, topic: versions
 
     script:
     unzipped = archive.toString() - '.tar.gz'
@@ -21,9 +21,5 @@ process UNZIP_CELLRANGERDB {
 
     tar -xzvf ${archive}
 
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        unzip_cellrangerdb: \$(echo \$(tar --version 2>&1 | sed 's/^.*(GNU tar) //; s/ Copyright.*\$//')
-    END_VERSIONS
     """
 }

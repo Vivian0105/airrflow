@@ -12,8 +12,9 @@
 [![Cite with Zenodo](http://img.shields.io/badge/DOI-10.5281/zenodo.2642009-1073c8?labelColor=000000)](https://doi.org/10.5281/zenodo.2642009)
 [![nf-test](https://img.shields.io/badge/unit_tests-nf--test-337ab7.svg)](https://www.nf-test.com)
 
-[![Nextflow](https://img.shields.io/badge/version-%E2%89%A525.04.0-green?style=flat&logo=nextflow&logoColor=white&color=%230DC09D&link=https%3A%2F%2Fnextflow.io)](https://www.nextflow.io/)
-[![nf-core template version](https://img.shields.io/badge/nf--core_template-3.5.1-green?style=flat&logo=nfcore&logoColor=white&color=%2324B064&link=https%3A%2F%2Fnf-co.re)](https://github.com/nf-core/tools/releases/tag/3.5.1)
+[![Nextflow](https://img.shields.io/badge/version-%E2%89%A526.04.1-green?style=flat&logo=nextflow&logoColor=white&color=%230DC09D&link=https%3A%2F%2Fnextflow.io)](https://www.nextflow.io/)
+[![nf-core template version](https://img.shields.io/badge/nf--core_template-4.0.2-green?style=flat&logo=nfcore&logoColor=white&color=%2324B064&link=https%3A%2F%2Fnf-co.re)](https://github.com/nf-core/tools/releases/tag/4.0.2)
+[![run with conda](http://img.shields.io/badge/run%20with-conda-3EB049?labelColor=000000&logo=anaconda)](https://docs.conda.io/en/latest/)
 [![run with docker](https://img.shields.io/badge/run%20with-docker-0db7ed?labelColor=000000&logo=docker)](https://www.docker.com/)
 [![run with singularity](https://img.shields.io/badge/run%20with-singularity-1d355c.svg?labelColor=000000)](https://sylabs.io/docs/)
 [![Launch on Seqera Platform](https://img.shields.io/badge/Launch%20%F0%9F%9A%80-Seqera%20Platform-%234256e7)](https://cloud.seqera.io/launch?pipeline=https://github.com/nf-core/airrflow)
@@ -23,7 +24,7 @@
 
 ## Introduction
 
-**nf-core/airrflow** is a bioinformatics best-practice pipeline to analyze B-cell receptor (BCR) or T-cell receptor (TCR) repertoire sequencing data. It allows the processing of targeted bulk and single-cell adaptive immune receptor sequencing data (AIRR-seq), as well as the extraction of TCR and BCR sequences from untargeted bulk and single-cell RNA-seq data. The pipeline enables and end-to-end analysis, departing from raw reads or readily assembled sequences, and performs sequence assembly, V(D)J assignment, clonal group inference, lineage reconstruction and repertoire analysis using the [Immcantation](https://immcantation.readthedocs.io/en/stable/) framework, as well as other immune repertoire analysis tools.
+**nf-core/airrflow** is a bioinformatics best-practice pipeline to analyze B-cell receptor (BCR) or T-cell receptor (TCR) repertoire sequencing data. It allows the processing of targeted bulk and single-cell adaptive immune receptor sequencing data (AIRR-seq), as well as the extraction of TCR and BCR sequences from untargeted bulk and single-cell RNA-seq data. The pipeline enables an end-to-end analysis, departing from raw reads or assembled sequences, and performs sequence assembly, V(D)J assignment, novel allele identification, genotype inference, clonal inference, repertoire analysis, lineage reconstruction and BCR/TCR sequence embedding using the [Immcantation](https://immcantation.readthedocs.io/en/stable/) framework, as well as other immune repertoire analysis tools.
 
 ![nf-core/airrflow overview](docs/images/airrflow_workflow_overview.png)
 
@@ -33,7 +34,7 @@ On release, automated continuous integration tests run the pipeline on a full-si
 
 ## Pipeline summary
 
-nf-core/airrflow allows the end-to-end processing of BCR and TCR bulk and single cell targeted sequencing data, as well as extracting BCR and TCR sequences from bulk and single-cell RNA-seq datasets. Several protocols are supported, please see the [usage documentation](https://nf-co.re/airrflow/usage) for more details on the supported protocols. The pipeline has been certified as [AIRR compliant](https://docs.airr-community.org/en/stable/swtools/airr_swtools_compliant.html) by the AIRR community, which means that it is compatible with downstream analysis tools also supporting this format.
+nf-core/airrflow allows the end-to-end processing of BCR and TCR bulk and single cell targeted sequencing data, as well as extracting BCR and TCR sequences from bulk and single-cell RNA-seq datasets. Several protocols are supported, please see the [usage documentation](https://nf-co.re/airrflow/usage) for more details on the supported protocols. The pipeline has been certified as [AIRR compliant](https://docs.airr-community.org/en/stable/swtools/airr_swtools_compliant.html) by the AIRR community, which means that it is compatible with downstream analysis tools that also support this format.
 
 ![nf-core/airrflow overview](docs/images/metro-map-airrflow.png)
 
@@ -78,16 +79,32 @@ nf-core/airrflow allows the end-to-end processing of BCR and TCR bulk and single
   - Remove sequences in different samples that share the same `cell_id` and nucleotide sequence, and thus are very likely contaminants.
   - Modify `cell_id`s to ensure they are unique in each run.
 
-4. Clonal analysis (bulk and single-cell)
+4. Novel allele and genotyping (optional, only for BCR)
+
+- Novel allele detection (`TIgGER`).
+- Individual genotype inference (`TIgGER`).
+- Allele calls correction (`TIgGER`).
+
+If you want to detect novel alleles and infer genotype of each individual, add the `--genotyping` flag in your command.
+
+5. Clonal analysis (bulk and single-cell)
 
 - Find threshold for clone definition (`SHazaM`, `EnchantR`).
-- Create germlines and define clones, repertoire analysis (`SCOPer`, `EnchantR`).
+- Create germlines and define clones (`SCOPer`, `EnchantR`)
+- Repertoire analysis (`EnchantR`).
 - Build lineage trees (`Dowser`, `IgphyML`, `RAxML`, `EnchantR`).
 
-5. Repertoire analysis and reporting
+6. Other reporting
 
 - Custom repertoire analysis pipeline report (`Alakazam`).
 - Aggregate QC reports (`MultiQC`).
+
+7. BCR/TCR embedding
+
+- Translate BCR / TCR sequences with IgBLAST.
+- Embed sequences with pre-trained models using `AMULETY`.
+
+See the [usage documentation](https://nf-co.re/airrflow/usage) and the [parameter documentation](https://nf-co.re/airrflow/parameters) for more details on how to use the pipeline and all the available parameters.
 
 ## Usage
 
@@ -158,8 +175,6 @@ nextflow run nf-core/airrflow \
 --outdir results
 ```
 
-See the [usage documentation](https://nf-co.re/airrflow/usage) and the [parameter documentation](https://nf-co.re/airrflow/parameters) for more details on how to use the pipeline and all the available parameters.
-
 :::warning
 Please provide pipeline parameters via the CLI or Nextflow `-params-file` option. Custom config files including those
 provided by the `-c` Nextflow option can be used to provide any configuration _**except for parameters**_;
@@ -197,7 +212,7 @@ The nf-core/airrflow pipeline development is partly supported by the National In
 
 ## Contributions and Support
 
-If you would like to contribute to this pipeline, please see the [contributing guidelines](.github/CONTRIBUTING.md).
+If you would like to contribute to this pipeline, please see the [contributing guidelines](docs/CONTRIBUTING.md).
 
 For further information or help, don't hesitate to get in touch on the [Slack `#airrflow` channel](https://nfcore.slack.com/channels/airrflow) (you can join with [this invite](https://nf-co.re/join/slack)).
 

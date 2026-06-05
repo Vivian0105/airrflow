@@ -5,8 +5,7 @@ workflow SINGLE_CELL_QC_AND_FILTERING {
     repertoires // tuple [meta, repertoire_tab]
 
     main:
-    ch_versions = Channel.empty()
-    ch_logs = Channel.empty()
+    ch_logs = channel.empty()
 
     repertoires
             .map{ it -> [   it[0].id,
@@ -28,13 +27,11 @@ workflow SINGLE_CELL_QC_AND_FILTERING {
                 .set{ch_repertoire_after_scqc_with_sampleid}
 
     ch_logs = ch_logs.mix(SINGLE_CELL_QC.out.logs)
-    ch_versions = ch_versions.mix(SINGLE_CELL_QC.out.versions)
 
     ch_repertoire_after_scqc_withmeta = ch_onlymeta.join(ch_repertoire_after_scqc_with_sampleid)
                                                     .map{ it -> [ it[1], it[2] ]}
 
     emit:
-    versions = ch_versions
     repertoires = ch_repertoire_after_scqc_withmeta
     logs = ch_logs
 }

@@ -1,5 +1,5 @@
-include { PARSE_LOGS } from '../../modules/local/parse_logs.nf'
-include { REPORT_FILE_SIZE } from '../../modules/local/enchantr/report_file_size.nf'
+include { PARSE_LOGS } from '../../modules/local/parse_logs'
+include { REPORT_FILE_SIZE } from '../../modules/local/enchantr/report_file_size'
 include { AIRRFLOW_REPORT  } from '../../modules/local/airrflow_report/airrflow_report'
 
 workflow REPERTOIRE_ANALYSIS_REPORTING {
@@ -26,11 +26,14 @@ workflow REPERTOIRE_ANALYSIS_REPORTING {
     ch_report_css // Report CSS file
     ch_report_logo // Logo to be displayed in report
     ch_metadata // Validated samplesheet
+    mode
+    library_generation_method
+    umi_length
+    cluster_sets
 
     main:
-    ch_versions = Channel.empty()
 
-    if (params.mode == "fastq" && params.library_generation_method != "sc_10x_genomics" && params.library_generation_method != "trust4" ) {
+    if (mode == "fastq" && library_generation_method != "sc_10x_genomics" && library_generation_method != "trust4" ) {
         PARSE_LOGS(
             ch_presto_filterseq_logs,
             ch_presto_maskprimers_logs,
@@ -42,13 +45,14 @@ workflow REPERTOIRE_ANALYSIS_REPORTING {
             ch_presto_collapseseq_logs,
             ch_presto_splitseq_logs,
             ch_changeo_makedb_logs,
-            ch_input
+            ch_input,
+            umi_length,
+            cluster_sets
         )
-        ch_versions = ch_versions.mix(PARSE_LOGS.out.versions)
         ch_parsed_logs = PARSE_LOGS.out.logs
 
     } else {
-        ch_parsed_logs = Channel.empty()
+        ch_parsed_logs = channel.empty()
     }
 
     ch_logs = ch_vdj_annotation_logs.mix(
@@ -66,7 +70,6 @@ workflow REPERTOIRE_ANALYSIS_REPORTING {
         ch_metadata,
         ch_logs_tabs
     )
-    ch_versions = ch_versions.mix(REPORT_FILE_SIZE.out.versions)
 
     AIRRFLOW_REPORT(
         ch_repertoires,
@@ -76,8 +79,4 @@ workflow REPERTOIRE_ANALYSIS_REPORTING {
         ch_report_css,
         ch_report_logo
     )
-    ch_versions = ch_versions.mix(AIRRFLOW_REPORT.out.versions)
-
-    emit:
-    versions = ch_versions
 }

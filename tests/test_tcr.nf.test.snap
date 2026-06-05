@@ -1,127 +1,134 @@
 {
     "-profile test_tcr": {
         "content": [
-            63,
+            64,
             {
                 "ADD_META_TO_TAB": {
-                    "dplyr": "1.1.4",
-                    "optparse": "1.7.5",
-                    "R": "4.5.1"
+                    "R": "4.5.3",
+                    "dplyr": "1.2.1",
+                    "optparse": "1.8.2"
                 },
                 "AIRRFLOW_REPORT": {
-                    "alakazam": "1.3.1",
-                    "shazam": "1.2.1",
-                    "stringr": "1.5.2",
-                    "dplyr": "1.1.4",
-                    "knitr": 1.5,
-                    "R": "4.5.1"
+                    "R": "4.5.3",
+                    "alakazam": "1.4.3",
+                    "dplyr": "1.2.1",
+                    "knitr": "1.51",
+                    "shazam": "1.3.2",
+                    "stringr": "1.6.0"
                 },
                 "CHANGEO_ASSIGNGENES": {
-                    "igblastn": "1.22.0",
-                    "changeo": "1.3.0"
+                    "changeo": "1.3.4",
+                    "igblastn": " 1.22.0"
                 },
                 "CHANGEO_MAKEDB": {
-                    "igblastn": "1.22.0",
-                    "changeo": "1.3.0"
+                    "changeo": "1.3.4",
+                    "igblastn": " 1.22.0"
                 },
                 "CHANGEO_PARSEDB_SPLIT": {
-                    "changeo": "1.3.0"
+                    "changeo": "1.3.4"
                 },
-                "CLONAL_ASSIGNMENT_COMPUTE": {
-                    "enchantr": "0.1.24"
-                },
-                "CLONAL_ASSIGNMENT_REPORT": {
-                    "enchantr": "0.1.24"
+                "CLONAL_ASSIGNMENT": {
+                    "enchantr": "0.1.25",
+                    "scoper": "1.5.0"
                 },
                 "COLLAPSE_DUPLICATES": {
-                    "enchantr": "0.1.24"
-                },
-                "FASTP": {
-                    "fastp": "0.23.4"
+                    "enchantr": "0.1.25"
                 },
                 "FASTQC_POSTASSEMBLY_UMI": {
                     "fastqc": "0.12.1"
                 },
                 "FILTER_JUNCTION_MOD3": {
-                    "alakazam": "1.3.1",
-                    "optparse": "1.7.5",
-                    "airr": "1.5.0",
-                    "R": "4.5.1"
+                    "R": "4.5.3",
+                    "airr": "1.6.1",
+                    "alakazam": "1.4.3",
+                    "optparse": "1.8.2"
                 },
                 "FILTER_QUALITY": {
-                    "alakazam": "1.3.1",
-                    "optparse": "1.7.5",
-                    "stringi": "1.8.3",
-                    "dplyr": "1.1.4",
-                    "airr": "1.5.0",
                     "DT": "0.34.0",
-                    "R": "4.5.1"
+                    "R": "4.5.3",
+                    "airr": "1.6.1",
+                    "alakazam": "1.4.3",
+                    "dplyr": "1.2.1",
+                    "optparse": "1.8.2",
+                    "stringi": "1.8.7"
                 },
                 "GUNZIP_UMI": {
-                    "gunzip": 1.1
+                    "gunzip": "1.10"
                 },
                 "PARSE_LOGS": {
-                    "python": "3.9.1",
-                    "pandas": "1.1.5"
+                    "pandas": "1.1.5",
+                    "python": " 3.9.1"
                 },
                 "PRESTO_ASSEMBLEPAIRS_UMI": {
-                    "presto": "0.7.6"
+                    "presto": "0.7.8"
                 },
                 "PRESTO_BUILDCONSENSUS_UMI": {
-                    "presto": "0.7.6"
+                    "presto": "0.7.8"
                 },
                 "PRESTO_CLUSTERSETS_UMI": {
-                    "presto": "0.7.6",
-                    "vsearch": "v2.30.0"
+                    "presto": "0.7.8",
+                    "vsearch": "v2.30.4"
                 },
                 "PRESTO_COLLAPSESEQ_UMI": {
-                    "presto": "0.7.6"
+                    "presto": "0.7.8"
                 },
                 "PRESTO_FILTERSEQ_UMI": {
-                    "presto": "0.7.6"
+                    "presto": "0.7.8"
                 },
                 "PRESTO_MASKPRIMERS_SCORE_UMI_R1": {
-                    "presto": "0.7.6"
+                    "presto": "0.7.8"
                 },
                 "PRESTO_MASKPRIMERS_SCORE_UMI_R2": {
-                    "presto": "0.7.6"
+                    "presto": "0.7.8"
                 },
                 "PRESTO_PAIRSEQ_CLUSTERSETS": {
-                    "presto": "0.7.6"
+                    "presto": "0.7.8"
                 },
                 "PRESTO_PAIRSEQ_UMI": {
-                    "presto": "0.7.6"
+                    "presto": "0.7.8"
                 },
                 "PRESTO_PARSEHEADERS_COLLAPSE_UMI": {
-                    "presto": "0.7.6"
+                    "presto": "0.7.8"
                 },
                 "PRESTO_PARSEHEADERS_METADATA_UMI": {
-                    "presto": "0.7.6"
+                    "presto": "0.7.8"
                 },
                 "PRESTO_PARSEHEADERS_PRIMERS_UMI": {
-                    "presto": "0.7.6"
+                    "presto": "0.7.8"
                 },
                 "PRESTO_PARSE_CLUSTER_UMI": {
-                    "presto": "0.7.6"
+                    "presto": "0.7.8"
                 },
                 "PRESTO_POSTCONSENSUS_PAIRSEQ_UMI": {
-                    "presto": "0.7.6"
+                    "presto": "0.7.8"
                 },
                 "PRESTO_SPLITSEQ_UMI": {
-                    "presto": "0.7.6"
+                    "presto": "0.7.8"
+                },
+                "REPERTOIRE_ANALYSIS": {
+                    "enchantr": "0.1.25"
                 },
                 "REPORT_FILE_SIZE": {
-                    "enchantr": "0.1.24"
+                    "enchantr": "0.1.25"
                 },
                 "REPORT_THRESHOLD": {
-                    "enchantr": "0.1.24"
+                    "enchantr": "0.1.25"
                 },
                 "SAMPLESHEET_CHECK": {
-                    "python": "3.9.1",
-                    "pandas": "1.1.5"
+                    "pandas": "1.1.5",
+                    "python": " 3.9.1"
+                },
+                "UNZIP_IGBLAST": {
+                    "unzip": "6.00"
+                },
+                "UNZIP_REFERENCE_FASTA": {
+                    "unzip": "6.00"
+                },
+                "VALIDATE_IGBLAST_DB": {
+                    "bash": "5.0.3"
                 },
                 "Workflow": {
-                    "nf-core/airrflow": "v5.0.0"
+                    "nf-core/airrflow": "v5.1.0"
                 }
             },
             [
@@ -139,9 +146,6 @@
                 "clonal_analysis/clonal_assignment/Patient1_clone_report/repertoires",
                 "clonal_analysis/clonal_assignment/Patient1_clone_report/repertoires/Patient1__clone-pass.tsv",
                 "clonal_analysis/clonal_assignment/Patient1_clone_report/search_index.json",
-                "clonal_analysis/clonal_assignment/Patient1_clone_report/tables",
-                "clonal_analysis/clonal_assignment/Patient1_clone_report/tables/clone_sizes_table.tsv",
-                "clonal_analysis/clonal_assignment/Patient1_clone_report/tables/num_clones_table.tsv",
                 "clonal_analysis/clonal_assignment/Patient2_clone_report",
                 "clonal_analysis/clonal_assignment/Patient2_clone_report/Patient2_clone_command_log.txt",
                 "clonal_analysis/clonal_assignment/Patient2_clone_report/assets",
@@ -153,24 +157,21 @@
                 "clonal_analysis/clonal_assignment/Patient2_clone_report/repertoires",
                 "clonal_analysis/clonal_assignment/Patient2_clone_report/repertoires/Patient2__clone-pass.tsv",
                 "clonal_analysis/clonal_assignment/Patient2_clone_report/search_index.json",
-                "clonal_analysis/clonal_assignment/Patient2_clone_report/tables",
-                "clonal_analysis/clonal_assignment/Patient2_clone_report/tables/clone_sizes_table.tsv",
-                "clonal_analysis/clonal_assignment/Patient2_clone_report/tables/num_clones_table.tsv",
-                "clonal_analysis/clonal_assignment/all_reps_clone_report",
-                "clonal_analysis/clonal_assignment/all_reps_clone_report/all_reps_clone_command_log.txt",
-                "clonal_analysis/clonal_assignment/all_reps_clone_report/assets",
-                "clonal_analysis/clonal_assignment/all_reps_clone_report/assets/logo.png",
-                "clonal_analysis/clonal_assignment/all_reps_clone_report/assets/style.css",
-                "clonal_analysis/clonal_assignment/all_reps_clone_report/index.html",
-                "clonal_analysis/clonal_assignment/all_reps_clone_report/params.RData",
-                "clonal_analysis/clonal_assignment/all_reps_clone_report/reference-keys.txt",
-                "clonal_analysis/clonal_assignment/all_reps_clone_report/repertoires",
-                "clonal_analysis/clonal_assignment/all_reps_clone_report/repertoires/Patient1__clone-pass.tsv",
-                "clonal_analysis/clonal_assignment/all_reps_clone_report/repertoires/Patient2__clone-pass.tsv",
-                "clonal_analysis/clonal_assignment/all_reps_clone_report/search_index.json",
-                "clonal_analysis/clonal_assignment/all_reps_clone_report/tables",
-                "clonal_analysis/clonal_assignment/all_reps_clone_report/tables/clone_sizes_table.tsv",
-                "clonal_analysis/clonal_assignment/all_reps_clone_report/tables/num_clones_table.tsv",
+                "clonal_analysis/repertoire_analysis",
+                "clonal_analysis/repertoire_analysis/repertoire_analysis_report",
+                "clonal_analysis/repertoire_analysis/repertoire_analysis_report/all_reps_clone_command_log.txt",
+                "clonal_analysis/repertoire_analysis/repertoire_analysis_report/assets",
+                "clonal_analysis/repertoire_analysis/repertoire_analysis_report/assets/logo.png",
+                "clonal_analysis/repertoire_analysis/repertoire_analysis_report/assets/style.css",
+                "clonal_analysis/repertoire_analysis/repertoire_analysis_report/index.html",
+                "clonal_analysis/repertoire_analysis/repertoire_analysis_report/params.RData",
+                "clonal_analysis/repertoire_analysis/repertoire_analysis_report/reference-keys.txt",
+                "clonal_analysis/repertoire_analysis/repertoire_analysis_report/repertoires",
+                "clonal_analysis/repertoire_analysis/repertoire_analysis_report/repertoires/All_samples__repertoire-pass.tsv",
+                "clonal_analysis/repertoire_analysis/repertoire_analysis_report/search_index.json",
+                "clonal_analysis/repertoire_analysis/repertoire_analysis_report/tables",
+                "clonal_analysis/repertoire_analysis/repertoire_analysis_report/tables/clone_sizes_table.tsv",
+                "clonal_analysis/repertoire_analysis/repertoire_analysis_report/tables/num_clones_table.tsv",
                 "clonal_analysis/report_threshold",
                 "clonal_analysis/report_threshold/all_reps_dist_report",
                 "clonal_analysis/report_threshold/all_reps_dist_report/assets",
@@ -215,6 +216,7 @@
                 "multiqc/multiqc_data/fastp-seq-quality-plot_Read_2_Before_filtering.txt",
                 "multiqc/multiqc_data/fastp_filtered_reads_plot.txt",
                 "multiqc/multiqc_data/fastqc-1-status-check-heatmap.txt",
+                "multiqc/multiqc_data/fastqc-1_adapter_content_plot.txt",
                 "multiqc/multiqc_data/fastqc-1_overrepresented_sequences_plot.txt",
                 "multiqc/multiqc_data/fastqc-1_per_base_n_content_plot.txt",
                 "multiqc/multiqc_data/fastqc-1_per_base_sequence_quality_plot.txt",
@@ -252,6 +254,8 @@
                 "multiqc/multiqc_plots/pdf/fastp-seq-quality-plot_Read_2_Before_filtering.pdf",
                 "multiqc/multiqc_plots/pdf/fastp_filtered_reads_plot-cnt.pdf",
                 "multiqc/multiqc_plots/pdf/fastp_filtered_reads_plot-pct.pdf",
+                "multiqc/multiqc_plots/pdf/fastqc-1-status-check-heatmap.pdf",
+                "multiqc/multiqc_plots/pdf/fastqc-1_adapter_content_plot.pdf",
                 "multiqc/multiqc_plots/pdf/fastqc-1_overrepresented_sequences_plot.pdf",
                 "multiqc/multiqc_plots/pdf/fastqc-1_per_base_n_content_plot.pdf",
                 "multiqc/multiqc_plots/pdf/fastqc-1_per_base_sequence_quality_plot.pdf",
@@ -279,6 +283,8 @@
                 "multiqc/multiqc_plots/png/fastp-seq-quality-plot_Read_2_Before_filtering.png",
                 "multiqc/multiqc_plots/png/fastp_filtered_reads_plot-cnt.png",
                 "multiqc/multiqc_plots/png/fastp_filtered_reads_plot-pct.png",
+                "multiqc/multiqc_plots/png/fastqc-1-status-check-heatmap.png",
+                "multiqc/multiqc_plots/png/fastqc-1_adapter_content_plot.png",
                 "multiqc/multiqc_plots/png/fastqc-1_overrepresented_sequences_plot.png",
                 "multiqc/multiqc_plots/png/fastqc-1_per_base_n_content_plot.png",
                 "multiqc/multiqc_plots/png/fastqc-1_per_base_sequence_quality_plot.png",
@@ -306,6 +312,8 @@
                 "multiqc/multiqc_plots/svg/fastp-seq-quality-plot_Read_2_Before_filtering.svg",
                 "multiqc/multiqc_plots/svg/fastp_filtered_reads_plot-cnt.svg",
                 "multiqc/multiqc_plots/svg/fastp_filtered_reads_plot-pct.svg",
+                "multiqc/multiqc_plots/svg/fastqc-1-status-check-heatmap.svg",
+                "multiqc/multiqc_plots/svg/fastqc-1_adapter_content_plot.svg",
                 "multiqc/multiqc_plots/svg/fastqc-1_overrepresented_sequences_plot.svg",
                 "multiqc/multiqc_plots/svg/fastqc-1_per_base_n_content_plot.svg",
                 "multiqc/multiqc_plots/svg/fastqc-1_per_base_sequence_quality_plot.svg",
@@ -374,6 +382,11 @@
                 "presto/05-parse-clusters/Sample1/Sample1_command_log.txt",
                 "presto/05-parse-clusters/Sample2",
                 "presto/05-parse-clusters/Sample2/Sample2_command_log.txt",
+                "presto/05-parse-clusters/pairseq",
+                "presto/05-parse-clusters/pairseq/Sample1",
+                "presto/05-parse-clusters/pairseq/Sample1/Sample1_command_log.txt",
+                "presto/05-parse-clusters/pairseq/Sample2",
+                "presto/05-parse-clusters/pairseq/Sample2/Sample2_command_log.txt",
                 "presto/06-build-consensus",
                 "presto/06-build-consensus/Sample1",
                 "presto/06-build-consensus/Sample1/Sample1_R1_table.tab",
@@ -513,33 +526,33 @@
                 "style.css:md5,d0833d790556369103776a429102fedf",
                 "Patient2_clone_command_log.txt:md5,6ea99de4ee56f20a50674b330eb8a5e4",
                 "style.css:md5,d0833d790556369103776a429102fedf",
-                "all_reps_clone_command_log.txt:md5,9fc4198d0626ce47ae4fbd7a81004c04",
+                "all_reps_clone_command_log.txt:md5,53990728b754b8200d8c4c7d8dadd8b1",
                 "style.css:md5,d0833d790556369103776a429102fedf",
                 "style.css:md5,d0833d790556369103776a429102fedf",
                 "all_reps_threshold_command_log.txt:md5,55715f61d6eae305c67956037e2bdc60",
                 "multiqc_citations.txt:md5,d35df50e9903a96a2b3bce3c1fbc8ad2",
-                "multiqc_fastp.txt:md5,38703a7dacd7ee4fe61851b1c5007528",
-                "multiqc_fastqc_fastqc-1.txt:md5,60cde1beac3b5cee601b9887f7685b4f",
-                "multiqc_general_stats.txt:md5,ed8c37b6a9bfef0c1f2ab8214e5a9e79",
+                "multiqc_fastp.txt:md5,ac510d474fe1b63bf7a231f3d7181846",
+                "multiqc_fastqc_fastqc-1.txt:md5,0b2607959dc44747815b0381c36ddb3b",
+                "multiqc_general_stats.txt:md5,b1831b09fe16804f558ff79730ba69ec",
                 "Sample1_collapse_command_log.txt:md5,698a875db6baa94f76abead31a1e4356",
                 "style.css:md5,d0833d790556369103776a429102fedf",
                 "Sample2_collapse_command_log.txt:md5,6e8089ac50103566ec474354076d08f7",
                 "style.css:md5,d0833d790556369103776a429102fedf",
                 "style.css:md5,d0833d790556369103776a429102fedf",
-                "Sample1_fq_command_log.txt:md5,9c20324dbc2f8742db1bbe0d630e2ab0",
-                "Sample2_fq_command_log.txt:md5,f2acbbf51d02a65b84a4d34bc76db8e6",
+                "Sample1_fq_command_log.txt:md5,092d5205b71bc2366921e90c1650766c",
+                "Sample2_fq_command_log.txt:md5,a109da50d9d30fd06a9311b95b5c25e8",
                 "Sample1_jmod3_command_log.txt:md5,7eb717008f13682900f0e5b959a73bef",
                 "Sample2_jmod3_command_log.txt:md5,5d4aa0789bb6add1edb86aaf645df16c",
                 "Sample1_add-meta_command_log.txt:md5,dd8f7f63b6264b1002ba044cf0ffbda7",
                 "Sample2_add-meta_command_log.txt:md5,eba21567ffc584dd454402ec524fbe2f"
             ],
-            "Table_sequences_assembled.tsv:md5,b772b1d8da1ab5ca4f3991705a43bb57",
-            "Table_sequences_assembly.tsv:md5,f6e4d87dcfc9ae96b300a5ba31b91975"
+            "Table_sequences_assembled.tsv:md5,3fa49351514136395229045189e25bc2",
+            "Table_sequences_assembly.tsv:md5,0b9420b78c3737bf95183b8af80d67bb"
         ],
         "meta": {
             "nf-test": "0.9.3",
-            "nextflow": "25.10.2"
+            "nextflow": "26.04.1"
         },
-        "timestamp": "2026-01-23T14:21:28.365538325"
+        "timestamp": "2026-06-02T12:59:28.053362941"
     }
 }

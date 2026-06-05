@@ -20,33 +20,26 @@ process PARSE_LOGS {
     path('filter_representative_2/*') //PRESTO_SPLITSEQ logs
     path('igblast/*') //CHANGEO_MAKEDB logs
     path('metadata.tsv') //METADATA
+    val umi_length
+    val cluster_sets
 
     output:
     path "Table_sequences_process.tsv", emit: logs
     path "Table*.tsv", emit:tables
-    path "versions.yml" , emit: versions
+    tuple val("${task.process}"), val('python'), eval('python --version 2>&1 | grep -o "[0-9\\. ]\\+"'), emit: versions_python, topic: versions
+    tuple val("${task.process}"), val('pandas'), eval('python -c "import pkg_resources; print(pkg_resources.get_distribution(\'pandas\').version)"'), emit: versions_pandas, topic: versions
 
     script:
-    if (params.umi_length == 0) {
+    if (umi_length == 0) {
         """
         log_parsing_no-umi.py
 
-        cat <<-END_VERSIONS > versions.yml
-        "${task.process}":
-            python: \$( echo \$(python --version | grep -o "[0-9\\. ]\\+") )
-            pandas: \$(echo \$(python -c "import pkg_resources; print(pkg_resources.get_distribution('pandas').version)"))
-        END_VERSIONS
         """
     } else {
-        def clustersets = params.cluster_sets? "--cluster_sets":""
+        def clustersets = cluster_sets? "--cluster_sets":""
         """
         log_parsing.py $clustersets
 
-        cat <<-END_VERSIONS > versions.yml
-        "${task.process}":
-            python: \$( echo \$(python --version | grep -o "[0-9\\. ]\\+") )
-            pandas: \$(echo \$(python -c "import pkg_resources; print(pkg_resources.get_distribution('pandas').version)"))
-        END_VERSIONS
         """
     }
 }
