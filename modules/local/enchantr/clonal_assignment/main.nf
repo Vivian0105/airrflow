@@ -24,7 +24,7 @@ process CLONAL_ASSIGNMENT {
     val singlecell
 
     output:
-    tuple val(meta), path("*/*/*clone-pass.tsv.gz"), emit: tab // compressed sequence tsv in AIRR format
+    tuple val(meta), path("repertoires/*clone-pass.tsv.gz"), emit: tab // compressed sequence tsv in AIRR format
     path("*/*_command_log.txt"), emit: logs //process logs
     path "*_report"
     tuple val("${task.process}"), val('enchantr'), eval('Rscript -e "library(enchantr); cat(as.character(packageVersion(\'enchantr\')))"'), emit: versions_enchantr, topic: versions
@@ -44,6 +44,7 @@ process CLONAL_ASSIGNMENT {
     } else {
         input = tabs.join(',')
     }
+
     """
     Rscript -e "enchantr::enchantr_report('clonal_assignment', \\
                                         report_params=list('input'='${input}', \\
@@ -58,7 +59,8 @@ process CLONAL_ASSIGNMENT {
                                         'nproc'=${task.cpus}, \\
                                         'log'='${meta.id}_clone_command_log' ${args}))"
 
-    cp -r enchantr ${meta.id}_clone_report && rm -rf enchantr
-
+    cp -r enchantr "${meta.id}_clone_report" && rm -rf enchantr
+    
+    mv "${meta.id}_clone_report/repertoires" repertoires
     """
 }
