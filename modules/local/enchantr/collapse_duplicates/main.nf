@@ -47,12 +47,12 @@ process COLLAPSE_DUPLICATES {
         'outname'='${meta.id}',\\
         'log'='${meta.id}_collapse_command_log' ${args}))"
 
-    cp -r enchantr ${meta.id}_collapse_report 
+    cp -r enchantr ${meta.id}_collapse_report
 
     mv enchantr/repertoires repertoires
-    
+
     rm -rf enchantr
-    
+
     ${remove_repertoires}
 
     """

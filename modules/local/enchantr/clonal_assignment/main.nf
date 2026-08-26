@@ -60,7 +60,7 @@ process CLONAL_ASSIGNMENT {
                                         'log'='${meta.id}_clone_command_log' ${args}))"
 
     cp -r enchantr "${meta.id}_clone_report" && rm -rf enchantr
-    
+
     mv "${meta.id}_clone_report/repertoires" repertoires
     """
 }
