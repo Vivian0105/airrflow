@@ -1,15 +1,15 @@
 {
     "-profile test_assembled_mm": {
         "content": [
-            21,
+            17,
             {
                 "ADD_META_TO_TAB": {
-                    "R": "4.5.3",
+                    "R": "4.6.1",
                     "dplyr": "1.2.1",
                     "optparse": "1.8.2"
                 },
                 "AIRRFLOW_REPORT": {
-                    "R": "4.5.3",
+                    "R": "4.6.1",
                     "alakazam": "1.4.3",
                     "dplyr": "1.2.1",
                     "knitr": "1.51",
@@ -31,44 +31,30 @@
                 "CHANGEO_PARSEDB_SPLIT": {
                     "changeo": "1.3.4"
                 },
-                "CLONAL_ASSIGNMENT": {
-                    "enchantr": "0.1.25",
-                    "scoper": "1.5.0"
-                },
-                "DOWSER_LINEAGES": {
-                    "dowser": "2.4.1",
-                    "enchantr": "0.1.25"
-                },
                 "FILTER_JUNCTION_MOD3": {
-                    "R": "4.5.3",
-                    "airr": "1.6.1",
+                    "R": "4.6.1",
+                    "airr": "2.0.0",
                     "alakazam": "1.4.3",
                     "optparse": "1.8.2"
                 },
                 "FILTER_QUALITY": {
                     "DT": "0.34.0",
-                    "R": "4.5.3",
-                    "airr": "1.6.1",
+                    "R": "4.6.1",
+                    "airr": "2.0.0",
                     "alakazam": "1.4.3",
                     "dplyr": "1.2.1",
                     "optparse": "1.8.2",
-                    "stringi": "1.8.7"
-                },
-                "FIND_CLONAL_THRESHOLD": {
-                    "enchantr": "0.1.25"
-                },
-                "REPERTOIRE_ANALYSIS": {
-                    "enchantr": "0.1.25"
+                    "stringi": "1.8.9"
                 },
                 "REPORT_FILE_SIZE": {
-                    "enchantr": "0.1.25"
+                    "enchantr": "0.1.25.999"
                 },
                 "SAMPLESHEET_CHECK_ASSEMBLED": {
                     "pandas": "1.1.5",
                     "python": " 3.9.1"
                 },
                 "SINGLE_CELL_QC": {
-                    "enchantr": "0.1.25"
+                    "enchantr": "0.1.25.999"
                 },
                 "UNZIP_IGBLAST": {
                     "unzip": "6.00"
@@ -80,7 +66,7 @@
                     "bash": "5.0.3"
                 },
                 "VALIDATE_INPUT": {
-                    "enchantr": "0.1.25"
+                    "enchantr": "0.1.25.999"
                 },
                 "Workflow": {
                     "nf-core/airrflow": "v5.1.0"
@@ -88,71 +74,6 @@
             },
             [
                 "Airrflow_report.html",
-                "clonal_analysis",
-                "clonal_analysis/clonal_assignment",
-                "clonal_analysis/clonal_assignment/mouse_x_clone_report",
-                "clonal_analysis/clonal_assignment/mouse_x_clone_report/assets",
-                "clonal_analysis/clonal_assignment/mouse_x_clone_report/assets/logo.png",
-                "clonal_analysis/clonal_assignment/mouse_x_clone_report/assets/style.css",
-                "clonal_analysis/clonal_assignment/mouse_x_clone_report/index.html",
-                "clonal_analysis/clonal_assignment/mouse_x_clone_report/mouse_x_clone_command_log.txt",
-                "clonal_analysis/clonal_assignment/mouse_x_clone_report/params.RData",
-                "clonal_analysis/clonal_assignment/mouse_x_clone_report/reference-keys.txt",
-                "clonal_analysis/clonal_assignment/mouse_x_clone_report/repertoires",
-                "clonal_analysis/clonal_assignment/mouse_x_clone_report/repertoires/mouse_x__clone-pass.tsv",
-                "clonal_analysis/clonal_assignment/mouse_x_clone_report/search_index.json",
-                "clonal_analysis/dowser_lineages",
-                "clonal_analysis/dowser_lineages/mouse_x_dowser_command_log.txt",
-                "clonal_analysis/dowser_lineages/mouse_x_dowser_report",
-                "clonal_analysis/dowser_lineages/mouse_x_dowser_report/assets",
-                "clonal_analysis/dowser_lineages/mouse_x_dowser_report/assets/logo.png",
-                "clonal_analysis/dowser_lineages/mouse_x_dowser_report/assets/style.css",
-                "clonal_analysis/dowser_lineages/mouse_x_dowser_report/formatted_clones.RDS",
-                "clonal_analysis/dowser_lineages/mouse_x_dowser_report/index.html",
-                "clonal_analysis/dowser_lineages/mouse_x_dowser_report/params.RData",
-                "clonal_analysis/dowser_lineages/mouse_x_dowser_report/reference-keys.txt",
-                "clonal_analysis/dowser_lineages/mouse_x_dowser_report/search_index.json",
-                "clonal_analysis/find_threshold",
-                "clonal_analysis/find_threshold/all_reps_dist_report",
-                "clonal_analysis/find_threshold/all_reps_dist_report/assets",
-                "clonal_analysis/find_threshold/all_reps_dist_report/assets/logo.png",
-                "clonal_analysis/find_threshold/all_reps_dist_report/assets/style.css",
-                "clonal_analysis/find_threshold/all_reps_dist_report/ggplots",
-                "clonal_analysis/find_threshold/all_reps_dist_report/ggplots/dtnplot.RData",
-                "clonal_analysis/find_threshold/all_reps_dist_report/ggplots/mouse_x_dtnthrplot.RData",
-                "clonal_analysis/find_threshold/all_reps_dist_report/index.html",
-                "clonal_analysis/find_threshold/all_reps_dist_report/params.RData",
-                "clonal_analysis/find_threshold/all_reps_dist_report/reference-keys.txt",
-                "clonal_analysis/find_threshold/all_reps_dist_report/search_index.json",
-                "clonal_analysis/find_threshold/all_reps_dist_report/tables",
-                "clonal_analysis/find_threshold/all_reps_dist_report/tables/all_reps_threshold-mean.tsv",
-                "clonal_analysis/find_threshold/all_reps_dist_report/tables/all_reps_threshold-summary.tsv",
-                "clonal_analysis/find_threshold/all_reps_threshold_command_log.txt",
-                "clonal_analysis/repertoire_analysis",
-                "clonal_analysis/repertoire_analysis/repertoire_analysis_report",
-                "clonal_analysis/repertoire_analysis/repertoire_analysis_report/all_reps_clone_command_log.txt",
-                "clonal_analysis/repertoire_analysis/repertoire_analysis_report/assets",
-                "clonal_analysis/repertoire_analysis/repertoire_analysis_report/assets/logo.png",
-                "clonal_analysis/repertoire_analysis/repertoire_analysis_report/assets/style.css",
-                "clonal_analysis/repertoire_analysis/repertoire_analysis_report/ggplots",
-                "clonal_analysis/repertoire_analysis/repertoire_analysis_report/ggplots/abundanceSample.RData",
-                "clonal_analysis/repertoire_analysis/repertoire_analysis_report/ggplots/clone_size_cdf_plot.RData",
-                "clonal_analysis/repertoire_analysis/repertoire_analysis_report/ggplots/clone_size_plot.RData",
-                "clonal_analysis/repertoire_analysis/repertoire_analysis_report/ggplots/div_at_q.RData",
-                "clonal_analysis/repertoire_analysis/repertoire_analysis_report/ggplots/diversitySample.RData",
-                "clonal_analysis/repertoire_analysis/repertoire_analysis_report/ggplots/mutation_frequency_sample.RData",
-                "clonal_analysis/repertoire_analysis/repertoire_analysis_report/ggplots/mutation_frequency_sample_locus.RData",
-                "clonal_analysis/repertoire_analysis/repertoire_analysis_report/index.html",
-                "clonal_analysis/repertoire_analysis/repertoire_analysis_report/params.RData",
-                "clonal_analysis/repertoire_analysis/repertoire_analysis_report/reference-keys.txt",
-                "clonal_analysis/repertoire_analysis/repertoire_analysis_report/repertoires",
-                "clonal_analysis/repertoire_analysis/repertoire_analysis_report/repertoires/All_samples__repertoire-pass.tsv",
-                "clonal_analysis/repertoire_analysis/repertoire_analysis_report/search_index.json",
-                "clonal_analysis/repertoire_analysis/repertoire_analysis_report/tables",
-                "clonal_analysis/repertoire_analysis/repertoire_analysis_report/tables/clonal_abundance.tsv",
-                "clonal_analysis/repertoire_analysis/repertoire_analysis_report/tables/clonal_diversity.tsv",
-                "clonal_analysis/repertoire_analysis/repertoire_analysis_report/tables/clone_sizes_table.tsv",
-                "clonal_analysis/repertoire_analysis/repertoire_analysis_report/tables/num_clones_table.tsv",
                 "multiqc",
                 "multiqc/multiqc_data",
                 "multiqc/multiqc_data/llms-full.txt",
@@ -179,18 +100,11 @@
                 "qc-filtering/single-cell-qc/all_reps_scqc_report/params.RData",
                 "qc-filtering/single-cell-qc/all_reps_scqc_report/reference-keys.txt",
                 "qc-filtering/single-cell-qc/all_reps_scqc_report/repertoires",
-                "qc-filtering/single-cell-qc/all_reps_scqc_report/repertoires/sc5p_v2_mm_c57bl6_splenocyte_1k_b__scqc-pass.tsv",
+                "qc-filtering/single-cell-qc/all_reps_scqc_report/repertoires/sc5p_v2_mm_c57bl6_splenocyte_1k_b__scqc-pass.tsv.gz",
                 "qc-filtering/single-cell-qc/all_reps_scqc_report/search_index.json",
                 "repertoire_comparison",
                 "repertoire_comparison/Sequence_numbers_summary",
                 "repertoire_comparison/Sequence_numbers_summary/Table_sequences_assembled.tsv",
-                "repertoire_comparison/V_family",
-                "repertoire_comparison/V_family/V_Family_distribution_patient.pdf",
-                "repertoire_comparison/V_family/V_Family_distribution_patient.png",
-                "repertoire_comparison/V_family/V_family_distribution_data.tsv",
-                "repertoire_comparison/V_family/V_gene_distribution_by_sequence_data.tsv",
-                "repertoire_comparison/V_family/V_gene_distribution_by_sequence_patient.pdf",
-                "repertoire_comparison/V_family/V_gene_distribution_by_sequence_patient.png",
                 "report_file_size",
                 "report_file_size/file_size_report",
                 "report_file_size/file_size_report/assets",
@@ -241,17 +155,10 @@
                 "vdj_annotation/convert-db/sc5p_v2_mm_c57bl6_splenocyte_1k_b/sc5p_v2_mm_c57bl6_splenocyte_1k_b_sequences.fasta"
             ],
             [
-                "style.css:md5,d0833d790556369103776a429102fedf",
-                "mouse_x_clone_command_log.txt:md5,54062aa3bf4b808f9d8d990fc1f949bf",
-                "mouse_x_dowser_command_log.txt:md5,4c4028ff38b7e024124e524ddd268e3b",
-                "style.css:md5,d0833d790556369103776a429102fedf",
-                "style.css:md5,d0833d790556369103776a429102fedf",
-                "all_reps_threshold_command_log.txt:md5,f82629e6f234a3ec504f2e2348599ea1",
-                "all_reps_clone_command_log.txt:md5,c52fab5a62523df77316d346d6397e4b",
-                "style.css:md5,d0833d790556369103776a429102fedf",
                 "multiqc_citations.txt:md5,4c806e63a283ec1b7e78cdae3a923d4f",
-                "all_reps_scqc_command_log.txt:md5,d301b803659208a8b48c6a4d246bd030",
+                "all_reps_scqc_command_log.txt:md5,cfaee5e274821f0f7ba1e0ed944e1f27",
                 "style.css:md5,d0833d790556369103776a429102fedf",
+                "sc5p_v2_mm_c57bl6_splenocyte_1k_b__scqc-pass.tsv.gz:md5,caebce4883bb14659af910751382cd3c",
                 "style.css:md5,d0833d790556369103776a429102fedf",
                 "sc5p_v2_mm_c57bl6_splenocyte_1k_b_fq_command_log.txt:md5,819e0643cfbeb1cbbfc6c3e009d3a55e",
                 "sc5p_v2_mm_c57bl6_splenocyte_1k_b_jmod3_command_log.txt:md5,4e54840ab0c887251aa13177af2b396e",
@@ -259,10 +166,10 @@
             ],
             "Table_sequences_assembled.tsv:md5,d89e0c27616af9e691be714c8acb18c6"
         ],
+        "timestamp": "2026-09-04T15:44:59.302999895",
         "meta": {
-            "nf-test": "0.9.3",
-            "nextflow": "26.04.1"
-        },
-        "timestamp": "2026-05-29T14:15:28.921397468"
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.4"
+        }
     }
 }

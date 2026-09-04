@@ -14,14 +14,14 @@ process COLLAPSE_DUPLICATES {
     label 'immcantation'
     label 'immcantation_container'
 
-    container "docker.io/immcantation/airrflow:5.2.0dev"
+    container "docker.io/immcantation/airrflow:5.1.0"
 
     input:
-    tuple val(meta), path(tabs) // tuple [val(meta), compressed sequence tsv in AIRR format ]
+    tuple val(meta), path(tabs) // tuple [val(meta), sequence tsv in AIRR format ]
     val collapseby
 
     output:
-    tuple val(meta), path("repertoires/*collapse-pass.tsv.gz"), emit: tab // compressed sequence tsv in AIRR format
+    tuple val(meta), path("*/*/*collapse-pass.tsv"), emit: tab // sequence tsv in AIRR format
     path("*_command_log.txt"), emit: logs //process logs
     path "*_report"
     tuple val("${task.process}"), val('enchantr'), eval('Rscript -e "library(enchantr); cat(as.character(packageVersion(\'enchantr\')))"'), emit: versions_enchantr, topic: versions
@@ -32,11 +32,6 @@ process COLLAPSE_DUPLICATES {
         error "nf-core/airrflow currently does not support Conda. Please use a container profile instead."
     }
     def args = task.ext.args ? asString(task.ext.args) : ''
-    def keep_repertoires = task.ext.keep_repertoires.toString().toBoolean()
-    def remove_repertoires = keep_repertoires
-    ? ''
-    : "rm -rf '${meta.id}_collapse_report/repertoires'"
-
     """
     echo "${tabs.join('\n')}" > tabs.txt
     Rscript -e "enchantr::enchantr_report('collapse_duplicates', \\
@@ -47,13 +42,7 @@ process COLLAPSE_DUPLICATES {
         'outname'='${meta.id}',\\
         'log'='${meta.id}_collapse_command_log' ${args}))"
 
-    cp -r enchantr ${meta.id}_collapse_report
-
-    mv enchantr/repertoires repertoires
-
-    rm -rf enchantr
-
-    ${remove_repertoires}
+    cp -r enchantr ${meta.id}_collapse_report && rm -r enchantr
 
     """
 }
