@@ -4,7 +4,7 @@ process FILTER_QUALITY {
     label 'process_single'
     label 'immcantation_container'
 
-    container "docker.io/immcantation/airrflow:5.2.0dev"
+    container "docker.io/immcantation/airrflow:5.2.0test"
 
     input:
     tuple val(meta), path(tab) // sequence tsv in AIRR format
